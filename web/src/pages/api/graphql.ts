@@ -1,9 +1,8 @@
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server-micro';
 import { buildSchema } from 'type-graphql';
 import { resolvers } from '@/server/Resolvers/index';
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as path from 'path';
+import { createServer } from '@graphql-yoga/node';
 
 export const config = {
   api: {
@@ -11,21 +10,13 @@ export const config = {
   },
 };
 
-const startServer = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'OPTIONS') {
-    return res.json({ message: 'Ok' });
-  }
-  const schema = await buildSchema({
-    resolvers,
-    emitSchemaFile: true,
-  });
+const startServer = async (req: NextApiRequest, res: NextApiResponse) =>
+  createServer<{
+    req: NextApiRequest;
+    res: NextApiResponse;
+  }>({
+    endpoint: '/api/graphql',
+    schema: await buildSchema({ resolvers }),
+  })(req, res);
 
-  const server = new ApolloServer({
-    schema,
-  });
-
-  await server.start();
-
-  server.createHandler({ path: '/api/graphql' })(req, res);
-};
 export default startServer;

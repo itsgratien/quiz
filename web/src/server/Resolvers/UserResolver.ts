@@ -15,7 +15,7 @@ export class UserResolver {
   getUser(): User {
     return {
       names: 'gratien',
-      email: 'gracian2020@gmail.com',
+      email: 'gracian10@gmail.com',
     };
   }
 }
