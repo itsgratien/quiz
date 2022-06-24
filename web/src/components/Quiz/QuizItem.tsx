@@ -1,7 +1,7 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
-import { QuizItemPropsT } from '@/generated/Shared';
+import { QuizItemPropsT, QuizStatus } from '@/generated/Shared';
 import { useQuizStatusColor } from '@/hooks/UseQuizStatus';
 
 export const QuizItem = ({ item }: QuizItemPropsT) => {
@@ -18,9 +18,11 @@ export const QuizItem = ({ item }: QuizItemPropsT) => {
           <div className={style.color} style={{ background: bgColor }}></div>
           <span>{item.status}</span>
         </div>
-        <div className={classname('flex items-center', style.number)}>
-          {item.left} people left to submit
-        </div>
+        {item.status === QuizStatus.Published && (
+          <div className={classname('flex items-center', style.number)}>
+            {item.left} people left to submit
+          </div>
+        )}
       </div>
       <div className={style.hr}></div>
     </div>
