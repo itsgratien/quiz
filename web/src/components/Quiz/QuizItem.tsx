@@ -19,7 +19,7 @@ export const QuizItem = ({ item }: QuizItemPropsT) => {
           <span>{item.status}</span>
         </div>
         {item.status === QuizStatus.Published && (
-          <div className={classname('flex items-center', style.number)}>
+          <div className={classname('flex items-center relative', style.number)}>
             {item.left} people left to submit
           </div>
         )}
