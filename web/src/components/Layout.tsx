@@ -14,7 +14,7 @@ export const Layout = ({ children }: TLayoutProps) => {
         </div>
         <Menu />
       </div>
-      <div>{children}</div>
+      <div className={style.children}>{children}</div>
     </div>
   );
 };

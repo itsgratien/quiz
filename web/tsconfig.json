@@ -21,7 +21,8 @@
       "@/generated/*": ["src/__generated__/*"],
       "@/server/*": ["src/apis/*"],
       "@/components/*": ["src/components/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
