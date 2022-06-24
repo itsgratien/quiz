@@ -1,0 +1,24 @@
+@import '../../styles/colors.scss';
+
+.login {
+  border-radius: 20px;
+  padding: 53px;
+  width: 400px;
+  padding-top: 100px;
+  .btn{
+    margin-top: 40px;
+    background-color: $b3;
+    height: 60px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  .forgot{
+   margin-top: 20px;
+   text-decoration: underline;
+  }
+}
+
+.inputField {
+  margin-top: 28px;
+  width: 100%;
+}

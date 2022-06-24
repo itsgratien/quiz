@@ -1,11 +1,16 @@
+import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import style from '../styles/Auth.module.scss';
 import classname from 'classnames';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
+import { Login } from '@/components/Auth/Login';
 
 const Auth: NextPage = () => {
+  const [withEmailPassword, setWithEmailPassword] =
+    React.useState<boolean>(false);
+
   return (
     <>
       <Head>
@@ -30,6 +35,7 @@ const Auth: NextPage = () => {
             <button
               type="button"
               className={classname('outline-none focus:outline-none')}
+              onClick={() => setWithEmailPassword(true)}
             >
               <Icon icon="arcticons:lock" fontSize={40} />
               <span>Using email & password</span>
@@ -37,6 +43,12 @@ const Auth: NextPage = () => {
           </div>
         </div>
       </main>
+      {withEmailPassword && (
+        <Login
+          open={withEmailPassword}
+          handleClose={() => setWithEmailPassword(false)}
+        />
+      )}
     </>
   );
 };
