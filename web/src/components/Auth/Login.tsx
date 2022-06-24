@@ -5,13 +5,18 @@ import { TLoginProps } from '@/generated/Auth';
 import { Modal } from '@mui/material';
 import { Input } from './Input';
 import { useFormik } from 'formik';
+import { Icon } from '@iconify/react';
+import { loginSchema } from './Schema';
 
 export const Login = ({ open, handleClose }: TLoginProps) => {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     onSubmit: (values) => console.log('values'),
+    validationSchema: loginSchema,
+    validateOnChange: true,
   });
-  const { values } = formik;
+  const { values, errors } = formik;
+
   return (
     <Modal open={open} onClose={handleClose}>
       <div
@@ -19,7 +24,20 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
           'relative flex items-center justify-center outline-none focus:outline-none h-screen'
         )}
       >
-        <div className={classname('bg-white', style.login)}>
+        <div className={classname('bg-white relative', style.login)}>
+          <div className="absolute top-0" style={{ right: '53px' }}>
+            <button
+              type="button"
+              className={classname(
+                'outline-none focus:outline-none flex items-center mt-3'
+              )}
+              style={{ color: '#FF0000' }}
+              onClick={handleClose}
+            >
+              <Icon icon="ion:close-circle" />
+              <small className="ml-1 font-bold">Close</small>
+            </button>
+          </div>
           <form onSubmit={formik.handleSubmit}>
             <Input
               label="Email"
@@ -27,6 +45,7 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
               onChange={formik.handleChange}
               type="email"
               name="email"
+              error={errors.email}
             />
             <Input
               label="Password"
@@ -34,9 +53,10 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
               onChange={formik.handleChange}
               type="password"
               name="password"
+              error={errors.password}
             />
             <button
-              type="button"
+              type="submit"
               className={classname(
                 'outline-none focus:outline-none w-full',
                 style.btn
@@ -44,15 +64,17 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
             >
               Login
             </button>
-            <button
-              type="button"
-              className={classname(
-                'outline-none focus:outline-none font-bold',
-                style.forgot
-              )}
-            >
-              Forgot password ?
-            </button>
+            <div className="flex justify-between">
+              <button
+                type="button"
+                className={classname(
+                  'outline-none focus:outline-none font-bold',
+                  style.forgot
+                )}
+              >
+                Forgot password ?
+              </button>
+            </div>
           </form>
         </div>
       </div>

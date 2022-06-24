@@ -27,7 +27,14 @@ const CustomInput = styled(TextField)({
   },
 });
 
-export const Input = ({ onChange, value, label, type, name }: TInputProps) => {
+export const Input = ({
+  onChange,
+  value,
+  label,
+  type,
+  name,
+  error,
+}: TInputProps) => {
   return (
     <div className={style.inputField}>
       <CustomInput
@@ -40,6 +47,7 @@ export const Input = ({ onChange, value, label, type, name }: TInputProps) => {
         size="medium"
         fullWidth
         placeholder={label}
+        color={error ? 'warning' : 'primary'}
       />
     </div>
   );

@@ -12,4 +12,5 @@ export interface TInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
   name?: string;
+  error?: string;
 }
