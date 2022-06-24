@@ -1,21 +1,26 @@
+import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    router.push('/auth')
+  }, [router]);
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Quiz App</title>
         <meta name="description" content="Quiz App" />
-        <meta name="author" content='Gratien Tuyishimire'/>
-        <link rel="icon" href="/logo.png" />
+        <meta name="author" content='Gratien Tuyishimire' />
       </Head>
-
       <main className={styles.main}>
-        <h1>Hello world</h1>
       </main>
-    </div>
+    </>
   );
 };
 
