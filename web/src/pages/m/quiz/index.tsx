@@ -2,7 +2,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Layout } from '@/components/Layout';
-import style from '../../styles/Quiz.module.scss';
+import style from '../../../styles/Quiz.module.scss';
 import { QuizItem } from '@/components/Quiz/QuizItem';
 import { QuizStatus } from '@/generated/Shared';
 

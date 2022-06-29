@@ -17,6 +17,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
+    "strictPropertyInitialization": false,
     "paths": {
       "@/generated/*": ["src/__generated__/*"],
       "@/server/*": ["src/apis/*"],
