@@ -1,4 +1,28 @@
 @import './colors.scss';
+.q {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+  .container {
+    width: 65%;
+    border-bottom-right-radius: 0px;
+    margin-bottom: 0px;
+    position: relative;
+    background: white;
+    min-height: 100vh;
+    padding-top: 200px;
+    border-right: 1px solid rgba(217, 217, 217, 0.48);
+    .a {
+      padding-left: 400px;
+      z-index: 100;
+      position: relative;
+    }
+  }
+}
 
 .quiz {
   width: 600px;
@@ -11,5 +35,10 @@
   .quiz {
     margin-left: 0;
     margin: auto;
+  }
+  .q {
+    .container {
+      width: 71%;
+    }
   }
 }

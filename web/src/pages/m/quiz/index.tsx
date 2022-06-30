@@ -36,10 +36,14 @@ const Quiz: NextPage = () => {
         <title>Quizzes</title>
       </Head>
       <Layout>
-        <div className={style.quiz}>
-          {items.map((item, index) => (
-            <QuizItem item={item} key={index} />
-          ))}
+        <div className={style.q}>
+          <div className={style.container}>
+            <div className={style.quiz}>
+              {items.map((item, index) => (
+                <QuizItem item={item} key={index} />
+              ))}
+            </div>
+          </div>
         </div>
       </Layout>
     </>

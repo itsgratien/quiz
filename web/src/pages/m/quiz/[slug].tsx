@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
+import classname from 'classnames';
 
 const QuizDetail: NextPage = () => {
   const router = useRouter();
@@ -14,8 +15,12 @@ const QuizDetail: NextPage = () => {
         <title>Quiz | {router.query.slug}</title>
       </Head>
       <Layout>
-        <div className={style.quiz}>
-          <div>detal</div>
+        <div className={style.q}>
+          <div className={style.container}>
+            <div className={style.a}>
+              
+            </div>
+          </div>
         </div>
       </Layout>
     </>

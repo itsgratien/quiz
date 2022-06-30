@@ -48,8 +48,8 @@ export const Menu = () => {
           ))}
         </ul>
         <div
-          className="flex items-center justify-center flex-col absolute w-full"
-          style={{ bottom: '20px' }}
+          className="flex flex-col absolute w-full"
+          style={{ bottom: '20px', paddingLeft: '77px' }}
         >
           <button
             type="button"
@@ -60,7 +60,7 @@ export const Menu = () => {
           >
             <Icon icon="carbon:add" fontSize={40} />
           </button>
-          <button
+          {/* <button
             type="button"
             className={classname(
               'font-bold outline-none focus:outline-none',
@@ -68,7 +68,7 @@ export const Menu = () => {
             )}
           >
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
