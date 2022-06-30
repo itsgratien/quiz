@@ -1,5 +1,5 @@
 import React from 'react';
-import { UseQuizStatusColorPropsT, QuizStatus } from '@/generated/Shared';
+import { UseQuizStatusColorPropsT, QuizStatus } from '@/generated/Quiz';
 
 export const useQuizStatusColor = ({ status }: UseQuizStatusColorPropsT) => {
   const [bgColor, setBgColor] = React.useState<string>();

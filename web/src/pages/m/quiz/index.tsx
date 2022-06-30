@@ -4,29 +4,29 @@ import Head from 'next/head';
 import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
 import { QuizItem } from '@/components/Quiz/QuizItem';
-import { QuizStatus } from '@/generated/Shared';
+import { QuizStatus, QuizItemT } from '@/generated/Quiz';
 
 const Quiz: NextPage = () => {
-  const items = [
+  const items: QuizItemT[] = [
     {
       name: `Javascript for beginner's`,
       status: QuizStatus.Published,
       left: 10,
-      date: new Date().toDateString(),
+      createdAt: new Date().toDateString(),
       _id: 'id',
     },
     {
       name: `Introduction to algorithm in rwanda`,
       status: QuizStatus.Draft,
       left: 10,
-      date: new Date().toDateString(),
+      createdAt: new Date().toDateString(),
       _id: 'id',
     },
     {
       name: `Introduction to algorithm in tanzaniya`,
       status: QuizStatus.Published,
       left: 10,
-      date: new Date().toDateString(),
+      createdAt: new Date().toDateString(),
       _id: 'id',
     },
   ];

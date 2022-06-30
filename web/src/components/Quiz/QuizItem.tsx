@@ -1,7 +1,7 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
-import { QuizItemPropsT, QuizStatus } from '@/generated/Shared';
+import { QuizItemPropsT, QuizStatus } from '@/generated/Quiz';
 import { useQuizStatusColor } from '@/hooks/UseQuizStatus';
 
 export const QuizItem = ({ item }: QuizItemPropsT) => {
@@ -9,7 +9,7 @@ export const QuizItem = ({ item }: QuizItemPropsT) => {
 
   return (
     <div className={classname('bg-white relative', style.quizItem)}>
-      <div className={classname('absolute', style.date)}>{item.date}</div>
+      <div className={classname('absolute', style.date)}>{item.createdAt}</div>
       <span className={classname('font-bold')}>{item.name}</span>
       <div
         className={classname('flex justify-between items-center', style.info)}
