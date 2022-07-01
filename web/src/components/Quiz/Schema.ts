@@ -6,5 +6,5 @@ export const SetupQuizSchema = object().shape({
   name: string().required(requiredMessage),
   startDate: string().required(requiredMessage),
   endDate: string().required(requiredMessage),
-  time: string().required(requiredMessage),
+  passMark: string().required(requiredMessage),
 });

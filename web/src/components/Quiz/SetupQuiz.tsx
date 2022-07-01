@@ -15,7 +15,7 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
       name: '',
       startDate: '',
       endDate: '',
-      time: '',
+      passMark: '',
     },
     onSubmit: () => undefined,
     validateOnChange: true,
@@ -73,19 +73,19 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
                   error={errors.endDate}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={6}>
                 <Input
-                  type="text"
-                  placeholder="How long this quiz will take ?"
-                  label="How long this quiz will take ?"
-                  value={values.time}
+                  type="number"
+                  placeholder="Pass Mark"
+                  label="Pass Mark"
+                  value={values.passMark}
                   onChange={formik.handleChange}
                   inputheight={inputHeight}
-                  name="time"
-                  error={errors.time}
+                  name="passMark"
+                  error={errors.passMark}
                 />
               </Grid>
-              <Grid item xs={4}></Grid>
+              <Grid item xs={4} />
               <Grid item xs={12}>
                 <button
                   type="button"
