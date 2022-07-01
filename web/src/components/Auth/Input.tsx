@@ -1,5 +1,5 @@
 import React from 'react';
-import { TInputProps } from '@/generated/Auth';
+import { InputPropsT } from '@/generated/Auth';
 import TextField from '@mui/material/TextField';
 import style from './Style.module.scss';
 import { styled } from '@mui/material/styles';
@@ -44,7 +44,7 @@ export const Input = ({
   error,
   marginTop,
   inputheight,
-}: TInputProps) => {
+}: InputPropsT) => {
   return (
     <div className={style.inputField} style={{ marginTop: marginTop || '0px' }}>
       <CustomInput
@@ -59,6 +59,7 @@ export const Input = ({
         placeholder={label}
         color={error ? 'warning' : 'primary'}
         inputheight={inputheight}
+        error={error ? true : false}
       />
     </div>
   );

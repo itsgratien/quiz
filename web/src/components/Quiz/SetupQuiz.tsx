@@ -22,13 +22,9 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
     validationSchema: SetupQuizSchema,
   });
 
-  const { values, validateForm, errors } = formik;
+  const { values, errors } = formik;
 
   const inputHeight = 30;
-
-  React.useEffect(() => {
-    validateForm();
-  }, []);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -88,7 +84,7 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
               <Grid item xs={4} />
               <Grid item xs={12}>
                 <button
-                  type="button"
+                  type="submit"
                   className={classname(
                     'outline-none focus:outline-none font-bold',
                     style.submitBtn

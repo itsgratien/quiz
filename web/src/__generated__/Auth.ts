@@ -5,7 +5,7 @@ export interface TLoginProps {
   handleClose: () => void;
 }
 
-export interface TInputProps {
+export interface InputPropsT {
   placeholder?: string;
   type: 'text' | 'password' | 'email' | 'number';
   value: string;
