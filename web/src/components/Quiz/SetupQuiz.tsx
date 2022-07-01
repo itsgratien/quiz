@@ -7,6 +7,7 @@ import { SetupHeader } from './SetupHeader';
 import Grid from '@mui/material/Grid';
 import { Input } from '@/components/Auth/Input';
 import { useFormik } from 'formik';
+import { SetupQuizSchema } from './Schema';
 
 export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
   const formik = useFormik({
@@ -18,11 +19,16 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
     },
     onSubmit: () => undefined,
     validateOnChange: true,
+    validationSchema: SetupQuizSchema,
   });
 
-  const { values } = formik;
+  const { values, validateForm, errors } = formik;
 
   const inputHeight = 30;
+
+  React.useEffect(() => {
+    validateForm();
+  }, []);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -38,7 +44,9 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
                   label="Name"
                   value={values.name}
                   onChange={formik.handleChange}
-                  inputHeight={inputHeight}
+                  inputheight={inputHeight}
+                  name="name"
+                  error={errors.name}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -46,9 +54,11 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
                   type="text"
                   placeholder="starting date"
                   label="Start Date"
-                  value={values.endDate}
+                  value={values.startDate}
                   onChange={formik.handleChange}
-                  inputHeight={inputHeight}
+                  inputheight={inputHeight}
+                  name="startDate"
+                  error={errors.startDate}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -56,9 +66,11 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
                   type="text"
                   placeholder="ending date"
                   label="End Date"
-                  value={values.startDate}
+                  value={values.endDate}
                   onChange={formik.handleChange}
-                  inputHeight={inputHeight}
+                  inputheight={inputHeight}
+                  name="endDate"
+                  error={errors.endDate}
                 />
               </Grid>
               <Grid item xs={8}>
@@ -68,7 +80,9 @@ export const SetupQuiz = ({ open, onClose }: SetupQuizPropsT) => {
                   label="How long this quiz will take ?"
                   value={values.time}
                   onChange={formik.handleChange}
-                  inputHeight={inputHeight}
+                  inputheight={inputHeight}
+                  name="time"
+                  error={errors.time}
                 />
               </Grid>
               <Grid item xs={4}></Grid>

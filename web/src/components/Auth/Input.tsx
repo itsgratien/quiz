@@ -5,12 +5,12 @@ import style from './Style.module.scss';
 import { styled } from '@mui/material/styles';
 
 interface InputHeightT {
-  inputHeight?: number;
+  inputheight?: number;
 }
 
 const s = styled(TextField);
 
-const CustomInput = s(({ inputHeight }: InputHeightT) => {
+const CustomInput = s(({ inputheight }: InputHeightT) => {
   return {
     '& label': {
       color: 'black',
@@ -22,7 +22,7 @@ const CustomInput = s(({ inputHeight }: InputHeightT) => {
       color: 'black',
     },
     '& input': {
-      height: `${inputHeight || 40}px`,
+      height: `${inputheight || 40}px`,
       fontFamily: '"Quicksand", sans-serif',
       fontSize: '13px',
     },
@@ -43,7 +43,7 @@ export const Input = ({
   name,
   error,
   marginTop,
-  inputHeight,
+  inputheight,
 }: TInputProps) => {
   return (
     <div className={style.inputField} style={{ marginTop: marginTop || '0px' }}>
@@ -58,7 +58,7 @@ export const Input = ({
         fullWidth
         placeholder={label}
         color={error ? 'warning' : 'primary'}
-        inputHeight={inputHeight}
+        inputheight={inputheight}
       />
     </div>
   );

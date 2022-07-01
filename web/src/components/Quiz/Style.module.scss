@@ -121,9 +121,10 @@
   .setupForm {
     .submitBtn {
       background-color: $oo;
-      height: 45px;
+      height: 50px;
       padding: 0 20px;
       border-radius: 5px;
+      min-width: 100px;
     }
   }
 }
