@@ -6,22 +6,60 @@ import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
 import classname from 'classnames';
 import { Icon } from '@iconify/react';
-import { QuizStatus } from '@/generated/Quiz';
+import { QuizStatus, PeopleT, QuestionT } from '@/generated/Quiz';
 import { useQuizStatusColor } from '@/hooks/UseQuizStatus';
 import Grid from '@mui/material/Grid';
+import { SectionHeader } from '@/components/Quiz/SectionHeader';
+const PeopleItem = React.lazy(() => import('@/components/Quiz/PeopleItem'));
+const QuestionItem = React.lazy(() => import('@/components/Quiz/QuestionItem'));
 
-const peoples = [
+const peoples: PeopleT[] = [
   {
-    link: 'https://quiz.com/gratien',
-    name: 'Gratien Tuyishimire',
+    quizUri: 'https://quiz.com/gratien',
+    names: 'Gratien Tuyishimire',
     email: 'gratientuyishimire@gmail.com',
-    id: Math.random(),
+    _id: String(Math.random()),
   },
   {
-    link: 'https://quiz.com/gratien',
-    name: 'Gratien Tuyishimire',
+    quizUri: 'https://quiz.com/gratien',
+    names: 'Gratien Tuyishimire',
     email: 'gratientuyishimire@gmail.com',
-    id: Math.random(),
+    _id: String(Math.random()),
+  },
+];
+
+const questions: QuestionT[] = [
+  {
+    _id: String(Math.random()),
+    title: 'What Is Capital City Of Rwanda ?',
+    slug: '',
+    createdAt: new Date().toDateString(),
+    updatedAt: new Date().toDateString(),
+    owner: '',
+    time: 1,
+    choices: [
+      'Programming Language',
+      'Country',
+      'City',
+      'Golden Heart',
+      'Laravel',
+    ],
+  },
+  {
+    _id: String(Math.random()),
+    title: 'What Is Javascript ?',
+    slug: '',
+    createdAt: new Date().toDateString(),
+    updatedAt: new Date().toDateString(),
+    owner: '',
+    time: 1,
+    choices: [
+      'Programming Language',
+      'Country',
+      'City',
+      'Golden Heart',
+      'Laravel',
+    ],
   },
 ];
 const QuizDetail: NextPage = () => {
@@ -71,15 +109,7 @@ const QuizDetail: NextPage = () => {
             </div>
             <div className={style.other}>
               <div className={style.people}>
-                <div
-                  className={classname('flex items-center', style.sectionTitle)}
-                >
-                  <div
-                    className={classname('font-bold capitalize', style.title)}
-                  >
-                    People
-                  </div>
-                </div>
+                <SectionHeader title="People" />
                 <div className={classname('relative w-full', style.items)}>
                   <div
                     className={classname(
@@ -97,34 +127,24 @@ const QuizDetail: NextPage = () => {
                   <div className={classname('relative', style.ul)}>
                     <Grid container spacing={4}>
                       {peoples.map((item) => (
-                        <Grid item xs={6} key={item.id}>
-                          <div
-                            className={classname('relative w-full', style.li)}
-                          >
-                            <div className={classname('relative', style.uri)}>
-                              <div className={style.link}>{item.link}</div>
-                              <button
-                                type="button"
-                                className={classname(
-                                  'outline-none focus:outline-none flex items-center justify-center',
-                                  style.copyBtn
-                                )}
-                              >
-                                <Icon icon="entypo:creative-commons-share" />
-                              </button>
-                            </div>
-                            <div>
-                              <span className="font-bold">{item.name}</span>
-                              <div className="flex items-center">
-                                <Icon icon="carbon:email" fontSize={20} />
-                                <small className="ml-1">{item.email}</small>
-                              </div>
-                            </div>
-                          </div>
+                        <Grid item xs={6} key={item._id}>
+                          <React.Suspense fallback={<></>}>
+                            <PeopleItem item={item} />
+                          </React.Suspense>
                         </Grid>
                       ))}
                     </Grid>
                   </div>
+                </div>
+              </div>
+              <div className={style.questions}>
+                <SectionHeader title="Questions" />
+                <div className={style.items}>
+                  {questions.map((item) => (
+                    <React.Suspense fallback={<></>} key={item._id}>
+                      <QuestionItem item={item} />
+                    </React.Suspense>
+                  ))}
                 </div>
               </div>
             </div>

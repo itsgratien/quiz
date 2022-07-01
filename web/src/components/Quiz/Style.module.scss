@@ -48,3 +48,68 @@
     right: 10px;
   }
 }
+
+.sectionHeader {
+  .title {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.22);
+    padding-left: 70px;
+  }
+}
+.peopleItem {
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  .uri {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 30px;
+    align-items: center;
+  }
+  .link {
+    font-size: 12px;
+  }
+  .copyBtn {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+  }
+}
+
+.questionItem {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 35px;
+  padding-left: 100px;
+  padding-right: 26px;
+  padding-top: 5px;
+  &:first-child {
+    margin-top: 20px;
+  }
+  .qHeading {
+    .title {
+      font-size: 15px;
+    }
+  }
+  .choices {
+    margin-left: -10px;
+    ul {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .li {
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+  .time{
+    height: 30px;
+    width: 120px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgba(217, 217, 217, 0.32);
+    font-size: 12px;
+    color: #00000080;
+  }
+}
