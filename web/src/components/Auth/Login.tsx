@@ -17,6 +17,8 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
   });
   const { values, errors } = formik;
 
+  const inputMarginTop = '28px';
+
   return (
     <Modal open={open} onClose={handleClose}>
       <div
@@ -46,6 +48,7 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
               type="email"
               name="email"
               error={errors.email}
+              marginTop={inputMarginTop}
             />
             <Input
               label="Password"
@@ -54,6 +57,7 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
               type="password"
               name="password"
               error={errors.password}
+              marginTop={inputMarginTop}
             />
             <button
               type="submit"

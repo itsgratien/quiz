@@ -1,3 +1,5 @@
+import { CustomModalPropsT } from './Shared';
+
 export enum QuizStatus {
   Published = 'Published',
   Draft = 'Draft',
@@ -66,4 +68,10 @@ export interface QuestionT {
 
 export interface QuestionItemPropsT {
   item: QuestionT;
+}
+
+export interface SetupQuizPropsT extends CustomModalPropsT {}
+export interface SetupHeaderPropsT {
+  title: string;
+  onClose: () => void;
 }

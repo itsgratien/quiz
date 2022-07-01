@@ -9,4 +9,8 @@ export interface TListItemProps {
   icon: string;
 }
 
-
+export interface CustomModalPropsT {
+  open: boolean;
+  onClose: () => void;
+  children?: React.ReactNode;
+}

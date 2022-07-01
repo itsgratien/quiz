@@ -13,4 +13,6 @@ export interface TInputProps {
   label: string;
   name?: string;
   error?: string;
+  marginTop?: string;
+  inputHeight?: number;
 }

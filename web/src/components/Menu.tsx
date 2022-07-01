@@ -4,6 +4,7 @@ import classname from 'classnames';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { SetupQuiz } from '@/components/Quiz/SetupQuiz';
 
 const lists = [
   {
@@ -19,48 +20,57 @@ const lists = [
 ];
 
 export const Menu = () => {
+  const [open, setOpen] = React.useState<boolean>(false);
+
   const router = useRouter();
 
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
   return (
-    <div className={classname('fixed top-0', style.menu)}>
-      <div className={style.user}>
-        <small>Hello</small>
-        <div className={classname('font-bold', style.name)}>
-          Gratien Tuyishimire
+    <>
+      {open && <SetupQuiz open={open} onClose={handleOpen} />}
+      <div className={classname('fixed top-0', style.menu)}>
+        <div className={style.user}>
+          <small>Hello</small>
+          <div className={classname('font-bold', style.name)}>
+            Gratien Tuyishimire
+          </div>
         </div>
-      </div>
-      <div className={classname(style.nav)}>
-        <ul className={style.ul}>
-          {lists.map((item, itemKey) => (
-            <li
-              key={itemKey}
-              className={classname(
-                item.path === router.pathname ? style.active : ''
-              )}
-            >
-              <Link href={item.path}>
-                <a className={classname('flex')}>
-                  <Icon icon={item.icon} fontSize={30} />
-                  <span className="font-bold">{item.name}</span>
-                </a>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div
-          className="flex flex-col absolute w-full"
-          style={{ bottom: '20px', paddingLeft: '77px' }}
-        >
-          <button
-            type="button"
-            className={classname(
-              'outline-none focus:outline-none flex items-center justify-center',
-              style.addBtn
-            )}
+        <div className={classname(style.nav)}>
+          <ul className={style.ul}>
+            {lists.map((item, itemKey) => (
+              <li
+                key={itemKey}
+                className={classname(
+                  item.path === router.pathname ? style.active : ''
+                )}
+              >
+                <Link href={item.path}>
+                  <a className={classname('flex')}>
+                    <Icon icon={item.icon} fontSize={30} />
+                    <span className="font-bold">{item.name}</span>
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div
+            className="flex flex-col absolute w-full"
+            style={{ bottom: '20px', paddingLeft: '77px' }}
           >
-            <Icon icon="carbon:add" fontSize={40} />
-          </button>
-          {/* <button
+            <button
+              type="button"
+              className={classname(
+                'outline-none focus:outline-none flex items-center justify-center',
+                style.addBtn
+              )}
+              onClick={handleOpen}
+            >
+              <Icon icon="carbon:add" fontSize={40} />
+            </button>
+            {/* <button
             type="button"
             className={classname(
               'font-bold outline-none focus:outline-none',
@@ -69,8 +79,9 @@ export const Menu = () => {
           >
             Logout
           </button> */}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

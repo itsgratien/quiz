@@ -4,27 +4,35 @@ import TextField from '@mui/material/TextField';
 import style from './Style.module.scss';
 import { styled } from '@mui/material/styles';
 
-const CustomInput = styled(TextField)({
-  '& label': {
-    color: 'black',
-    fontFamily: '"Quicksand", sans-serif',
-    fontWeight: 'bold',
-    fontSize: '15px',
-  },
-  '& label.Mui-focused': {
-    color: 'black',
-  },
-  '& input': {
-    height: '40px',
-    fontFamily: '"Quicksand", sans-serif',
-    fontSize: '13px',
-  },
-  '& .MuiFilledInput-root, .MuiInputBase-root': {
-    borderRadius: '5px',
-    ':before': {
-      borderBottom: 'none',
+interface InputHeightT {
+  inputHeight?: number;
+}
+
+const s = styled(TextField);
+
+const CustomInput = s(({ inputHeight }: InputHeightT) => {
+  return {
+    '& label': {
+      color: 'black',
+      fontFamily: '"Quicksand", sans-serif',
+      fontWeight: 'bold',
+      fontSize: '15px',
     },
-  },
+    '& label.Mui-focused': {
+      color: 'black',
+    },
+    '& input': {
+      height: `${inputHeight || 40}px`,
+      fontFamily: '"Quicksand", sans-serif',
+      fontSize: '13px',
+    },
+    '& .MuiFilledInput-root, .MuiInputBase-root': {
+      borderRadius: '5px',
+      ':before': {
+        borderBottom: 'none',
+      },
+    },
+  };
 });
 
 export const Input = ({
@@ -34,9 +42,11 @@ export const Input = ({
   type,
   name,
   error,
+  marginTop,
+  inputHeight,
 }: TInputProps) => {
   return (
-    <div className={style.inputField}>
+    <div className={style.inputField} style={{ marginTop: marginTop || '0px' }}>
       <CustomInput
         onChange={onChange}
         value={value}
@@ -48,6 +58,7 @@ export const Input = ({
         fullWidth
         placeholder={label}
         color={error ? 'warning' : 'primary'}
+        inputHeight={inputHeight}
       />
     </div>
   );
