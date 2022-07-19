@@ -1,13 +1,15 @@
+import React from 'react';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import '@/utils/Firebase';
 import { Toaster } from 'react-hot-toast';
 import apolloClient from '@/utils/ApolloClient';
 import { ApolloProvider } from '@apollo/client';
+import AuthProvider from '@/components/Auth/AuthProvider';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
+    <AuthProvider>
       <ApolloProvider client={apolloClient}>
         <Component {...pageProps} />
         <Toaster
@@ -18,7 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           }}
         />
       </ApolloProvider>
-    </>
+    </AuthProvider>
   );
 };
 

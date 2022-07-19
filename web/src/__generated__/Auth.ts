@@ -34,3 +34,15 @@ export interface SelectInputPropsT {
 export interface AuthErrorPropsT {
   error: string;
 }
+
+export interface AuthContextT {
+  isAuth?: boolean;
+}
+
+export interface IsAuthPropsT<T> {
+  WrappedComponent: React.ComponentClass<T>;
+}
+
+export interface AuthProviderPropsT {
+  children: React.ReactNode;
+}

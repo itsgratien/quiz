@@ -5,6 +5,7 @@ import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
 import { QuizItem } from '@/components/Quiz/QuizItem';
 import { QuizStatus, QuizItemT } from '@/generated/Quiz';
+import withAuth from '@/components/Auth/WithAuth';
 
 const Quiz: NextPage = () => {
   const items: QuizItemT[] = [
@@ -50,4 +51,4 @@ const Quiz: NextPage = () => {
   );
 };
 
-export default Quiz;
+export default withAuth(Quiz);
