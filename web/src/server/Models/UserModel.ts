@@ -22,6 +22,12 @@ class UserModel {
 
   @prop()
   slug?: string;
+
+  @prop()
+  createdAt: string;
+
+  @prop()
+  updatedAt: string;
 }
 
 const userModel = getModelForClass(UserModel, {

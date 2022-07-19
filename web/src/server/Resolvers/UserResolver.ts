@@ -1,26 +1,31 @@
-import { Resolver, Query, ObjectType, Field } from 'type-graphql';
+import 'reflect-metadata';
+import {
+  Resolver,
+  Query,
+  Ctx,
+  Authorized,
+} from 'type-graphql';
 import userModel from '@/server/Models/UserModel';
+import * as UserTypes from '@/generated/User';
 
-@ObjectType()
-class User {
-  @Field()
-  names?: string;
-
-  @Field()
-  email: string;
-}
 @Resolver()
 export class UserResolver {
-  @Query(() => User)
-  async getUser(): Promise<User | null> {
+  @Authorized()
+  @Query(() => UserTypes.UserT)
+  async getUser(
+    @Ctx() ctx: UserTypes.ContextT
+  ): Promise<UserTypes.UserT | null> {
+    const { req } = ctx;
+
     const find = await userModel.findOne({
-      email: 'gracian2020@gmail.com',
+      email: req.user.email,
     });
 
     if (find) {
       return {
-        names: find.names,
         email: find.email,
+        _id: find._id,
+        names: find.names
       };
     }
     return null;

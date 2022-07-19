@@ -22,13 +22,19 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
     initialValues: { email: '', password: '' },
     onSubmit: async (values) => {
       try {
-        const res = await signInWithEmailAndPassword(
+        await signInWithEmailAndPassword(
           auth,
           values.email,
           values.password
         );
+        const user = auth.currentUser;
+
+        if (user) {
+          const token = await user.getIdToken();
+          console.log('user', token);
+        }
         setError(undefined);
-        router.push('/m/quiz');
+        // router.push('/m/quiz');
       } catch (error: any) {
         setError(error.message || 'An error occurred');
       }
