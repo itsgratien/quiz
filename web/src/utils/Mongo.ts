@@ -1,14 +1,10 @@
-import { MongoClient } from 'mongodb';
+import * as mongoose from 'mongoose';
 
 const uri = process.env.DATABASE_URI || '';
 
-export const mongoClient = new MongoClient(uri);
-
-export const db = mongoClient.db(process.env.DATABASE_NAME);
-
 const connect = async () => {
   try {
-    await mongoClient.connect();
+    await mongoose.connect(uri, { dbName: process.env.DATABASE_NAME });
     return 'done';
   } catch (error) {
     console.error(error);

@@ -1,31 +1,28 @@
 import { Resolver, Query, ObjectType, Field } from 'type-graphql';
-import { db } from '@/utils/Mongo';
-import { Document } from 'mongodb';
+import userModel from '@/server/Models/UserModel';
 
 @ObjectType()
 class User {
   @Field()
-  names: string;
+  names?: string;
 
   @Field()
   email: string;
 }
-
-interface IUser extends Document {
-  names: string;
-  email: string;
-}
-
 @Resolver()
 export class UserResolver {
   @Query(() => User)
   async getUser(): Promise<User | null> {
-    const collection = db.collection<IUser>('users');
-
-    const find = await collection.findOne({
+    const find = await userModel.findOne({
       email: 'gracian2020@gmail.com',
     });
 
-    return find || null;
+    if (find) {
+      return {
+        names: find.names,
+        email: find.email,
+      };
+    }
+    return null;
   }
 }
