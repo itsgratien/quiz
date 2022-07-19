@@ -30,3 +30,7 @@ export interface SelectInputPropsT {
   value: string;
   items: SelectInputMenuT[];
 }
+
+export interface AuthErrorPropsT {
+  error: string;
+}

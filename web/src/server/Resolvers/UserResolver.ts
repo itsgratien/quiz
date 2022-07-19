@@ -26,8 +26,6 @@ export class UserResolver {
       email: 'gracian2020@gmail.com',
     });
 
-    console.log('find', find);
-
     return find || null;
   }
 }

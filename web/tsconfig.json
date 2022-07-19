@@ -20,7 +20,7 @@
     "strictPropertyInitialization": false,
     "paths": {
       "@/generated/*": ["src/__generated__/*"],
-      "@/server/*": ["src/apis/*"],
+      "@/server/*": ["src/server/*"],
       "@/components/*": ["src/components/*"],
       "@/utils/*": ["src/utils/*"],
       "@/hooks/*": ["src/hooks/*"]

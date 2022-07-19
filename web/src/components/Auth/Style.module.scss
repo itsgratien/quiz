@@ -5,19 +5,27 @@
   padding: 53px;
   width: 400px;
   padding-top: 100px;
-  .btn{
+  .btn {
     margin-top: 40px;
     background-color: $b3;
     height: 60px;
     border-radius: 5px;
     font-weight: bold;
   }
-  .forgot{
-   margin-top: 20px;
-   text-decoration: underline;
+  .forgot {
+    margin-top: 20px;
+    text-decoration: underline;
   }
 }
 
 .inputField {
   width: 100%;
+}
+.authError {
+  color: $error;
+  span {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: bold;
+  }
 }

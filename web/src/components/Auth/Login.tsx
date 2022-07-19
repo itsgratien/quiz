@@ -7,15 +7,34 @@ import { Input } from './Input';
 import { useFormik } from 'formik';
 import { Icon } from '@iconify/react';
 import { loginSchema } from './Schema';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import Error from './AuthError';
 
 export const Login = ({ open, handleClose }: TLoginProps) => {
+  const [error, setError] = React.useState<string>();
+
+  const auth = getAuth();
+
   const formik = useFormik({
     initialValues: { email: '', password: '' },
-    onSubmit: (values) => console.log('values'),
+    onSubmit: async (values) => {
+      try {
+        const res = await signInWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
+        setError(undefined);
+        console.log('signin', res.user);
+      } catch (error: any) {
+        setError(error.message || 'An error occurred');
+      }
+    },
     validationSchema: loginSchema,
     validateOnChange: true,
   });
-  const { values, errors } = formik;
+
+  const { values, errors, isSubmitting } = formik;
 
   const inputMarginTop = '28px';
 
@@ -40,6 +59,7 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
               <small className="ml-1 font-bold">Close</small>
             </button>
           </div>
+          {error && <Error error={error} />}
           <form onSubmit={formik.handleSubmit}>
             <Input
               label="Email"
@@ -65,6 +85,12 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
                 'outline-none focus:outline-none w-full',
                 style.btn
               )}
+              disabled={isSubmitting}
+              style={
+                isSubmitting
+                  ? { cursor: 'not-allowed', opacity: 0.5 }
+                  : { cursor: 'pointer', opacity: 1 }
+              }
             >
               Login
             </button>
