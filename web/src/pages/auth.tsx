@@ -6,10 +6,29 @@ import classname from 'classnames';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { Login } from '@/components/Auth/Login';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 const Auth: NextPage = () => {
   const [withEmailPassword, setWithEmailPassword] =
     React.useState<boolean>(false);
+
+  const auth = getAuth();
+
+  const router = useRouter();
+
+  const provider = new GoogleAuthProvider();
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      const res = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(res);
+      router.push('/m/quiz');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <>
@@ -28,6 +47,7 @@ const Auth: NextPage = () => {
             <button
               type="button"
               className={classname('outline-none focus:outline-none')}
+              onClick={handleLoginWithGoogle}
             >
               <Icon icon="ion:logo-google" fontSize={40} />
               <span>Using google</span>

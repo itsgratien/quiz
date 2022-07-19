@@ -9,11 +9,14 @@ import { Icon } from '@iconify/react';
 import { loginSchema } from './Schema';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Error from './AuthError';
+import { useRouter } from 'next/router';
 
 export const Login = ({ open, handleClose }: TLoginProps) => {
   const [error, setError] = React.useState<string>();
 
   const auth = getAuth();
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -25,7 +28,7 @@ export const Login = ({ open, handleClose }: TLoginProps) => {
           values.password
         );
         setError(undefined);
-        console.log('signin', res.user);
+        router.push('/m/quiz');
       } catch (error: any) {
         setError(error.message || 'An error occurred');
       }
