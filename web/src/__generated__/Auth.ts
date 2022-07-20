@@ -1,4 +1,6 @@
 import React from 'react';
+import { ObjectType, Field, ArgsType } from 'type-graphql';
+import { gql } from '@apollo/client';
 
 export interface TLoginProps {
   open: boolean;
@@ -45,4 +47,34 @@ export interface IsAuthPropsT<T> {
 
 export interface AuthProviderPropsT {
   children: React.ReactNode;
+}
+
+@ArgsType()
+export class AuthenticateT {
+  @Field()
+  idToken: string;
+}
+
+@ObjectType()
+export class AuthenticateResponseT {
+  @Field()
+  message: string;
+}
+
+export const AUTHENTICATE_MUTATION = gql`
+  mutation Authenticate($idToken: String!) {
+    authenticate(idToken: $idToken) {
+      message
+    }
+  }
+`;
+
+export interface AuthenticateVariableT {
+  idToken: string;
+}
+
+export class AuthenticateResponseUT {
+  authenticate: {
+    message: string;
+  };
 }

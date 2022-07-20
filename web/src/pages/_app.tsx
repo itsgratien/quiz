@@ -9,8 +9,8 @@ import AuthProvider from '@/components/Auth/AuthProvider';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <AuthProvider>
-      <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={apolloClient}>
+      <AuthProvider>
         <Component {...pageProps} />
         <Toaster
           toastOptions={{
@@ -19,8 +19,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             success: { style: { background: '#B3FF77', color: 'black' } },
           }}
         />
-      </ApolloProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ApolloProvider>
   );
 };
 

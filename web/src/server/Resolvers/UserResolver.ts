@@ -1,12 +1,8 @@
 import 'reflect-metadata';
-import {
-  Resolver,
-  Query,
-  Ctx,
-  Authorized,
-} from 'type-graphql';
+import { Resolver, Query, Ctx, Authorized, Mutation, Args } from 'type-graphql';
 import userModel from '@/server/Models/UserModel';
 import * as UserTypes from '@/generated/User';
+import * as AuthT from '@/generated/Auth';
 
 @Resolver()
 export class UserResolver {
@@ -25,9 +21,18 @@ export class UserResolver {
       return {
         email: find.email,
         _id: find._id,
-        names: find.names
+        names: find.names,
       };
     }
     return null;
+  }
+
+  @Mutation(() => AuthT.AuthenticateResponseT)
+  async authenticate(
+    @Args() args: AuthT.AuthenticateT
+  ): Promise<AuthT.AuthenticateResponseT> {
+    return {
+      message: 'welcome',
+    };
   }
 }

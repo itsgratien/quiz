@@ -1,5 +1,6 @@
 import { ObjectType, Field } from 'type-graphql';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { gql } from '@apollo/client';
 
 export enum UserRoleEnum {
   SuperAdmin = 'SuperAdmin',
@@ -47,4 +48,20 @@ export interface RequestT extends NextApiRequest {
 export interface ContextT {
   req: RequestT;
   res: NextApiResponse;
+}
+
+export const GET_USER_QUERY = gql`
+  query GetUser {
+    getUser {
+      email
+      names
+    }
+  }
+`;
+
+export interface GetUserT {
+  getUser: {
+    email: string;
+    names: string | null;
+  };
 }

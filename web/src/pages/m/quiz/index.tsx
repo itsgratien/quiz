@@ -1,11 +1,11 @@
 import React from 'react';
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
 import { QuizItem } from '@/components/Quiz/QuizItem';
 import { QuizStatus, QuizItemT } from '@/generated/Quiz';
-import withAuth from '@/components/Auth/WithAuth';
+import { withAuth } from '@/components/HOC/WithAuth';
 
 const Quiz: NextPage = () => {
   const items: QuizItemT[] = [
@@ -51,4 +51,12 @@ const Quiz: NextPage = () => {
   );
 };
 
-export default withAuth(Quiz);
+export default Quiz;
+
+export const getServerSideProps = withAuth(
+  async (ctx: GetServerSidePropsContext) => {
+    return {
+      props: {},
+    };
+  }
+);

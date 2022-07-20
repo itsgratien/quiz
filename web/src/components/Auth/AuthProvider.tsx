@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }: AuthProviderPropsT) => {
   const [isAuth, setIsAuth] = React.useState<boolean>();
 
   const auth = getAuth();
+
   React.useEffect(() => {
     onIdTokenChanged(
       auth,
