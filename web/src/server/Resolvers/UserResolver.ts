@@ -1,16 +1,16 @@
 import 'reflect-metadata';
 import { Resolver, Query, Ctx, Authorized, Mutation, Args } from 'type-graphql';
 import userModel from '@/server/Models/UserModel';
-import * as UserTypes from '@/generated/User';
-import * as AuthT from '@/generated/Auth';
+import * as UserTg from '@/server/TypeGraphql/User';
+import * UserT from '@/generated/User';
 
 @Resolver()
 export class UserResolver {
   @Authorized()
-  @Query(() => UserTypes.UserT)
+  @Query(() => UserTg.UserT)
   async getUser(
-    @Ctx() ctx: UserTypes.ContextT
-  ): Promise<UserTypes.UserT | null> {
+    @Ctx() ctx: UserT.ContextT
+  ): Promise<UserTg.UserT | null> {
     const { req } = ctx;
 
     const find = await userModel.findOne({
@@ -27,10 +27,10 @@ export class UserResolver {
     return null;
   }
 
-  @Mutation(() => AuthT.AuthenticateResponseT)
+  @Mutation(() => UserTg.AuthenticateResponseT)
   async authenticate(
-    @Args() args: AuthT.AuthenticateT
-  ): Promise<AuthT.AuthenticateResponseT> {
+    @Args() args: UserTg.AuthenticateT
+  ): Promise<UserTg.AuthenticateResponseT> {
     return {
       message: 'welcome',
     };

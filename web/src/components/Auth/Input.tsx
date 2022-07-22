@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputPropsT } from '@/generated/Auth';
+import { InputPropsT } from '@/generated/User';
 import TextField from '@mui/material/TextField';
 import style from './Style.module.scss';
 import { styled } from '@mui/material/styles';

@@ -3,7 +3,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { SelectInputPropsT } from '@/generated/Auth';
+import { SelectInputPropsT } from '@/generated/User';
 
 export const SelectInput = ({
   name,

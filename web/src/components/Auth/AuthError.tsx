@@ -2,7 +2,7 @@ import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
 import { Icon } from '@iconify/react';
-import { AuthErrorPropsT } from '@/generated/Auth';
+import { AuthErrorPropsT } from '@/generated/User';
 
 const AuthError = ({ error }: AuthErrorPropsT) => {
   return (

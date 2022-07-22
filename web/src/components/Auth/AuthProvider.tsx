@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { AuthProviderPropsT } from '@/generated/Auth';
+import { AuthProviderPropsT } from '@/generated/User';
 import { getAuth, onIdTokenChanged } from 'firebase/auth';
 import nookies from 'nookies';
 

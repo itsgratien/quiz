@@ -1,7 +1,7 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
-import { TLoginProps } from '@/generated/Auth';
+import { TLoginProps } from '@/generated/User';
 import { Modal } from '@mui/material';
 import { Input } from './Input';
 import { useFormik } from 'formik';
