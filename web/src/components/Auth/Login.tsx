@@ -1,44 +1,18 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
-import { TLoginProps } from '@/generated/User';
+import { LoginPropsT } from '@/generated/User';
 import { Modal } from '@mui/material';
 import { Input } from './Input';
 import { useFormik } from 'formik';
 import { Icon } from '@iconify/react';
 import { loginSchema } from './Schema';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Error from './AuthError';
-import { useRouter } from 'next/router';
 
-export const Login = ({ open, handleClose }: TLoginProps) => {
-  const [error, setError] = React.useState<string>();
-
-  const auth = getAuth();
-
-  const router = useRouter();
-
+export const Login = ({ open, handleClose, handleSubmit, error }: LoginPropsT) => {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
-    onSubmit: async (values) => {
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
-        );
-        const user = auth.currentUser;
-
-        if (user) {
-          const token = await user.getIdToken();
-          console.log('user', token);
-        }
-        setError(undefined);
-        // router.push('/m/quiz');
-      } catch (error: any) {
-        setError(error.message || 'An error occurred');
-      }
-    },
+    onSubmit: handleSubmit,
     validationSchema: loginSchema,
     validateOnChange: true,
   });

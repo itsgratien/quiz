@@ -5,7 +5,7 @@ import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
 import { QuizItem } from '@/components/Quiz/QuizItem';
 import { QuizStatus, QuizItemT } from '@/generated/Quiz';
-import { withAuth } from '@/components/HOC/WithAuth';
+import cookie from 'cookie';
 
 const Quiz: NextPage = () => {
   const items: QuizItemT[] = [
@@ -53,8 +53,10 @@ const Quiz: NextPage = () => {
 
 export default Quiz;
 
-export const getServerSideProps = () => {
+export const getServerSideProps = ({ req }: GetServerSidePropsContext) => {
+  const getCookies = cookie.parse(req.headers.cookie || '');
+  console.log('cookies:', getCookies);
   return {
     props: {},
   };
-}
+};

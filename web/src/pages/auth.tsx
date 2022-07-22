@@ -6,17 +6,31 @@ import classname from 'classnames';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { Login } from '@/components/Auth/Login';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import * as UserType from '@/generated/User';
+import { useMutation } from '@apollo/client';
 
 const Auth: NextPage = () => {
   const [withEmailPassword, setWithEmailPassword] =
     React.useState<boolean>(false);
 
+  const [error, setError] = React.useState<string>();
+
   const auth = getAuth();
 
   const router = useRouter();
+
+  const [authenticate, response] = useMutation<
+    UserType.AuthenticateResponseT,
+    UserType.AuthenticateVariableT
+  >(UserType.AUTHENTICATE_MUTATION);
 
   const provider = new GoogleAuthProvider();
 
@@ -27,6 +41,23 @@ const Auth: NextPage = () => {
       router.push('/m/quiz');
     } catch (error: any) {
       toast.error(error.message);
+    }
+  };
+
+  const handleLoginWithEmailAndPassword = async (
+    values: UserType.LoginParamT
+  ) => {
+    try {
+      setError(undefined);
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      const user = auth.currentUser;
+      const idToken = await user?.getIdToken();
+      if (idToken) {
+        await authenticate({ variables: { idToken } });
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      setError(error.message);
     }
   };
 
@@ -67,6 +98,8 @@ const Auth: NextPage = () => {
         <Login
           open={withEmailPassword}
           handleClose={() => setWithEmailPassword(false)}
+          handleSubmit={handleLoginWithEmailAndPassword}
+          error={error}
         />
       )}
     </>

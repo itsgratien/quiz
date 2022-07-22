@@ -23,10 +23,10 @@ class UserModel {
   @prop()
   slug?: string;
 
-  @prop()
+  @prop({ default: Date.now() })
   createdAt: string;
 
-  @prop()
+  @prop({ default: Date.now() })
   updatedAt: string;
 }
 

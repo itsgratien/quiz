@@ -32,9 +32,11 @@ export interface GetUserT {
   };
 }
 
-export interface TLoginProps {
+export interface LoginPropsT {
   open: boolean;
   handleClose: () => void;
+  handleSubmit: (values: LoginParamT) => void;
+  error?: string;
 }
 
 export interface InputPropsT {
@@ -91,8 +93,13 @@ export interface AuthenticateVariableT {
   idToken: string;
 }
 
-export class AuthenticateResponseUT {
+export class AuthenticateResponseT {
   authenticate: {
     message: string;
   };
+}
+
+export interface LoginParamT {
+  email: string;
+  password: string;
 }
