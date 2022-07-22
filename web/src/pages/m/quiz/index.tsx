@@ -5,7 +5,9 @@ import { Layout } from '@/components/Layout';
 import style from '../../../styles/Quiz.module.scss';
 import { QuizItem } from '@/components/Quiz/QuizItem';
 import { QuizStatus, QuizItemT } from '@/generated/Quiz';
-import cookie from 'cookie';
+import apollo from '@/utils/ApolloClient';
+import * as UserTypes from '@/generated/User';
+import { useQuery } from '@apollo/client';
 
 const Quiz: NextPage = () => {
   const items: QuizItemT[] = [
@@ -31,6 +33,11 @@ const Quiz: NextPage = () => {
       _id: 'id',
     },
   ];
+
+  const { data, error } = useQuery<UserTypes.GetUserT>(UserTypes.GET_USER_QUERY);
+
+  console.log('data', data);
+  console.log('errors', JSON.stringify(error));
   return (
     <>
       <Head>
@@ -53,10 +60,8 @@ const Quiz: NextPage = () => {
 
 export default Quiz;
 
-export const getServerSideProps = ({ req }: GetServerSidePropsContext) => {
-  const getCookies = cookie.parse(req.headers.cookie || '');
-  console.log('cookies:', getCookies);
-  return {
-    props: {},
-  };
+export const getServerSideProps = async () => {
+ return {
+   props: {},
+ };
 };

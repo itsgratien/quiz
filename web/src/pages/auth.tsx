@@ -54,6 +54,7 @@ const Auth: NextPage = () => {
       const idToken = await user?.getIdToken();
       if (idToken) {
         await authenticate({ variables: { idToken } });
+        router.push('/m/quiz');
       }
     } catch (error: any) {
       toast.error(error.message);

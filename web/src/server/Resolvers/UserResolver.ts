@@ -47,8 +47,10 @@ export class UserResolver {
 
       res.setHeader('Set-Cookie', [
         cookie.serialize('idToken', idToken, {
-          maxAge: 1000 * 10 * 60,
           httpOnly: true,
+          maxAge: 60 * 60 * 24 * 7,
+          path: '/',
+          sameSite: 'strict',
         }),
       ]);
 
