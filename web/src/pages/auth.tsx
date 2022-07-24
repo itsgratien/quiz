@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import style from '../styles/Auth.module.scss';
 import classname from 'classnames';
@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import * as UserType from '@/generated/User';
 import { useMutation } from '@apollo/client';
+import { withoutAuth } from '@/utils/WithAuth';
 
 const Auth: NextPage = () => {
   const [withEmailPassword, setWithEmailPassword] =
@@ -107,3 +108,10 @@ const Auth: NextPage = () => {
   );
 };
 export default Auth;
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) =>
+  withoutAuth(context, () => {
+    return {
+      props: {},
+    };
+  });
