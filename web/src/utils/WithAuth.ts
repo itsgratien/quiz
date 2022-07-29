@@ -1,10 +1,10 @@
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import cookie from 'cookie';
 import apollo from './ApolloClient';
 import * as UserTypes from '@/generated/User';
+import { firebaseAdmin } from '@/utils/FirebaseAdmin';
 
 export const withAuth = async (
-  ctx: GetServerSidePropsContext,
+  context: GetServerSidePropsContext,
   callback: any
 ) => {
   const defaultRedirectObject = {
@@ -14,54 +14,20 @@ export const withAuth = async (
     },
   };
   try {
-    const { req, res } = ctx;
+    const { req } = context;
+    const idToken = req.cookies.idToken;
 
-    if (!req.headers.cookie) {
+    if (!idToken) {
       return defaultRedirectObject;
     }
 
-    const getCookies = cookie.parse(req.headers.cookie as string);
+    const verifyIdToken = await firebaseAdmin.auth().verifyIdToken(idToken);
 
-    if (!getCookies || !getCookies.idToken) return defaultRedirectObject;
-
-    await apollo.mutate<UserTypes.AuthenticateResponseT>({
-      mutation: UserTypes.AUTHENTICATE_MUTATION,
-      variables: { idToken: getCookies.idToken },
-    });
-
-    return callback();
-  } catch (error) {
-    return defaultRedirectObject;
-  }
-};
-
-export const withoutAuth = async (
-  context: GetServerSidePropsContext,
-  callback: any
-) => {
-  const defaultRedirectObject = {
-    redirect: {
-      destination: '/m/quiz',
-      permanent: false,
-    },
-  };
-  try {
-    const { req } = context;
-    if (!req.headers.cookie) {
-      return callback();
+    if (!verifyIdToken) {
+      return defaultRedirectObject;
     }
-
-    const getCookies = cookie.parse(req.headers.cookie as string);
-
-    if (!getCookies || !getCookies.idToken) return callback();
-
-    await apollo.mutate<UserTypes.AuthenticateResponseT>({
-      mutation: UserTypes.AUTHENTICATE_MUTATION,
-      variables: { idToken: getCookies.idToken },
-    });
-
-    return defaultRedirectObject;
-  } catch (error) {
     return callback();
+  } catch (error) {
+    return defaultRedirectObject;
   }
 };

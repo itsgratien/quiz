@@ -2,17 +2,14 @@ import { MiddlewareFn, AuthChecker } from 'type-graphql';
 import { ContextT } from '@/generated/User';
 import { firebaseAdmin } from '@/utils/FirebaseAdmin';
 import userModel from '@/server/Models/UserModel';
-import cookie from 'cookie';
 
 export const customAuthChecker: AuthChecker<ContextT> = async ({ context }) => {
   const { req } = context;
 
-  const getCookies = cookie.parse(req.headers.cookie || '');
+  const idToken = req.headers.authorization;
 
-  if (getCookies && getCookies.idToken) {
-    const verifyIdToken = await firebaseAdmin
-      .auth()
-      .verifyIdToken(getCookies.idToken);
+  if (idToken) {
+    const verifyIdToken = await firebaseAdmin.auth().verifyIdToken(idToken);
 
     if (verifyIdToken) {
       const findUser = await userModel.findOne({ email: verifyIdToken.email });

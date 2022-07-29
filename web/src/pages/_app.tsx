@@ -5,10 +5,11 @@ import '@/utils/Firebase';
 import { Toaster } from 'react-hot-toast';
 import apolloClient from '@/utils/ApolloClient';
 import { ApolloProvider } from '@apollo/client';
+import AuthProvider from '@/components/Auth/AuthProvider';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <ApolloProvider client={apolloClient}>
+    <AuthProvider>
       <Component {...pageProps} />
       <Toaster
         toastOptions={{
@@ -17,7 +18,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           success: { style: { background: '#B3FF77', color: 'black' } },
         }}
       />
-    </ApolloProvider>
+    </AuthProvider>
   );
 };
 

@@ -18,28 +18,13 @@ const Quiz: NextPage = () => {
       createdAt: new Date().toDateString(),
       _id: 'id',
     },
-    {
-      name: `Introduction to algorithm in rwanda`,
-      status: QuizStatus.Draft,
-      left: 10,
-      createdAt: new Date().toDateString(),
-      _id: 'id',
-    },
-    {
-      name: `Introduction to algorithm in tanzaniya`,
-      status: QuizStatus.Published,
-      left: 10,
-      createdAt: new Date().toDateString(),
-      _id: 'id',
-    },
   ];
 
   const { data, error } = useQuery<UserTypes.GetUserT>(
     UserTypes.GET_USER_QUERY
   );
-
-  console.log('data', data);
-  console.log('errors', JSON.stringify(error));
+  console.log(data);
+  console.log('error', error);
   return (
     <>
       <Head>
