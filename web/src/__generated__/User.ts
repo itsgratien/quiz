@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { gql } from '@apollo/client';
-import { Session, SessionRecord } from 'next-session/lib/types';
 
 export enum UserRoleEnum {
   SuperAdmin = 'SuperAdmin',
@@ -15,22 +13,6 @@ export interface ContextT {
     session?: any
   };
   res: NextApiResponse;
-}
-
-export const GET_USER_QUERY = gql`
-  query GetUser {
-    getUser {
-      email
-      names
-    }
-  }
-`;
-
-export interface GetUserT {
-  getUser: {
-    email: string;
-    names: string | null;
-  };
 }
 
 export interface LoginPropsT {
@@ -82,23 +64,6 @@ export interface AuthProviderPropsT {
   children: React.ReactNode;
 }
 
-export const AUTHENTICATE_MUTATION = gql`
-  mutation Authenticate($idToken: String!) {
-    authenticate(idToken: $idToken) {
-      message
-    }
-  }
-`;
-
-export interface AuthenticateVariableT {
-  idToken: string;
-}
-
-export class AuthenticateResponseT {
-  authenticate: {
-    message: string;
-  };
-}
 
 export interface LoginParamT {
   email: string;

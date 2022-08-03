@@ -15,7 +15,7 @@ import {
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import * as UserType from '@/generated/User';
-import { useMutation } from '@apollo/client';
+import { useAuthenticateMutation } from '@/generated/graphql';
 
 const Auth: NextPage = () => {
   const [withEmailPassword, setWithEmailPassword] =
@@ -27,10 +27,7 @@ const Auth: NextPage = () => {
 
   const router = useRouter();
 
-  const [authenticate, response] = useMutation<
-    UserType.AuthenticateResponseT,
-    UserType.AuthenticateVariableT
-  >(UserType.AUTHENTICATE_MUTATION);
+  const [authenticate, response] = useAuthenticateMutation();
 
   const provider = new GoogleAuthProvider();
 

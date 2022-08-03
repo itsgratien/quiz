@@ -20,11 +20,11 @@ const Quiz: NextPage = () => {
     },
   ];
 
-  const { data, error } = useQuery<UserTypes.GetUserT>(
-    UserTypes.GET_USER_QUERY
-  );
-  console.log(data);
-  console.log('error', error);
+  // const { data, error } = useQuery<UserTypes.GetUserT>(
+  //   UserTypes.GET_USER_QUERY
+  // );
+  // console.log(data);
+  // console.log('error', error);
   return (
     <>
       <Head>
