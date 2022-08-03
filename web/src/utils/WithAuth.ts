@@ -1,10 +1,10 @@
-import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import type { GetServerSidePropsContext } from 'next';
 import apollo from './ApolloClient';
-import * as UserTypes from '@/generated/User';
+import { GetUserDocument, GetUserQuery } from '@/generated/graphql';
 
 export const withAuth = async (
   context: GetServerSidePropsContext,
-  callback: any
+  callback: (user?: any) => void
 ) => {
   const defaultRedirectObject = {
     redirect: {
@@ -13,14 +13,15 @@ export const withAuth = async (
     },
   };
   try {
-    const { req } = context;
-    const idToken = req.cookies.idToken;
+    const find = await apollo(context as any).query<GetUserQuery>({
+      query: GetUserDocument,
+    });
 
-    if (!idToken) {
+    if (!find.data || !find.data.getUser || !find.data.getUser.user) {
       return defaultRedirectObject;
     }
 
-    return callback();
+    return callback(find.data.getUser.user);
   } catch (error) {
     return defaultRedirectObject;
   }

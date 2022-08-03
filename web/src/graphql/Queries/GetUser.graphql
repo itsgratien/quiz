@@ -1,0 +1,23 @@
+query GetUser{
+    getUser{
+     errors{
+        ...errors
+     }
+     error
+     user{
+        ...user
+     }
+    }
+}
+
+fragment errors on ErrorsT{
+    field
+    message
+}
+
+fragment user on User{
+    _id
+    username
+    names
+    email
+}

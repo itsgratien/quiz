@@ -27,15 +27,25 @@ const Auth: NextPage = () => {
 
   const router = useRouter();
 
-  const [authenticate, response] = useAuthenticateMutation();
+  const [authenticate] = useAuthenticateMutation();
 
   const provider = new GoogleAuthProvider();
+  
+  const authenticateFunc = async ()=> {
+    const user = auth.currentUser;
 
+    const idToken = await user?.getIdToken();
+
+    if(idToken){
+      await authenticate({variables: {idToken}});
+      return router.push('/m/quiz');
+    }
+  }
   const handleLoginWithGoogle = async () => {
     try {
       const res = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(res);
-      router.push('/m/quiz');
+      GoogleAuthProvider.credentialFromResult(res);      
+      return authenticateFunc();
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -47,12 +57,7 @@ const Auth: NextPage = () => {
     try {
       setError(undefined);
       await signInWithEmailAndPassword(auth, values.email, values.password);
-      const user = auth.currentUser;
-      const idToken = await user?.getIdToken();
-      if (idToken) {
-        await authenticate({ variables: { idToken } });
-        router.push('/m/quiz');
-      }
+      return authenticateFunc();
     } catch (error: any) {
       toast.error(error.message);
       setError(error.message);
