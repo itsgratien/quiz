@@ -9,17 +9,24 @@ import { GraphQLYogaError } from '@graphql-yoga/node';
 @Resolver()
 export class UserResolver {
   @Authorized()
-  @Query(() => UserTg.UserT)
-  async getUser(@Ctx() ctx: UserType.ContextT): Promise<UserTg.UserT | null> {
+  @Query(() => UserTg.GetUserResponseT)
+  async getUser(
+    @Ctx() ctx: UserType.ContextT
+  ): Promise<UserTg.GetUserResponseT | null> {
     const { req } = ctx;
 
     const find = await userModel.findById(req.session.userId);
 
     if (find) {
       return {
-        email: find.email,
-        _id: find._id,
-        names: find.names,
+        user: {
+          ...find,
+          email: find.email,
+          names: find.names,
+          _id: String(find._id),
+          createdAt: find.createdAt,
+          updatedAt: find.updatedAt,
+        },
       };
     }
     return null;
@@ -42,13 +49,12 @@ export class UserResolver {
         await userModel.create({ email: auth.email });
       }
 
-      req.session.userId = String(findUser?._id);
+      req.session.userId = String(findUser?.id);
 
       return {
         message: 'Authenticated Successfully',
       };
     } catch (error: any) {
-      console.log('error', error);
       return new GraphQLYogaError('Unable to authenticate');
     }
   }

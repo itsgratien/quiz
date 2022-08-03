@@ -1,4 +1,5 @@
 import { ObjectType, Field, ArgsType } from 'type-graphql';
+import { User } from '@/server/Models/UserModel';
 
 @ArgsType()
 export class AuthenticateT {
@@ -13,34 +14,22 @@ export class AuthenticateResponseT {
 }
 
 @ObjectType()
-export class UserT {
+export class ErrorsT {
   @Field()
-  _id: string;
-
-  @Field({ nullable: true })
-  names?: string;
+  field: string;
 
   @Field()
-  email: string;
+  message: string;
+}
+
+@ObjectType()
+export class GetUserResponseT {
+  @Field((type) => [ErrorsT], { nullable: true })
+  errors?: ErrorsT[];
 
   @Field({ nullable: true })
-  username?: string;
+  user?: User;
 
   @Field({ nullable: true })
-  password?: string;
-
-  @Field({ nullable: true })
-  role?: string;
-
-  @Field({ nullable: true })
-  profilePicture?: string;
-
-  @Field({ nullable: true })
-  createdAt?: string;
-
-  @Field({ nullable: true })
-  updatedAt?: string;
-
-  @Field({ nullable: true })
-  slug?: string;
+  error?: string;
 }

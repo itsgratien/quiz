@@ -1,7 +1,6 @@
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import apollo from './ApolloClient';
 import * as UserTypes from '@/generated/User';
-import { firebaseAdmin } from '@/utils/FirebaseAdmin';
 
 export const withAuth = async (
   context: GetServerSidePropsContext,
@@ -21,11 +20,6 @@ export const withAuth = async (
       return defaultRedirectObject;
     }
 
-    const verifyIdToken = await firebaseAdmin.auth().verifyIdToken(idToken);
-
-    if (!verifyIdToken) {
-      return defaultRedirectObject;
-    }
     return callback();
   } catch (error) {
     return defaultRedirectObject;
