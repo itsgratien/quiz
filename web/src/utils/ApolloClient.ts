@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import type { NextPageContext } from 'next';
 
-const handleCookie = (ctx?: NextPageContext) => {
+const handleCookieFunc = (ctx?: NextPageContext) => {
   if (typeof window === 'undefined' && ctx) {
     const { req } = ctx;
 
@@ -19,7 +19,7 @@ const client = (ctx?: NextPageContext) =>
     cache: new InMemoryCache(),
     credentials: 'include',
     headers: {
-      cookie: handleCookie(ctx),
+      cookie: handleCookieFunc(ctx),
     },
   });
 
