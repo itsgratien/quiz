@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { gql } from '@apollo/client';
+import { Session, SessionRecord } from 'next-session/lib/types';
 
 export enum UserRoleEnum {
   SuperAdmin = 'SuperAdmin',
@@ -8,11 +9,11 @@ export enum UserRoleEnum {
   User = 'User',
 }
 
-export interface RequestT extends NextApiRequest {
-  user?: any;
-}
+
 export interface ContextT {
-  req: RequestT;
+  req: NextApiRequest & {
+    session?: any
+  };
   res: NextApiResponse;
 }
 

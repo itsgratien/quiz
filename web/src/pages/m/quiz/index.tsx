@@ -47,9 +47,8 @@ const Quiz: NextPage = () => {
 
 export default Quiz;
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
-  withAuth(ctx, (res: any) => {
-    return {
-      props: {},
-    };
-  });
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>{
+  return {
+    props: {},
+  };
+};

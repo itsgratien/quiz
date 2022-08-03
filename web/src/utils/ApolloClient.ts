@@ -1,12 +1,10 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-const client = (token?: string) =>
+const client = () =>
   new ApolloClient({
     uri: 'http://localhost:3000/api/graphql',
     cache: new InMemoryCache(),
-    headers: {
-      ['authorization']: token || '',
-    },
+    credentials: 'include'
   });
 
 export default client;

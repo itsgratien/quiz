@@ -3,7 +3,6 @@ import { Resolver, Query, Ctx, Authorized, Mutation, Args } from 'type-graphql';
 import userModel from '@/server/Models/UserModel';
 import * as UserTg from '@/server/TypeGraphql/User';
 import * as UserType from '@/generated/User';
-import cookie from 'cookie';
 import { firebaseAdmin } from '@/utils/FirebaseAdmin';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 
@@ -14,9 +13,7 @@ export class UserResolver {
   async getUser(@Ctx() ctx: UserType.ContextT): Promise<UserTg.UserT | null> {
     const { req } = ctx;
 
-    const find = await userModel.findOne({
-      email: req.user.email,
-    });
+    const find = await userModel.findById(req.session.userId);
 
     if (find) {
       return {
@@ -34,7 +31,7 @@ export class UserResolver {
     @Ctx() ctx: UserType.ContextT
   ): Promise<UserTg.AuthenticateResponseT> {
     try {
-      const { res } = ctx;
+      const { req } = ctx;
       const { idToken } = args;
 
       const auth = await firebaseAdmin.auth().verifyIdToken(idToken);
@@ -45,19 +42,13 @@ export class UserResolver {
         await userModel.create({ email: auth.email });
       }
 
-      res.setHeader('Set-Cookie', [
-        cookie.serialize('idToken', idToken, {
-          httpOnly: true,
-          maxAge: 60 * 60 * 24 * 7,
-          path: '/',
-          sameSite: 'strict',
-        }),
-      ]);
+      req.session.userId = String(findUser?._id);
 
       return {
         message: 'Authenticated Successfully',
       };
     } catch (error: any) {
+      console.log('error', error);
       return new GraphQLYogaError('Unable to authenticate');
     }
   }
