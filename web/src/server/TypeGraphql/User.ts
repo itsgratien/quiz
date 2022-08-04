@@ -1,4 +1,4 @@
-import { ObjectType, Field, ArgsType, ClassType } from 'type-graphql';
+import { ObjectType, Field, ArgsType } from 'type-graphql';
 import { User } from '@/server/Models/UserModel';
 import { CustomResponse } from './Test';
 

@@ -1,4 +1,4 @@
-import { Field, ObjectType, ClassType } from 'type-graphql';
+import { Field, ObjectType, ClassType, ArgsType } from 'type-graphql';
 import { Test } from '@/server/Models/TestModel';
 import { ErrorsT } from './User';
 
@@ -13,9 +13,34 @@ export function CustomResponse<Data>(DataClass: ClassType<Data>) {
 
     @Field({ nullable: true })
     error?: string;
+
+    @Field({nullable: true})
+    message?: string;
   }
 
   return CustomResponseClass;
 }
-// @ObjectType()
-// export class AddTestResponse extends CustomResponse(Test) {}
+
+@ObjectType()
+export class AddTestResponse extends CustomResponse(Test) {}
+
+@ArgsType()
+export class AddTestArgs {
+  @Field()
+  title: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field()
+  subject: string;
+
+  @Field()
+  passMark: string;
+
+  @Field()
+  startDate: string;
+
+  @Field()
+  endDate: string;
+}

@@ -1,33 +1,31 @@
 import { ObjectType, Field } from 'type-graphql';
-import mongoose from 'mongoose';
-import * as typegoose from '@typegoose/typegoose';
 import { User } from './UserModel';
-import { prop } from '@typegoose/typegoose';
+import typegoose, { prop, getModelForClass, DocumentType } from '@typegoose/typegoose';
 import { TestStatus } from '@/generated/Enum';
 
 @ObjectType()
 export class Test {
   @Field()
-  _id: string | mongoose.Types.ObjectId;
+  _id: string;
 
   @Field()
-  @typegoose.prop()
+  @prop({ type: String })
   title: string;
 
-  @Field()
-  @typegoose.prop({ ref: () => User })
-  managerId: typegoose.Ref<User, string>;
+  @Field(() => User || String, { nullable: true })
+  @prop({ ref: () => User })
+  managerId?: typegoose.Ref<User, string>;
 
-  @Field()
+  @Field(() => String, { defaultValue: TestStatus.Draft })
   @prop({ default: TestStatus.Draft, type: String })
   status?: TestStatus;
 
   @Field()
-  @prop()
-  passMark: number;
+  @prop({ type: String, required: true })
+  passMark: string;
 
   @Field()
-  @prop()
+  @prop({ type: String, required: true })
   subject: string;
 
   @Field({ nullable: true })
@@ -35,28 +33,32 @@ export class Test {
   description?: string;
 
   @Field()
-  @prop()
+  @prop({ type: String })
   startDate: string;
 
   @Field()
   @prop()
   endDate: string;
 
-  @Field({ nullable: true })
-  @prop()
-  questions?: any;
+  @Field(() => [String], { nullable: true })
+  @prop({ required: false })
+  questions?: string[];
+
+  @Field(() => [String], { nullable: true })
+  @prop({ required: false })
+  attendants?: string[];
 
   @Field({ nullable: true })
   @prop()
-  attendants?: any;
+  createdAt?: string;
 
   @Field({ nullable: true })
-  createdAt: string;
-
-  @Field({ nullable: true })
-  updatedAt: string;
+  @prop()
+  updatedAt?: string;
 }
 
-export const testModel = typegoose.getModelForClass(Test, {
+export const testModel = getModelForClass(Test, {
   schemaOptions: { timestamps: true },
 });
+
+export type TestDocument = DocumentType<Test>;
