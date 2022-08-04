@@ -1,14 +1,15 @@
-import { ObjectType, Field, ArgsType } from 'type-graphql';
+import { ObjectType, Field, ArgsType, ClassType } from 'type-graphql';
 import { User } from '@/server/Models/UserModel';
+import { CustomResponse } from './Test';
 
 @ArgsType()
-export class AuthenticateT {
+export class Authenticate {
   @Field()
   idToken: string;
 }
 
 @ObjectType()
-export class AuthenticateResponseT {
+export class AuthenticateResponse {
   @Field()
   message: string;
 }
@@ -23,13 +24,4 @@ export class ErrorsT {
 }
 
 @ObjectType()
-export class GetUserResponseT {
-  @Field((type) => [ErrorsT], { nullable: true })
-  errors?: ErrorsT[];
-
-  @Field({ nullable: true })
-  user?: User;
-
-  @Field({ nullable: true })
-  error?: string;
-}
+export class GetUserResponse extends CustomResponse(User) {}

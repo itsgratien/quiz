@@ -14,3 +14,8 @@ export const customAuthChecker: AuthChecker<ContextT> = async ({ context }) => {
   }
   return false;
 };
+
+export const verifyUserRole: MiddlewareFn<ContextT> = async (
+  { args },
+  next
+) => {};

@@ -1,5 +1,5 @@
 import { prop, getModelForClass } from '@typegoose/typegoose';
-import { UserRoleEnum } from '@/generated/User';
+import { UserRole } from '@/generated/Enum';
 import { ObjectType, Field } from 'type-graphql';
 import mongoose from 'mongoose';
 
@@ -20,8 +20,8 @@ export class User {
   @prop()
   password?: string;
 
-  @Field({ defaultValue: UserRoleEnum.User })
-  @prop({ enum: UserRoleEnum, default: UserRoleEnum.User })
+  @Field({ defaultValue: UserRole.Manager })
+  @prop({ enum: UserRole, default: UserRole.Manager })
   role?: string;
 
   @Field({ nullable: true })

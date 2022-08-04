@@ -1,13 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export enum UserRoleEnum {
-  SuperAdmin = 'SuperAdmin',
-  Admin = 'Admin',
-  Manager = 'Manager',
-  User = 'User',
-}
-
-
 export interface ContextT {
   req: NextApiRequest & {
     session?: any

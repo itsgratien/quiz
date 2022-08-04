@@ -9,17 +9,17 @@ import { GraphQLYogaError } from '@graphql-yoga/node';
 @Resolver()
 export class UserResolver {
   @Authorized()
-  @Query(() => UserTg.GetUserResponseT)
+  @Query(() => UserTg.GetUserResponse)
   async getUser(
     @Ctx() ctx: UserType.ContextT
-  ): Promise<UserTg.GetUserResponseT | null> {
+  ): Promise<UserTg.GetUserResponse | null> {
     const { req } = ctx;
 
     const find = await userModel.findById(req.session.userId);
 
     if (find) {
       return {
-        user: {
+        data: {
           ...find,
           email: find.email,
           names: find.names,
@@ -32,11 +32,11 @@ export class UserResolver {
     return null;
   }
 
-  @Mutation(() => UserTg.AuthenticateResponseT)
+  @Mutation(() => UserTg.AuthenticateResponse)
   async authenticate(
-    @Args() args: UserTg.AuthenticateT,
+    @Args() args: UserTg.Authenticate,
     @Ctx() ctx: UserType.ContextT
-  ): Promise<UserTg.AuthenticateResponseT> {
+  ): Promise<UserTg.AuthenticateResponse> {
     try {
       const { req } = ctx;
       const { idToken } = args;
