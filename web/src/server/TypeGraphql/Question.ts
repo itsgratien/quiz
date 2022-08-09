@@ -19,3 +19,25 @@ export class AddMcQuestionArgs {
   @Field()
   description: string;
 }
+
+@ObjectType()
+class GetQuestionsResponseItem{
+  @Field(()=> [Question])
+  items: Question[];
+
+  @Field()
+  totalDocs: number;
+
+}
+
+@ObjectType()
+export class GetQuestionsResponse extends CustomResponse(GetQuestionsResponseItem) {}
+
+@ArgsType()
+export class GetQuestionsArgs {
+  @Field()
+  limit: number;
+
+  @Field()
+  page: number;
+}

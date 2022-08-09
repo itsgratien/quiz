@@ -1,4 +1,4 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { prop, getModelForClass, DocumentType } from '@typegoose/typegoose';
 import { UserRole } from '@/generated/Enum';
 import { ObjectType, Field } from 'type-graphql';
 import mongoose from 'mongoose';
@@ -45,8 +45,10 @@ export class User {
   updatedAt?: string;
 }
 
-const userModel = getModelForClass(User, {
+export const userModel = getModelForClass(User, {
   schemaOptions: { timestamps: true },
 });
+
+export type UserDocument = DocumentType<User>;
 
 export default userModel;
