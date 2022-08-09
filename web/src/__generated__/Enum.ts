@@ -16,3 +16,8 @@ export enum AttendantStatus {
   InProgress = 'InProgress',
   Completed = 'Completed',
 }
+
+export enum QuestionType{
+  MultipleChoice = 'MultipleChoice',
+  Coding = 'Coding'
+}

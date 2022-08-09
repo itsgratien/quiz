@@ -1,10 +1,16 @@
 import { ObjectType, Field } from 'type-graphql';
 import { User } from './UserModel';
-import typegoose, { prop, getModelForClass, DocumentType } from '@typegoose/typegoose';
+import typegoose, {
+  prop,
+  getModelForClass,
+  DocumentType,
+} from '@typegoose/typegoose';
 import { TestStatus } from '@/generated/Enum';
+import { Question } from './QuestionModel';
+import { DateCreation } from '@/server/TypeGraphql/Test';
 
 @ObjectType()
-export class Test {
+export class Test extends DateCreation {
   @Field()
   _id: string;
 
@@ -40,9 +46,9 @@ export class Test {
   @prop()
   endDate: string;
 
-  @Field(() => [String], { nullable: true })
-  @prop({ required: false })
-  questions?: string[];
+  @Field(() => [Question || String], { nullable: true })
+  @prop({ required: false, ref: () => Question })
+  questions?: typegoose.Ref<Question[], any>;
 
   @Field(() => [String], { nullable: true })
   @prop({ required: false })

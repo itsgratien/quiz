@@ -14,7 +14,7 @@ export function CustomResponse<Data>(DataClass: ClassType<Data>) {
     @Field({ nullable: true })
     error?: string;
 
-    @Field({nullable: true})
+    @Field({ nullable: true })
     message?: string;
   }
 
@@ -43,4 +43,13 @@ export class AddTestArgs {
 
   @Field()
   endDate: string;
+}
+
+@ObjectType()
+export class DateCreation {
+  @Field()
+  createdAt: string;
+
+  @Field()
+  updatedAt: string;
 }
