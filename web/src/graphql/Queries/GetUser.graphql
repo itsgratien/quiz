@@ -4,7 +4,7 @@ query GetUser{
         ...errors
      }
      error
-     user{
+     data{
         ...user
      }
     }

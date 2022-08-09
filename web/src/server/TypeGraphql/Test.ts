@@ -47,9 +47,9 @@ export class AddTestArgs {
 
 @ObjectType()
 export class DateCreation {
-  @Field()
-  createdAt: string;
+  @Field({ nullable: true })
+  createdAt?: string;
 
-  @Field()
-  updatedAt: string;
+  @Field({ nullable: true })
+  updatedAt?: string;
 }

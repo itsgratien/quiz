@@ -9,7 +9,7 @@ import { User } from './UserModel';
 import { DateCreation } from '@/server/TypeGraphql/Test';
 
 @ObjectType()
-export class Question extends DateCreation {
+export class Question {
   @Field()
   _id: string;
 
@@ -32,6 +32,18 @@ export class Question extends DateCreation {
   @Field(() => String, { defaultValue: TestStatus.Draft })
   @prop({ default: TestStatus.Draft, type: String })
   status: TestStatus;
+
+  @Field()
+  @prop()
+  description: string;
+
+  @Field(() => [String], { nullable: true })
+  @prop({ type: [String] })
+  choices?: string[];
+
+  @Field(() => [String], { nullable: true })
+  @prop({ type: [String] })
+  answers: string[];
 }
 
 export const questionModel = getModelForClass(Question, {

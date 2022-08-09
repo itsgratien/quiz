@@ -28,7 +28,7 @@ class AnswerQuestion {
 }
 
 @ObjectType()
-export class Answer extends DateCreation {
+export class Answer {
   @Field()
   _id: string;
 

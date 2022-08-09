@@ -6,10 +6,9 @@ import typegoose, {
 import { ObjectType, Field } from 'type-graphql';
 import { Test } from './TestModel';
 import { AttendantStatus } from '@/generated/Enum';
-import { DateCreation } from '@/server/TypeGraphql/Test';
 
 @ObjectType()
-export class Attendant extends DateCreation {
+export class Attendant {
   @Field()
   _id: string;
 

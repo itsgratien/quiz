@@ -15,8 +15,16 @@ export type Scalars = {
   Float: number;
 };
 
-export type AuthenticateResponseT = {
-  __typename?: 'AuthenticateResponseT';
+export type AddTestResponse = {
+  __typename?: 'AddTestResponse';
+  data?: Maybe<Test>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  message?: Maybe<Scalars['String']>;
+};
+
+export type AuthenticateResponse = {
+  __typename?: 'AuthenticateResponse';
   message: Scalars['String'];
 };
 
@@ -26,16 +34,28 @@ export type ErrorsT = {
   message: Scalars['String'];
 };
 
-export type GetUserResponseT = {
-  __typename?: 'GetUserResponseT';
+export type GetUserResponse = {
+  __typename?: 'GetUserResponse';
+  data?: Maybe<User>;
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
-  user?: Maybe<User>;
+  message?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  authenticate: AuthenticateResponseT;
+  addTest: AddTestResponse;
+  authenticate: AuthenticateResponse;
+};
+
+
+export type MutationAddTestArgs = {
+  description?: InputMaybe<Scalars['String']>;
+  endDate: Scalars['String'];
+  passMark: Scalars['String'];
+  startDate: Scalars['String'];
+  subject: Scalars['String'];
+  title: Scalars['String'];
 };
 
 
@@ -45,7 +65,37 @@ export type MutationAuthenticateArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getUser: GetUserResponseT;
+  getUser: GetUserResponse;
+};
+
+export type Question = {
+  __typename?: 'Question';
+  _id: Scalars['String'];
+  answers?: Maybe<Array<Scalars['String']>>;
+  choices?: Maybe<Array<Scalars['String']>>;
+  description: Scalars['String'];
+  owner: User;
+  slug: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  type?: Maybe<Scalars['String']>;
+};
+
+export type Test = {
+  __typename?: 'Test';
+  _id: Scalars['String'];
+  attendants?: Maybe<Array<Scalars['String']>>;
+  createdAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  endDate: Scalars['String'];
+  managerId?: Maybe<User>;
+  passMark: Scalars['String'];
+  questions?: Maybe<Array<Question>>;
+  startDate: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
+  subject: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -67,12 +117,12 @@ export type AuthenticateMutationVariables = Exact<{
 }>;
 
 
-export type AuthenticateMutation = { __typename?: 'Mutation', authenticate: { __typename?: 'AuthenticateResponseT', message: string } };
+export type AuthenticateMutation = { __typename?: 'Mutation', authenticate: { __typename?: 'AuthenticateResponse', message: string } };
 
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'GetUserResponseT', error?: string | null, errors?: Array<{ __typename?: 'ErrorsT', field: string, message: string }> | null, user?: { __typename?: 'User', _id: string, username?: string | null, names?: string | null, email: string } | null } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'GetUserResponse', error?: string | null, errors?: Array<{ __typename?: 'ErrorsT', field: string, message: string }> | null, data?: { __typename?: 'User', _id: string, username?: string | null, names?: string | null, email: string } | null } };
 
 export type ErrorsFragment = { __typename?: 'ErrorsT', field: string, message: string };
 
@@ -132,7 +182,7 @@ export const GetUserDocument = gql`
       ...errors
     }
     error
-    user {
+    data {
       ...user
     }
   }

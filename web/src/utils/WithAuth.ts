@@ -17,11 +17,11 @@ export const withAuth = async (
       query: GetUserDocument,
     });
 
-    if (!find.data || !find.data.getUser || !find.data.getUser.user) {
+    if (!find.data || !find.data.getUser || !find.data.getUser.data) {
       return defaultRedirectObject;
     }
 
-    return callback(find.data.getUser.user);
+    return callback(find.data.getUser.data);
   } catch (error) {
     return defaultRedirectObject;
   }

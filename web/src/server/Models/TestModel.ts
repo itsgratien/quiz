@@ -7,10 +7,9 @@ import typegoose, {
 } from '@typegoose/typegoose';
 import { TestStatus } from '@/generated/Enum';
 import { Question } from './QuestionModel';
-import { DateCreation } from '@/server/TypeGraphql/Test';
 
 @ObjectType()
-export class Test extends DateCreation {
+export class Test {
   @Field()
   _id: string;
 
