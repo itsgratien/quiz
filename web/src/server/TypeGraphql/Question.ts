@@ -1,6 +1,8 @@
 import { Field, ArgsType, ObjectType } from 'type-graphql';
 import { CustomResponse } from './Test';
 import { Question } from '@/server/Models/QuestionModel';
+import { IsNotEmpty, IsEnum } from 'class-validator';
+import { TestStatus } from '@/generated/Enum';
 
 @ObjectType()
 export class AddQuestionResponse extends CustomResponse(Question) {}
@@ -63,4 +65,15 @@ export class GetQuestionResponse extends CustomResponse(Question) {}
 export class EditMcQArgs extends AddMcQuestionArgs {
   @Field()
   id: string;
+}
+
+@ArgsType()
+export class EditQuestionStatusArgs {
+  @Field()
+  id: string;
+
+  @Field()
+  @IsNotEmpty()
+  @IsEnum(TestStatus)
+  status: string;
 }

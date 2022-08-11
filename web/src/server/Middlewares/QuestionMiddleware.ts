@@ -17,3 +17,15 @@ export const verifyQuestionOwner: MiddlewareFn<UserType.ContextT> = async (
   }
   return errorResponse('You are not allowed to perform this action');
 };
+
+export const verifyQuestion: MiddlewareFn<UserType.ContextT> = async (
+  { args },
+  next
+) => {
+  const find = await questionModel.findOne({ _id: args.questionId });
+
+  if (find) {
+    return next();
+  }
+  return errorResponse('You are not allowed to perform this action');
+};

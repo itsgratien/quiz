@@ -111,7 +111,30 @@ export class QuestionResolver {
       );
 
       return {
-        message: 'Updated successfully',
+        message: 'Updated Successfully',
+      };
+    } catch (error) {
+      return errorResponse();
+    }
+  }
+
+  @Authorized()
+  @UseMiddleware(questionMiddleware.verifyQuestionOwner)
+  @Mutation(() => questionTg.AddQuestionResponse)
+  async changeQuestionStatus(
+    @Ctx() ctx: UserType.ContextT,
+    @Args() args: questionTg.EditQuestionStatusArgs
+  ): Promise<questionTg.AddQuestionResponse> {
+    try {
+      const { userId: owner } = ctx.req.session;
+
+      await questionModel.updateOne(
+        { $and: [{ _id: args.id }, { owner }] },
+        { $set: { status: args.status } }
+      );
+
+      return {
+        message: 'Updated Successfully',
       };
     } catch (error) {
       return errorResponse();
