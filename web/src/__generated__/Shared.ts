@@ -21,8 +21,3 @@ export interface CustomModalPropsT {
 }
 
 export type ModelType = typeof userModel | typeof answerModel | typeof questionModel;
-
-export interface PaginationArg {
-  limit: number;
-  page: number;
-}

@@ -26,6 +26,7 @@
     "graphql": "^15.3.0",
     "graphql-tools": "^8.2.12",
     "ioredis": "^5.2.2",
+    "lodash": "^4.17.21",
     "mongoose": "^6.4.5",
     "next": "12.1.6",
     "next-session": "^4.0.5",

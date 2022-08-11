@@ -3,11 +3,12 @@ import {
   AddQuestionResponse,
   AddMcQuestionArgs,
 } from '@/server/TypeGraphql/Question';
-import { questionModel } from '@/server/Models/QuestionModel';
+import { questionModel, QuestionDocument } from '@/server/Models/QuestionModel';
 import * as UserType from '@/generated/User';
 import {
   generateSlug,
   generatePagination,
+  errorResponse,
 } from '@/server/Helpers/SharedHelper';
 import format from '@/server/Helpers/FormatHelper';
 import * as questionTg from '@/server/TypeGraphql/Question';
@@ -36,9 +37,7 @@ export class QuestionResolver {
         data: format.getQuestion(add),
       };
     } catch (error) {
-      return {
-        error: 'Internal server error',
-      };
+      return errorResponse();
     }
   }
 
@@ -55,7 +54,7 @@ export class QuestionResolver {
 
       const find = await questionModel
         .find({ owner: userId })
-        .limit(args.limit)
+        .limit(pagination.limit)
         .skip(pagination.offset)
         .populate('owner')
         .sort({ updatedAt: -1 });
@@ -64,12 +63,35 @@ export class QuestionResolver {
         data: {
           items: find.map((item) => format.getQuestion(item)),
           totalDocs: pagination.totalDocs,
+          totalPages: pagination.totalPages,
         },
       };
     } catch (error) {
+      return errorResponse();
+    }
+  }
+
+  @Query(() => questionTg.GetQuestionResponse)
+  async getQuestion(
+    @Args() arg: questionTg.GetQuestionArgs
+  ): Promise<questionTg.GetQuestionResponse> {
+    try {
+      const find = await questionModel.findOne({ slug: arg.id });
+
       return {
-        error: 'Internal Server Error',
+        data: format.getQuestion(find as QuestionDocument, false),
       };
+    } catch (error) {
+      return errorResponse();
+    }
+  }
+
+  @Authorized()
+  @Mutation()
+  async editMcQuestion() {
+    try {
+    } catch (error) {
+      return errorResponse();
     }
   }
 }

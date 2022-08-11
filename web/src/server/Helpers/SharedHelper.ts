@@ -1,5 +1,6 @@
 import slugify from 'slugify';
-import { ModelType, PaginationArg } from '@/generated/Shared';
+import { ModelType } from '@/generated/Shared';
+import { PaginationArgs } from '@/server/TypeGraphql/Question';
 
 export const generateSlug = (value: string) =>
   slugify(
@@ -9,16 +10,24 @@ export const generateSlug = (value: string) =>
 
 export const generatePagination = async (
   model: ModelType,
-  value: PaginationArg
+  value: PaginationArgs
 ) => {
   const totalDocs = await model.countDocuments();
 
   const limit = value.limit || 15;
 
-  const offset = limit * value.page + 1;
+  const page = value.page > 1 ? value.page - 1 : 0;
+
+  const offset = limit * page;
+
+  const totalPages = Math.ceil(totalDocs / limit);
 
   return {
     totalDocs,
     offset,
+    limit,
+    totalPages,
   };
 };
+
+export const errorResponse = (error = 'Internal Server Error') => ({ error });

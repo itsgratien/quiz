@@ -21,23 +21,40 @@ export class AddMcQuestionArgs {
 }
 
 @ObjectType()
-class GetQuestionsResponseItem{
-  @Field(()=> [Question])
+class GetQuestionsResponseItem {
+  @Field(() => [Question])
   items: Question[];
 
   @Field()
   totalDocs: number;
 
+  @Field()
+  totalPages: number;
 }
 
 @ObjectType()
-export class GetQuestionsResponse extends CustomResponse(GetQuestionsResponseItem) {}
+export class GetQuestionsResponse extends CustomResponse(
+  GetQuestionsResponseItem
+) {}
 
+@ObjectType()
 @ArgsType()
-export class GetQuestionsArgs {
-  @Field()
-  limit: number;
+export class PaginationArgs {
+  @Field({ nullable: true })
+  limit?: number;
 
   @Field()
   page: number;
 }
+
+@ArgsType()
+export class GetQuestionsArgs extends PaginationArgs {}
+
+@ArgsType()
+export class GetQuestionArgs {
+  @Field()
+  id: string;
+}
+
+@ObjectType()
+export class GetQuestionResponse extends CustomResponse(Question) {}
