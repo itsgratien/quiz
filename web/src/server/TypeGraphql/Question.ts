@@ -58,3 +58,9 @@ export class GetQuestionArgs {
 
 @ObjectType()
 export class GetQuestionResponse extends CustomResponse(Question) {}
+
+@ArgsType()
+export class EditMcQArgs extends AddMcQuestionArgs {
+  @Field()
+  id: string;
+}

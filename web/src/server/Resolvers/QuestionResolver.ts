@@ -1,4 +1,12 @@
-import { Resolver, Mutation, Query, Args, Ctx, Authorized } from 'type-graphql';
+import {
+  Resolver,
+  Mutation,
+  Query,
+  Args,
+  Ctx,
+  Authorized,
+  UseMiddleware,
+} from 'type-graphql';
 import {
   AddQuestionResponse,
   AddMcQuestionArgs,
@@ -12,6 +20,7 @@ import {
 } from '@/server/Helpers/SharedHelper';
 import format from '@/server/Helpers/FormatHelper';
 import * as questionTg from '@/server/TypeGraphql/Question';
+import * as questionMiddleware from '@/server/Middlewares/QuestionMiddleware';
 
 @Resolver()
 export class QuestionResolver {
@@ -87,9 +96,23 @@ export class QuestionResolver {
   }
 
   @Authorized()
-  @Mutation()
-  async editMcQuestion() {
+  @UseMiddleware(questionMiddleware.verifyQuestionOwner)
+  @Mutation(() => AddQuestionResponse)
+  async editMcQuestion(
+    @Ctx() ctx: UserType.ContextT,
+    @Args() args: questionTg.EditMcQArgs
+  ): Promise<AddQuestionResponse> {
     try {
+      const { userId: owner } = ctx.req.session;
+
+      await questionModel.updateOne(
+        { $and: [{ _id: args.id }, { owner }] },
+        { $set: { ...args } }
+      );
+
+      return {
+        message: 'Updated successfully',
+      };
     } catch (error) {
       return errorResponse();
     }
