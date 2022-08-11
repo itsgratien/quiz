@@ -25,7 +25,7 @@ export class Attendant {
   phoneNumber: string;
 
   @Field()
-  @prop()
+  @prop({ type: String, unique: true })
   testUri: string;
 
   @Field(() => Test)
@@ -35,6 +35,12 @@ export class Attendant {
   @Field()
   @prop()
   status: AttendantStatus;
+
+  @Field({ nullable: true })
+  createdAt?: string;
+
+  @Field({ nullable: true })
+  updatedAt?: string;
 }
 
 export const attendantModel = getModelForClass(Attendant, {

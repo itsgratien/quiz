@@ -1,4 +1,6 @@
 import { ObjectType, ArgsType, Field } from 'type-graphql';
+import { Attendant } from '../Models/AttendantModel';
+import { CustomResponse } from './Test';
 
 @ArgsType()
 export class AddAttendantArgs {
@@ -10,4 +12,10 @@ export class AddAttendantArgs {
 
   @Field()
   phoneNumber: string;
+
+  @Field()
+  testId: string;
 }
+
+@ObjectType()
+export class AddAttendantResponse extends CustomResponse(Attendant) {}

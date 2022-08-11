@@ -1,9 +1,13 @@
 import { QuestionDocument, Question } from '@/server/Models/QuestionModel';
 import { User, UserDocument } from '@/server/Models/UserModel';
+import { Attendant, AttendantDocument } from '@/server/Models/AttendantModel';
 import { pick } from 'lodash';
 
 export class FormatHelper {
-  getQuestion(value: QuestionDocument | Question, showOwner?: boolean): Question {
+  getQuestion(
+    value: QuestionDocument | Question,
+    showOwner?: boolean
+  ): Question {
     return {
       _id: value._id,
       title: value.title,
@@ -39,6 +43,20 @@ export class FormatHelper {
       profilePicture: value.profilePicture,
       slug: value.slug,
       role: value.role,
+    };
+  }
+
+  getAttendant(value: Attendant | AttendantDocument): Attendant {
+    return {
+      _id: value._id,
+      names: value.names,
+      email: value.email,
+      phoneNumber: value.phoneNumber,
+      createdAt: value.createdAt,
+      updatedAt: value.updatedAt,
+      testUri: value.testUri,
+      testId: value.testId,
+      status: value.status,
     };
   }
 }
