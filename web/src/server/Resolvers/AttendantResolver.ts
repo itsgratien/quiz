@@ -20,8 +20,8 @@ export class AttendantResolver {
         message: 'Saved Successfully',
         data: format.getAttendant(add),
       };
-    } catch (error) {
-      return errorResponse(undefined, HttpCode.ServerError);
+    } catch (error: any) {
+      return errorResponse(error.message, HttpCode.ServerError);
     }
   }
 }

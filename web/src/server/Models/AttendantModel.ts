@@ -32,9 +32,12 @@ export class Attendant {
   @prop({ ref: () => Test })
   testId: typegoose.Ref<Test, string>;
 
-  @Field()
-  @prop()
-  status: AttendantStatus;
+  @Field(() => String, {
+    nullable: true,
+    defaultValue: AttendantStatus.Started,
+  })
+  @prop({ type: String, default: AttendantStatus.Started })
+  status?: AttendantStatus;
 
   @Field({ nullable: true })
   createdAt?: string;
