@@ -30,4 +30,7 @@ export const generatePagination = async (
   };
 };
 
-export const errorResponse = (error = 'Internal Server Error') => ({ error });
+export const errorResponse = (error?: string, status?: number) => ({
+  error: error || 'Internal Server Error',
+  status,
+});

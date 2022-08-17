@@ -16,11 +16,12 @@ import * as UserType from '@/generated/User';
 import {
   generateSlug,
   generatePagination,
-  errorResponse,
+  errorResponse
 } from '@/server/Helpers/SharedHelper';
 import format from '@/server/Helpers/FormatHelper';
 import * as questionTg from '@/server/TypeGraphql/Question';
 import * as questionMiddleware from '@/server/Middlewares/QuestionMiddleware';
+import { HttpCode } from '@/utils/HttpCode';
 
 @Resolver()
 export class QuestionResolver {
@@ -46,7 +47,7 @@ export class QuestionResolver {
         data: format.getQuestion(add),
       };
     } catch (error) {
-      return errorResponse();
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 
@@ -76,7 +77,7 @@ export class QuestionResolver {
         },
       };
     } catch (error) {
-      return errorResponse();
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 
@@ -91,7 +92,7 @@ export class QuestionResolver {
         data: format.getQuestion(find as QuestionDocument, false),
       };
     } catch (error) {
-      return errorResponse();
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 
@@ -114,7 +115,7 @@ export class QuestionResolver {
         message: 'Updated Successfully',
       };
     } catch (error) {
-      return errorResponse();
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 
@@ -137,7 +138,7 @@ export class QuestionResolver {
         message: 'Updated Successfully',
       };
     } catch (error) {
-      return errorResponse();
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 }

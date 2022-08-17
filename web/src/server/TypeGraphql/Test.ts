@@ -16,6 +16,9 @@ export function CustomResponse<Data>(DataClass: ClassType<Data>) {
 
     @Field({ nullable: true })
     message?: string;
+
+    @Field({ nullable: true })
+    status?: number;
   }
 
   return CustomResponseClass;

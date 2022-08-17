@@ -4,6 +4,7 @@ import { errorResponse } from '../Helpers/SharedHelper';
 import * as Usertype from '@/generated/User';
 import * as attendantTg from '../TypeGraphql/Attendant';
 import format from '../Helpers/FormatHelper';
+import { HttpCode } from '@/utils/HttpCode';
 
 @Resolver()
 export class AttendantResolver {
@@ -20,7 +21,7 @@ export class AttendantResolver {
         data: format.getAttendant(add),
       };
     } catch (error) {
-      return errorResponse();
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 }
