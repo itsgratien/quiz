@@ -16,7 +16,7 @@ import * as UserType from '@/generated/User';
 import {
   generateSlug,
   generatePagination,
-  errorResponse
+  errorResponse,
 } from '@/server/Helpers/SharedHelper';
 import format from '@/server/Helpers/FormatHelper';
 import * as questionTg from '@/server/TypeGraphql/Question';
@@ -141,4 +141,6 @@ export class QuestionResolver {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
+
+  private assignQuestionsToTheTest = (questionId: string, testId: string) => {};
 }

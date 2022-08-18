@@ -46,6 +46,8 @@ export class AttendantResolver extends AttendantHelper {
       }
 
       const add = await attendantModel.create(args);
+
+      await this.assignAttendantsToTest([String(add._id)], testId);
       return {
         message: 'Saved Successfully',
         data: format.getAttendant(add),
@@ -98,6 +100,11 @@ export class AttendantResolver extends AttendantHelper {
 
       const items = add.map((item) => format.getAttendant(item));
 
+      await this.assignAttendantsToTest(
+        items.map((item) => item._id),
+        testId
+      );
+
       return {
         message: 'Saved Successfuly',
         items,
@@ -106,4 +113,22 @@ export class AttendantResolver extends AttendantHelper {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
+
+  private assignAttendantsToTest = async (values: string[], testId: string) => {
+    const findTest = await testModel.findById(testId);
+
+    if (findTest) {
+      const storedAttendants = (findTest.attendants ?? []) as string[];
+
+      const change = await testModel.updateMany(
+        { _id: testId },
+        { $set: { attendants: [...storedAttendants, ...values] } }
+      );
+
+      if (change.modifiedCount !== 0) {
+        return true;
+      }
+    }
+    return false;
+  };
 }

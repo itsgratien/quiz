@@ -7,6 +7,7 @@ import typegoose, {
 } from '@typegoose/typegoose';
 import { TestStatus } from '@/generated/Enum';
 import { Question } from './QuestionModel';
+import { Attendant } from './AttendantModel';
 
 @ObjectType()
 export class Test {
@@ -47,11 +48,11 @@ export class Test {
 
   @Field(() => [Question || String], { nullable: true })
   @prop({ required: false, ref: () => Question })
-  questions?: typegoose.Ref<Question[], any>;
+  questions?: string[] | typegoose.Ref<Question[]>;
 
-  @Field(() => [String], { nullable: true })
-  @prop({ required: false })
-  attendants?: string[];
+  @Field(() => [Attendant || String], { nullable: true })
+  @prop({ required: false, ref: () => Attendant })
+  attendants?: string[] | typegoose.Ref<Attendant[]>;
 
   @Field({ nullable: true })
   @prop()
