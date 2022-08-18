@@ -1,11 +1,9 @@
-import { ObjectType, ArgsType, Field, UseMiddleware } from 'type-graphql';
+import { ObjectType, ArgsType, Field, InputType } from 'type-graphql';
 import { Attendant } from '../Models/AttendantModel';
 import { CustomResponse } from './Test';
 import { IsNotEmpty, IsEmail } from 'class-validator';
-import { verifyTest } from '@/server/Middlewares/AttendantMiddleware';
 
-@ArgsType()
-@ObjectType()
+@InputType()
 export class AddAttendantArgs {
   @Field()
   @IsNotEmpty()
@@ -19,11 +17,6 @@ export class AddAttendantArgs {
   @Field()
   @IsNotEmpty()
   phoneNumber: string;
-
-  @Field()
-  @IsNotEmpty()
-  @UseMiddleware(verifyTest)
-  testId: string;
 }
 
 @ObjectType()

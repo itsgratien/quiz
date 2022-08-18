@@ -24,9 +24,9 @@ export class Attendant {
   @prop()
   phoneNumber: string;
 
-  @Field()
-  @prop({ type: String, unique: true })
-  testUri: string;
+  @Field({ nullable: true })
+  @prop({ type: String, unique: true, required: false })
+  testUri?: string;
 
   @Field(() => Test)
   @prop({ ref: () => Test })
