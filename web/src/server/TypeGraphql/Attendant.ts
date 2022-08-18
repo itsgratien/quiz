@@ -21,3 +21,9 @@ export class AddAttendantArgs {
 
 @ObjectType()
 export class AddAttendantResponse extends CustomResponse(Attendant) {}
+
+@ObjectType()
+export class AddMoreAttendantResponse extends CustomResponse(Attendant) {
+  @Field(() => [Attendant], { nullable: true })
+  items?: Attendant[];
+}

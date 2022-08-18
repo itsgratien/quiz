@@ -56,13 +56,13 @@ export class AttendantResolver extends AttendantHelper {
   }
 
   @Authorized()
-  @Mutation(() => attendantTg.AddAttendantResponse)
+  @Mutation(() => attendantTg.AddMoreAttendantResponse)
   async addMoreAttendant(
     @Arg('args', (type) => [attendantTg.AddAttendantArgs])
     args: attendantTg.AddAttendantArgs[],
     @Arg('testId') testId: string,
     @Ctx() ctx: Usertype.ContextT
-  ): Promise<attendantTg.AddAttendantResponse> {
+  ): Promise<attendantTg.AddMoreAttendantResponse> {
     try {
       const { req } = ctx;
 
@@ -100,10 +100,10 @@ export class AttendantResolver extends AttendantHelper {
 
       return {
         message: 'Saved Successfuly',
-        data: items,
+        items,
       };
-    } catch (error: any) {
-      return errorResponse(error.message, HttpCode.ServerError);
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 }
