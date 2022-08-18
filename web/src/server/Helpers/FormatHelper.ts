@@ -1,6 +1,7 @@
 import { QuestionDocument, Question } from '@/server/Models/QuestionModel';
 import { User, UserDocument } from '@/server/Models/UserModel';
 import { Attendant, AttendantDocument } from '@/server/Models/AttendantModel';
+import { Test, TestDocument } from '@/server/Models/TestModel';
 import { pick } from 'lodash';
 
 export class FormatHelper {
@@ -55,8 +56,27 @@ export class FormatHelper {
       createdAt: value.createdAt,
       updatedAt: value.updatedAt,
       testUri: value.testUri,
-      testId: value.testId,
+      testId:
+        typeof value.testId === 'string' ? String(value.testId) : value.testId,
       status: value.status,
+    };
+  }
+
+  getTest(values: Test | TestDocument, allowManagerInfo?: boolean) {
+    return {
+      _id: values._id,
+      createdAt: values.createdAt,
+      updatedAt: values.updatedAt,
+      subject: values.subject,
+      title: values.title,
+      description: values.description,
+      status: values.status,
+      startDate: values.startDate,
+      endDate: values.endDate,
+      passMark: values.passMark,
+      managerId: allowManagerInfo ? values.managerId : undefined,
+      questions: values.questions,
+      attendants: values.attendants,
     };
   }
 }

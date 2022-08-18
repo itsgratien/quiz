@@ -1,9 +1,10 @@
-import { testModel, TestDocument, Test } from '@/server/Models/TestModel';
+import { testModel } from '@/server/Models/TestModel';
 import { Resolver, Args, Ctx, Mutation, Query, Authorized } from 'type-graphql';
 import * as TestTg from '@/server/TypeGraphql/Test';
 import * as UserType from '@/generated/User';
 import { HttpCode } from '@/utils/HttpCode';
 import { errorResponse } from '../Helpers/SharedHelper';
+import format from '@/server/Helpers/FormatHelper';
 
 @Resolver()
 export class TestResolver {
@@ -20,30 +21,11 @@ export class TestResolver {
         managerId: req.session.userId,
       });
       return {
-        data: this.handleTestResponse(add, true),
+        data: format.getTest(add, true),
         message: 'Saved successfully',
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
     }
-  }
-
-  handleTestResponse(values: TestDocument, allowManagerInfo?: boolean): Test {
-    return {
-      ...values,
-      _id: values._id,
-      createdAt: values.createdAt,
-      updatedAt: values.updatedAt,
-      subject: values.subject,
-      title: values.title,
-      description: values.description,
-      status: values.status,
-      startDate: values.startDate,
-      endDate: values.endDate,
-      passMark: values.passMark,
-      managerId: allowManagerInfo ? values.managerId : undefined,
-      questions: values.questions,
-      attendants: values.attendants,
-    };
   }
 }
