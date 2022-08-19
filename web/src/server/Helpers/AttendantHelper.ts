@@ -1,3 +1,4 @@
+import Cryptr from 'cryptr';
 import { AddAttendantArgs } from '../TypeGraphql/Attendant';
 
 export class AttendantHelper {
@@ -53,5 +54,17 @@ export class AttendantHelper {
     return duplicate.length > 0
       ? duplicate.map((item) => item.email).join(',')
       : undefined;
+  };
+
+  generateUniqueTestUri = (testId: string, attendantId: string) => {
+    const secretKey = process.env.SECRET_KEY || '';
+
+    const crypto = new Cryptr(secretKey);
+
+    const encryptTestId = crypto.encrypt(testId);
+
+    const encryptAttendantId = crypto.encrypt(attendantId);
+
+    return `http://localhost:4000/assessment/?test=${encryptTestId}&attendant=${encryptAttendantId}`;
   };
 }

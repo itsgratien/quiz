@@ -7,9 +7,10 @@ import { errorResponse } from '../Helpers/SharedHelper';
 import format from '@/server/Helpers/FormatHelper';
 import { attendantModel } from '../Models/AttendantModel';
 import { TestStatus } from '@/generated/Enum';
+import { AttendantHelper } from '../Helpers/AttendantHelper';
 
 @Resolver()
-export class TestResolver {
+export class TestResolver extends AttendantHelper {
   @Authorized()
   @Mutation(() => TestTg.AddTestResponse)
   async addTest(
@@ -48,14 +49,45 @@ export class TestResolver {
         return errorResponse('You are not allowed to perform this actions');
       }
 
-      await testModel.updateOne(
+      if (checkTest.status === TestStatus.Published) {
+        return errorResponse('Already Published');
+      }
+
+      const updateR = await testModel.updateOne(
         { _id: checkTest._id },
         { $set: { status: TestStatus.Published } }
       );
+
+      if (updateR.modifiedCount <= 0) {
+        return errorResponse('Unable To Publish Test');
+      }
+
+      const getAttendants = await attendantModel
+        .find({
+          $and: [{ testId: checkTest._id }, { testUri: undefined }],
+        })
+        .select('_id');
+
+      if (getAttendants && getAttendants.length > 0) {
+        // generate unique test uri of each attendant
+        for (const attendant of getAttendants) {
+          await attendantModel.updateOne(
+            { $and: [{ _id: attendant._id }, { testId: checkTest._id }] },
+            {
+              $set: {
+                testUri: this.generateUniqueTestUri(
+                  checkTest._id,
+                  attendant._id
+                ),
+              },
+            }
+          );
+        }
+      }
       return {
         message: 'Published Successfully',
       };
-    } catch (error) {
+    } catch (error: any) {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
