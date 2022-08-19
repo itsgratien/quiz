@@ -1,6 +1,7 @@
 import { Field, ObjectType, ClassType, ArgsType } from 'type-graphql';
 import { Test } from '@/server/Models/TestModel';
 import { ErrorsT } from './User';
+import { IsNotEmpty } from 'class-validator';
 
 export function CustomResponse<Data>(DataClass: ClassType<Data | [Data]>) {
   @ObjectType({ isAbstract: true })
@@ -56,3 +57,11 @@ export class DateCreation {
   @Field({ nullable: true })
   updatedAt?: string;
 }
+
+@ArgsType()
+export class PublishTestArgs {
+  @Field()
+  @IsNotEmpty()
+  testId: string;
+}
+
