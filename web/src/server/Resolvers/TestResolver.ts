@@ -8,6 +8,8 @@ import format from '@/server/Helpers/FormatHelper';
 import { attendantModel } from '../Models/AttendantModel';
 import { TestStatus } from '@/generated/Enum';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
+import { generatePagination } from '../Helpers/SharedHelper';
+import { PaginationArgs } from '../TypeGraphql/Question';
 
 @Resolver()
 export class TestResolver extends AttendantHelper {
@@ -26,6 +28,38 @@ export class TestResolver extends AttendantHelper {
       return {
         data: format.getTest(add, true),
         message: 'Saved successfully',
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @Authorized()
+  @Query(() => TestTg.GetMyTestResponse)
+  async getMyTests(
+    @Ctx() ctx: UserType.ContextT,
+    @Args() args: PaginationArgs
+  ): Promise<TestTg.GetMyTestResponse> {
+    try {
+      const { req } = ctx;
+
+      const filter = {
+        managerId: req.session.userId,
+      };
+
+      const pagination = await generatePagination(testModel, args, filter);
+
+      const find = await testModel
+        .find(filter)
+        .limit(pagination.limit)
+        .skip(pagination.offset);
+
+      return {
+        data: {
+          items: find.map((item) => format.getTest(item)),
+          totalDocs: pagination.totalDocs,
+          totalPages: pagination.totalPages,
+        },
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

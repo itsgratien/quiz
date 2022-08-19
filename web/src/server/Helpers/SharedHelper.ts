@@ -1,5 +1,4 @@
 import slugify from 'slugify';
-import { ModelType } from '@/generated/Shared';
 import { PaginationArgs } from '@/server/TypeGraphql/Question';
 
 export const generateSlug = (value: string) =>
@@ -9,14 +8,15 @@ export const generateSlug = (value: string) =>
   );
 
 export const generatePagination = async (
-  model: ModelType,
-  value: PaginationArgs
+  model: any,
+  value: PaginationArgs,
+  filter?: { [key: string]: string }
 ) => {
-  const totalDocs = await model.countDocuments();
+  const totalDocs = await model.find(filter || {}).countDocuments();
 
   const limit = value.limit || 15;
 
-  const page = value.page > 1 ? value.page - 1 : 0;
+  const page = value.page > 0 ? value.page - 1 : 0;
 
   const offset = limit * page;
 

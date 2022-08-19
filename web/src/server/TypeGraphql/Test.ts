@@ -2,6 +2,7 @@ import { Field, ObjectType, ClassType, ArgsType } from 'type-graphql';
 import { Test } from '@/server/Models/TestModel';
 import { ErrorsT } from './User';
 import { IsNotEmpty } from 'class-validator';
+import { GetPaginationResponse } from './Question';
 
 export function CustomResponse<Data>(DataClass: ClassType<Data | [Data]>) {
   @ObjectType({ isAbstract: true })
@@ -65,3 +66,19 @@ export class PublishTestArgs {
   testId: string;
 }
 
+@ArgsType()
+export class GetMyTestArgs {
+  @Field()
+  limit?: number;
+
+  @Field()
+  page: number;
+}
+
+@ObjectType()
+class MyTestResponse extends GetPaginationResponse {
+  @Field(() => [Test])
+  items: Test[];
+}
+@ObjectType()
+export class GetMyTestResponse extends CustomResponse(MyTestResponse) {}

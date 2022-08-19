@@ -32,15 +32,18 @@ export class AddMcQuestionArgs {
 }
 
 @ObjectType()
-class GetQuestionsResponseItem {
+export class GetPaginationResponse {
+  @Field({ nullable: true })
+  totalDocs?: number;
+
+  @Field({ nullable: true })
+  totalPages?: number;
+}
+
+@ObjectType()
+class GetQuestionsResponseItem extends GetPaginationResponse {
   @Field(() => [Question])
   items: Question[];
-
-  @Field()
-  totalDocs: number;
-
-  @Field()
-  totalPages: number;
 }
 
 @ObjectType()

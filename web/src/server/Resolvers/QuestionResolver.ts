@@ -73,10 +73,12 @@ export class QuestionResolver {
     try {
       const userId = ctx.req.session.userId;
 
-      const pagination = await generatePagination(questionModel, args);
+      const filter = { owner: userId };
+
+      const pagination = await generatePagination(questionModel, args, filter);
 
       const find = await questionModel
-        .find({ owner: userId })
+        .find(filter)
         .limit(pagination.limit)
         .skip(pagination.offset)
         .populate('owner')
