@@ -48,7 +48,7 @@ export class Test {
 
   @Field(() => [Question || String], { nullable: true })
   @prop({ required: false, ref: () => Question })
-  questions?: string[] | typegoose.Ref<Question[]>;
+  questions?: string[] | typegoose.Ref<Question[], any>;
 
   @Field(() => [Attendant || String], { nullable: true })
   @prop({ required: false, ref: () => Attendant })

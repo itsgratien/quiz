@@ -1,7 +1,7 @@
 import { Field, ArgsType, ObjectType } from 'type-graphql';
 import { CustomResponse } from './Test';
 import { Question } from '@/server/Models/QuestionModel';
-import { IsNotEmpty, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsArray } from 'class-validator';
 import { TestStatus } from '@/generated/Enum';
 
 @ObjectType()
@@ -10,16 +10,25 @@ export class AddQuestionResponse extends CustomResponse(Question) {}
 @ArgsType()
 export class AddMcQuestionArgs {
   @Field()
+  @IsNotEmpty()
   title: string;
 
   @Field(() => [String])
+  @IsArray()
   choices: string[];
 
   @Field(() => [String])
+  @IsArray()
   answers: string[];
 
   @Field()
   description: string;
+
+  @Field({ nullable: true })
+  testId?: string;
+
+  @Field({ nullable: true })
+  assignToTest?: boolean;
 }
 
 @ObjectType()
