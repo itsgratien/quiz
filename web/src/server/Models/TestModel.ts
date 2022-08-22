@@ -10,13 +10,17 @@ import { Question } from './QuestionModel';
 import { Attendant } from './AttendantModel';
 
 @ObjectType()
-class Questions {
-  @Field()
-  _id: string;
-
+export class TestQuestion {
   @Field(() => Question || String)
   @prop({ ref: () => Question })
   question: typegoose.Ref<Question, string>;
+}
+
+@ObjectType()
+export class TestAttendant {
+  @Field(() => Attendant || String)
+  @prop({ ref: () => Attendant, required: true })
+  attendant: typegoose.Ref<Attendant, string>;
 }
 
 @ObjectType()
@@ -56,13 +60,13 @@ export class Test {
   @prop()
   endDate: string;
 
-  @Field(() => [Questions], { nullable: true })
+  @Field(() => [TestQuestion], { nullable: true })
   @prop({ required: false })
-  questions?: Questions[];
+  questions?: TestQuestion[];
 
-  @Field(() => [Attendant || String], { nullable: true })
-  @prop({ required: false, ref: () => Attendant })
-  attendants?: string[] | typegoose.Ref<Attendant[]>;
+  @Field(() => [TestAttendant], { nullable: true })
+  @prop({ required: false })
+  attendants?: TestAttendant[];
 
   @Field({ nullable: true })
   @prop()

@@ -5,7 +5,6 @@ import {
   Authorized,
   Args,
   Ctx,
-  UseMiddleware,
   Arg,
 } from 'type-graphql';
 import { attendantModel } from '../Models/AttendantModel';
@@ -16,6 +15,7 @@ import format from '../Helpers/FormatHelper';
 import { HttpCode } from '@/utils/HttpCode';
 import { testModel } from '@/server/Models/TestModel';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
+import { AssignAttendantToTestArgs } from '@/generated/Attendant';
 
 @Resolver()
 export class AttendantResolver extends AttendantHelper {
@@ -47,7 +47,7 @@ export class AttendantResolver extends AttendantHelper {
 
       const add = await attendantModel.create(args);
 
-      await this.assignAttendantsToTest([String(add._id)], testId);
+      await this.assignAttendantsToTest([{ attendant: add._id }], testId);
       return {
         message: 'Saved Successfully',
         data: format.getAttendant(add),
@@ -101,7 +101,7 @@ export class AttendantResolver extends AttendantHelper {
       const items = add.map((item) => format.getAttendant(item));
 
       await this.assignAttendantsToTest(
-        items.map((item) => item._id),
+        items.map((item) => ({ attendant: String(item._id) })),
         testId
       );
 
@@ -109,16 +109,19 @@ export class AttendantResolver extends AttendantHelper {
         message: 'Saved Successfuly',
         items,
       };
-    } catch (error) {
-      return errorResponse(undefined, HttpCode.ServerError);
+    } catch (error: any) {
+      return errorResponse(error.message, HttpCode.ServerError);
     }
   }
 
-  private assignAttendantsToTest = async (values: string[], testId: string) => {
+  private assignAttendantsToTest = async (
+    values: AssignAttendantToTestArgs[],
+    testId: string
+  ) => {
     const findTest = await testModel.findById(testId);
 
     if (findTest) {
-      const storedAttendants = (findTest.attendants ?? []) as string[];
+      const storedAttendants = findTest.attendants || [];
 
       const change = await testModel.updateMany(
         { _id: testId },

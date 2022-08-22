@@ -1,0 +1,15 @@
+mutation AddMoreAttendant($args: [AddAttendantArgs!]!, $testId: String!) {
+  addMoreAttendant(args: $args, testId: $testId) {
+    data
+    message
+    error
+    items {
+      _id
+      names
+      email
+      phoneNumber
+      createdAt
+      updatedAt
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { Question } from '@/server/Models/QuestionModel';
 import { User } from '@/server/Models/UserModel';
 import { Attendant } from '@/server/Models/AttendantModel';
-import { Test, TestDocument } from '@/server/Models/TestModel';
+import { Test } from '@/server/Models/TestModel';
 import { pick } from 'lodash';
 
 export class FormatHelper {
@@ -59,8 +59,8 @@ export class FormatHelper {
     };
   }
 
-  getTest(values: Test | TestDocument, allowManagerInfo?: boolean) {
-    const { questions } = values;
+  getTest(values: Test, allowManagerInfo?: boolean) {
+    const { questions, attendants } = values;
     return {
       _id: values._id,
       createdAt: values.createdAt,
@@ -77,12 +77,18 @@ export class FormatHelper {
         questions &&
         questions.length > 0 &&
         questions.map((item) => ({
-          _id: item._id,
           question:
             typeof item.question === 'object' &&
             this.getQuestion(item.question),
         })),
-      attendants: values.attendants,
+      attendants:
+        attendants &&
+        attendants.length > 0 &&
+        attendants.map((item) => ({
+          attendant:
+            typeof item.attendant === 'object' &&
+            this.getAttendant(item.attendant),
+        })),
     };
   }
 }

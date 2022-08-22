@@ -4,14 +4,14 @@ import { ErrorsT } from './User';
 import { IsNotEmpty } from 'class-validator';
 import { GetPaginationResponse } from './Question';
 
-export function CustomResponse<Data>(DataClass: ClassType<Data | [Data]>) {
+export function CustomResponse<Data>(DataClass: ClassType<Data>) {
   @ObjectType({ isAbstract: true })
   abstract class CustomResponseClass {
     @Field(() => [ErrorsT], { nullable: true })
     errors?: ErrorsT[];
 
-    @Field(() => DataClass || [DataClass], { nullable: true })
-    data?: Data | Data[];
+    @Field(() => DataClass, { nullable: true })
+    data?: Data;
 
     @Field({ nullable: true })
     error?: string;

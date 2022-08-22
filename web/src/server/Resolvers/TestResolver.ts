@@ -53,7 +53,8 @@ export class TestResolver extends AttendantHelper {
         .find(filter)
         .limit(pagination.limit)
         .skip(pagination.offset)
-        .populate({ path: 'questions.question', model: 'Question' });
+        .populate({ path: 'questions.question', model: 'Question' })
+        .populate({ path: 'attendants.attendant', model: 'Attendant' });
 
       return {
         data: {
