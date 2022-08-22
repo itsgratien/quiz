@@ -6,6 +6,7 @@ import { questionModel } from '@/server/Models/QuestionModel';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { HttpCode } from '@/utils/HttpCode';
 import { decryptFunc } from '@/server/Helpers/SharedHelper';
+import { answerModel } from '@/server/Models/AnswerModel';
 
 export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
   { args },
@@ -24,8 +25,9 @@ export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
     const checkQuestion = await questionModel.findById(args.question);
 
     const findTestQuestion =
-      checkTest.questions?.find((item) => item.question === args.question) ??
-      undefined;
+      checkTest.questions?.find(
+        (item) => String(item.question) === args.question
+      ) ?? undefined;
 
     if (!checkQuestion || !findTestQuestion) {
       return errorResponse('Question Not Found');
@@ -41,6 +43,18 @@ export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
 
     if (!checkAttendant || !checkTestAttendant) {
       return errorResponse('You are not allowed to do test');
+    }
+
+    const checkDuplicateAnswer = await answerModel.findOne({
+      $and: [
+        { question: checkQuestion._id },
+        { testId },
+        { attendant: attendantId },
+      ],
+    });
+
+    if (checkDuplicateAnswer) {
+      return errorResponse('Question Already Answered');
     }
 
     return next();

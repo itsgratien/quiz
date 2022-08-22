@@ -1,10 +1,4 @@
-import {
-  Resolver,
-  Mutation,
-  UseMiddleware,
-  Args,
-  Arg,
-} from 'type-graphql';
+import { Resolver, Mutation, UseMiddleware, Args } from 'type-graphql';
 import { answerModel } from '@/server/Models/AnswerModel';
 import { errorResponse, decryptFunc } from '@/server/Helpers/SharedHelper';
 import { HttpCode } from '@/utils/HttpCode';
@@ -12,6 +6,8 @@ import * as AnswerTg from '@/server/TypeGraphql/Answer';
 import * as AnswerMiddleware from '@/server/Middlewares/AnswerMiddleware';
 import { questionModel } from '@/server/Models/QuestionModel';
 import { AnswerHelper } from '@/server/Helpers/AnswerHelper';
+import { attendantModel } from '@/server/Models/AttendantModel';
+import { AttendantStatus } from '@/generated/Enum';
 
 @Resolver()
 export class AnswerResolver extends AnswerHelper {
@@ -30,23 +26,29 @@ export class AnswerResolver extends AnswerHelper {
       if (!getQuestion) {
         return errorResponse('Question Not Found');
       }
+
       const grade = this.getMCQGrade(
         getQuestion.answers as string[],
         args.answers
       );
 
-    //   await answerModel.create({
-    //     grade,
-    //     question: getQuestion._id,
-    //     testId,
-    //     attendant: attendantId,
-    //     answers: args.answers,
-    //   });
+      await answerModel.create({
+        grade,
+        question: getQuestion._id,
+        testId,
+        attendant: attendantId,
+        answers: args.answers,
+      });
+
+      await attendantModel.updateOne(
+        { _id: attendantId },
+        { $set: { status: AttendantStatus.InProgress } }
+      );
       return {
         message: 'Saved Successfully',
       };
-    } catch (error: any) {
-      return errorResponse(error.message, HttpCode.ServerError);
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 }
