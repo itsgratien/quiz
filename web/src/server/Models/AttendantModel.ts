@@ -29,8 +29,8 @@ export class Attendant {
   testUri?: string;
 
   @Field(() => Test || String)
-  @prop({ ref: () => Test })
-  testId: typegoose.Ref<Test, string>;
+  @prop({ ref: () => 'Test' })
+  testId: string;
 
   @Field(() => String, {
     nullable: true,

@@ -165,13 +165,16 @@ export class QuestionResolver {
 
     if (findTest) {
       const checkQuestion = await testModel.findOne({
-        $and: [{ _id: testId }, { questions: { $in: [questionId] } }],
+        $and: [
+          { _id: testId },
+          { questions: { $in: [{ question: questionId }] } },
+        ],
       });
 
       if (!checkQuestion) {
         const update = await testModel.updateOne(
           { _id: testId },
-          { $push: { questions: questionId } }
+          { $push: { questions: { question: questionId } } }
         );
 
         if (update.modifiedCount > 0) {

@@ -1,14 +1,11 @@
-import { QuestionDocument, Question } from '@/server/Models/QuestionModel';
-import { User, UserDocument } from '@/server/Models/UserModel';
-import { Attendant, AttendantDocument } from '@/server/Models/AttendantModel';
+import { Question } from '@/server/Models/QuestionModel';
+import { User } from '@/server/Models/UserModel';
+import { Attendant } from '@/server/Models/AttendantModel';
 import { Test, TestDocument } from '@/server/Models/TestModel';
 import { pick } from 'lodash';
 
 export class FormatHelper {
-  getQuestion(
-    value: QuestionDocument | Question,
-    showOwner?: boolean
-  ): Question {
+  getQuestion(value: Question, showOwner?: boolean): Question {
     return {
       _id: value._id,
       title: value.title,
@@ -34,7 +31,7 @@ export class FormatHelper {
   getQuestionOwner = (value: User, fields: string[]): Partial<User> =>
     pick(value, fields);
 
-  getUser(value: User | UserDocument): User {
+  getUser(value: User): User {
     return {
       _id: value._id,
       username: value.username,
@@ -47,7 +44,7 @@ export class FormatHelper {
     };
   }
 
-  getAttendant(value: Attendant | AttendantDocument): Attendant {
+  getAttendant(value: Attendant): Attendant {
     return {
       _id: value._id,
       names: value.names,
@@ -63,6 +60,7 @@ export class FormatHelper {
   }
 
   getTest(values: Test | TestDocument, allowManagerInfo?: boolean) {
+    const { questions } = values;
     return {
       _id: values._id,
       createdAt: values.createdAt,
@@ -75,7 +73,15 @@ export class FormatHelper {
       endDate: values.endDate,
       passMark: values.passMark,
       managerId: allowManagerInfo ? values.managerId : undefined,
-      questions: values.questions,
+      questions:
+        questions &&
+        questions.length > 0 &&
+        questions.map((item) => ({
+          _id: item._id,
+          question:
+            typeof item.question === 'object' &&
+            this.getQuestion(item.question),
+        })),
       attendants: values.attendants,
     };
   }

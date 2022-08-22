@@ -1,0 +1,12 @@
+mutation AddMcQuestion($title: String!, $description: String, 
+$choices: [String!]!, $answers: [String!]!, $testId: String, 
+$assignToTest: Boolean){
+  setupMultipleChoiceQuestion(title: $title, description: $description, 
+  testId: $testId, choices: $choices, answers: $answers,
+  assignToTest: $assignToTest
+  ){
+    error
+    data
+    message
+  }
+}

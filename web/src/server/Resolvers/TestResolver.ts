@@ -52,7 +52,8 @@ export class TestResolver extends AttendantHelper {
       const find = await testModel
         .find(filter)
         .limit(pagination.limit)
-        .skip(pagination.offset);
+        .skip(pagination.offset)
+        .populate({ path: 'questions.question', model: 'Question' });
 
       return {
         data: {

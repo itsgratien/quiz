@@ -21,8 +21,8 @@ export class AddMcQuestionArgs {
   @IsArray()
   answers: string[];
 
-  @Field()
-  description: string;
+  @Field({ nullable: true })
+  description?: string;
 
   @Field({ nullable: true })
   testId?: string;

@@ -1,0 +1,22 @@
+query GetMyTests($limit: Float, $page: Float!) {
+  getMyTests(limit: $limit, page: $page) {
+    data {
+      items {
+        _id
+        title
+        createdAt
+        updatedAt
+        questions {
+          question {
+            _id
+            title
+            createdAt
+            updatedAt
+          }
+        }
+      }
+      totalDocs
+      totalPages
+    }
+  }
+}

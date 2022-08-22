@@ -10,6 +10,16 @@ import { Question } from './QuestionModel';
 import { Attendant } from './AttendantModel';
 
 @ObjectType()
+class Questions {
+  @Field()
+  _id: string;
+
+  @Field(() => Question || String)
+  @prop({ ref: () => Question })
+  question: typegoose.Ref<Question, string>;
+}
+
+@ObjectType()
 export class Test {
   @Field()
   _id: string;
@@ -46,9 +56,9 @@ export class Test {
   @prop()
   endDate: string;
 
-  @Field(() => [Question || String], { nullable: true })
-  @prop({ required: false, ref: () => Question })
-  questions?: string[] | typegoose.Ref<Question[], any>;
+  @Field(() => [Questions], { nullable: true })
+  @prop({ required: false })
+  questions?: Questions[];
 
   @Field(() => [Attendant || String], { nullable: true })
   @prop({ required: false, ref: () => Attendant })
