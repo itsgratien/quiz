@@ -1,22 +1,26 @@
-import typegoose, {
-  prop,
-  DocumentType,
-  getModelForClass,
-} from '@typegoose/typegoose';
 import { ObjectType, Field } from 'type-graphql';
-import { Test } from './TestModel';
-import { DateCreation } from '@/server/TypeGraphql/Test';
-import { Attendant } from './AttendantModel';
+import { prop, getModelForClass } from '@typegoose/typegoose';
+import typegoose from '@typegoose/typegoose';
 import { Question } from './QuestionModel';
+import { Attendant } from './AttendantModel';
+import { Test } from './TestModel';
 
 @ObjectType()
-class AnswerQuestion {
+export class Answer {
   @Field()
   _id: string;
 
-  @Field(() => [Question || String])
+  @Field(() => Question || String)
   @prop({ ref: () => Question })
-  questionId: typegoose.Ref<Question | string>;
+  question: typegoose.Ref<Question | string>;
+
+  @Field(() => Attendant || String)
+  @prop({ ref: () => Attendant })
+  attendant: typegoose.Ref<Attendant | string>;
+
+  @Field(() => Test || String)
+  @prop({ ref: () => Test })
+  testId: typegoose.Ref<Test | string>;
 
   @Field(() => [String])
   @prop()
@@ -24,36 +28,21 @@ class AnswerQuestion {
 
   @Field()
   @prop()
-  marks: string;
-}
+  grade: string;
 
-@ObjectType()
-export class Answer {
-  @Field()
-  _id: string;
-
-  @Field()
+  @Field({ nullable: true })
   @prop()
-  overralgrade: string;
+  video?: string;
 
-  @Field(() => Attendant || String, { nullable: false })
-  @prop({ ref: () => Attendant })
-  attendant?: typegoose.Ref<Attendant, string>;
+  @Field({ nullable: true })
+  createdAt?: string;
 
-  @Field(() => Test)
-  @prop({ ref: () => Test })
-  testId: typegoose.Ref<Test, string>;
-
-  @Field(() => [AnswerQuestion || String])
-  @prop()
-  questions: AnswerQuestion[];
-
-  @Field()
-  @prop()
-  video: string;
+  @Field({ nullable: true })
+  updatedAt?: string;
 }
 
 export const answerModel = getModelForClass(Answer, {
-  schemaOptions: { timestamps: true },
+  schemaOptions: {
+    timestamps: true,
+  },
 });
-export type AnswerDocument = DocumentType<Answer>;
