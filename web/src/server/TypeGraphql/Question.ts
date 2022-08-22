@@ -41,7 +41,10 @@ export class GetPaginationResponse {
 }
 
 @ObjectType()
-export class GetQuestionsResponse extends CustomResponse(Question) {}
+export class GetQuestionsResponse extends CustomResponse(Question) {
+  @Field(() => [Question], { nullable: true })
+  items?: Question[];
+}
 
 @ObjectType()
 @ArgsType()

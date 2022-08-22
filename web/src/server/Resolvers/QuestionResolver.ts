@@ -85,7 +85,7 @@ export class QuestionResolver {
         .sort({ updatedAt: -1 });
 
       return {
-        data: find.map((item) => format.getQuestion(item)),
+        items: find.map((item) => format.getQuestion(item)),
         totalPages: pagination.totalPages,
         totalDocs: pagination.totalDocs,
       };
@@ -99,7 +99,17 @@ export class QuestionResolver {
     @Args() arg: questionTg.GetQuestionArgs
   ): Promise<questionTg.GetQuestionResponse> {
     try {
-      const find = await questionModel.findOne({ slug: arg.id });
+      const findBySlug = await questionModel.findOne({ slug: arg.id });
+
+      let find = findBySlug;
+
+      if (!findBySlug) {
+        find = await questionModel.findById(arg.id);
+      }
+
+      if (!find) {
+        return errorResponse('Question Not Found');
+      }
 
       return {
         data: format.getQuestion(find, false),

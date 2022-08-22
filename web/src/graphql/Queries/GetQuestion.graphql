@@ -1,5 +1,5 @@
-query GetQuestion($limit: Float!, $page: Float!) {
-  getQuestion(limit: $limit, page: $page) {
+query GetQuestion($id: String!) {
+  getQuestion(id: $id) {
     data {
       _id
       title

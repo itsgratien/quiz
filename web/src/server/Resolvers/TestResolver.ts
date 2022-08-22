@@ -1,4 +1,4 @@
-import { testModel } from '@/server/Models/TestModel';
+import { testModel, Test } from '@/server/Models/TestModel';
 import { Resolver, Args, Ctx, Mutation, Query, Authorized } from 'type-graphql';
 import * as TestTg from '@/server/TypeGraphql/Test';
 import * as UserType from '@/generated/User';
@@ -26,7 +26,7 @@ export class TestResolver extends AttendantHelper {
         managerId: req.session.userId,
       });
       return {
-        data: format.getTest(add, true),
+        data: format.getTest(add, true) as Test,
         message: 'Saved successfully',
       };
     } catch (error) {
@@ -57,11 +57,9 @@ export class TestResolver extends AttendantHelper {
         .populate({ path: 'attendants.attendant', model: 'Attendant' });
 
       return {
-        data: {
-          items: find.map((item) => format.getTest(item)),
-          totalDocs: pagination.totalDocs,
-          totalPages: pagination.totalPages,
-        },
+        items: find.map((item) => format.getTest(item)) as Test[],
+        totalDocs: pagination.totalDocs,
+        totalPages: pagination.totalPages,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

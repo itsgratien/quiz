@@ -2,16 +2,15 @@ import { Field, ObjectType, ClassType, ArgsType } from 'type-graphql';
 import { Test } from '@/server/Models/TestModel';
 import { ErrorsT } from './User';
 import { IsNotEmpty } from 'class-validator';
-import { GetPaginationResponse } from './Question';
 
 export function CustomResponse<Data>(DataClass: ClassType<Data>) {
   @ObjectType({ isAbstract: true })
-  abstract class CustomResponseClass extends GetPaginationResponse {
+  abstract class CustomResponseClass {
     @Field(() => [ErrorsT], { nullable: true })
     errors?: ErrorsT[];
 
-    @Field(() => DataClass || [DataClass], { nullable: true })
-    data?: Data | Data[];
+    @Field(() => DataClass, { nullable: true })
+    data?: Data;
 
     @Field({ nullable: true })
     error?: string;
@@ -21,6 +20,12 @@ export function CustomResponse<Data>(DataClass: ClassType<Data>) {
 
     @Field({ nullable: true })
     status?: number;
+
+    @Field({ nullable: true })
+    totalDocs?: number;
+
+    @Field({ nullable: true })
+    totalPages?: number;
   }
 
   return CustomResponseClass;
@@ -50,15 +55,6 @@ export class AddTestArgs {
   endDate: string;
 }
 
-@ObjectType()
-export class DateCreation {
-  @Field({ nullable: true })
-  createdAt?: string;
-
-  @Field({ nullable: true })
-  updatedAt?: string;
-}
-
 @ArgsType()
 export class PublishTestArgs {
   @Field()
@@ -76,9 +72,7 @@ export class GetMyTestArgs {
 }
 
 @ObjectType()
-class MyTestResponse extends GetPaginationResponse {
-  @Field(() => [Test])
-  items: Test[];
+export class GetMyTestResponse extends CustomResponse(Test) {
+  @Field(() => [Test], { nullable: true })
+  items?: Test[];
 }
-@ObjectType()
-export class GetMyTestResponse extends CustomResponse(MyTestResponse) {}
