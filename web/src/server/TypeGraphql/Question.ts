@@ -41,15 +41,7 @@ export class GetPaginationResponse {
 }
 
 @ObjectType()
-class GetQuestionsResponseItem extends GetPaginationResponse {
-  @Field(() => [Question])
-  items: Question[];
-}
-
-@ObjectType()
-export class GetQuestionsResponse extends CustomResponse(
-  GetQuestionsResponseItem
-) {}
+export class GetQuestionsResponse extends CustomResponse(Question) {}
 
 @ObjectType()
 @ArgsType()
@@ -89,3 +81,18 @@ export class EditQuestionStatusArgs {
   @IsEnum(TestStatus)
   status: string;
 }
+
+@ArgsType()
+export class AddQuestionToTestArgs {
+  @Field()
+  test: string;
+
+  @Field()
+  question: string;
+}
+
+@ObjectType()
+export class AddQuestionToTestResponse extends CustomResponse(Question) {}
+
+@ObjectType()
+export class GetMyQuestionResponse extends CustomResponse(Question) {}

@@ -5,13 +5,18 @@ import { testModel } from '@/server/Models/TestModel';
 import { questionModel } from '@/server/Models/QuestionModel';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { HttpCode } from '@/utils/HttpCode';
+import { decryptFunc } from '@/server/Helpers/SharedHelper';
 
 export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
   { args },
   next
 ) => {
   try {
-    const checkTest = await testModel.findById(args.test);
+    const testId = decryptFunc(args.test);
+
+    const attendantId = decryptFunc(args.attendant);
+
+    const checkTest = await testModel.findById(testId);
 
     if (!checkTest) {
       return errorResponse('Test Not Found');
@@ -27,11 +32,11 @@ export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
     }
 
     const checkAttendant = await attendantModel.findOne({
-      $and: [{ _id: args.attendant }, { testId: checkTest._id }],
+      $and: [{ _id: attendantId }, { testId: checkTest._id }],
     });
 
     const checkTestAttendant =
-      checkTest.attendants?.find((item) => item.attendant === args.attendant) ??
+      checkTest.attendants?.find((item) => item.attendant === attendantId) ??
       undefined;
 
     if (!checkAttendant || !checkTestAttendant) {
@@ -39,7 +44,7 @@ export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
     }
 
     return next();
-  } catch (error: any) {
-    return errorResponse(error.message, HttpCode.ServerError);
+  } catch (error) {
+    return errorResponse(undefined, HttpCode.ServerError);
   }
 };

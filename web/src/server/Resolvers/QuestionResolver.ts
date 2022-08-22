@@ -11,7 +11,7 @@ import {
   AddQuestionResponse,
   AddMcQuestionArgs,
 } from '@/server/TypeGraphql/Question';
-import { questionModel, QuestionDocument } from '@/server/Models/QuestionModel';
+import { questionModel } from '@/server/Models/QuestionModel';
 import * as UserType from '@/generated/User';
 import {
   generateSlug,
@@ -69,7 +69,7 @@ export class QuestionResolver {
   async getQuestions(
     @Ctx() ctx: UserType.ContextT,
     @Args() args: questionTg.GetQuestionsArgs
-  ) {
+  ): Promise<questionTg.GetQuestionsResponse> {
     try {
       const userId = ctx.req.session.userId;
 
@@ -85,11 +85,9 @@ export class QuestionResolver {
         .sort({ updatedAt: -1 });
 
       return {
-        data: {
-          items: find.map((item) => format.getQuestion(item)),
-          totalDocs: pagination.totalDocs,
-          totalPages: pagination.totalPages,
-        },
+        data: find.map((item) => format.getQuestion(item)),
+        totalPages: pagination.totalPages,
+        totalDocs: pagination.totalDocs,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
@@ -104,7 +102,7 @@ export class QuestionResolver {
       const find = await questionModel.findOne({ slug: arg.id });
 
       return {
-        data: format.getQuestion(find as QuestionDocument, false),
+        data: format.getQuestion(find, false),
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
@@ -185,4 +183,46 @@ export class QuestionResolver {
 
     return false;
   };
+
+  @Authorized()
+  @Mutation(() => questionTg.AddQuestionToTestResponse)
+  async addQuestionToTest(
+    @Args() args: questionTg.AddQuestionToTestArgs,
+    @Ctx() ctx: UserType.ContextT
+  ): Promise<questionTg.AddQuestionToTestResponse> {
+    try {
+      const { question, test } = args;
+
+      const { req } = ctx;
+
+      const findQuestion = await questionModel.findOne({
+        $and: [{ _id: question }, { owner: req.session.userId }],
+      });
+
+      if (!findQuestion) {
+        return errorResponse('Question Not Found');
+      }
+
+      const findTest = await testModel.findById(test);
+
+      if (!findTest) {
+        return errorResponse('Test Not Found');
+      }
+
+      const assign = await this.assignQuestionsToTheTest(
+        findQuestion._id,
+        findTest._id
+      );
+
+      if (!assign) {
+        return errorResponse('Unable to assign question to a test');
+      }
+
+      return {
+        message: 'Saved Successfully',
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
 }

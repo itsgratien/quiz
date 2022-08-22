@@ -1,0 +1,20 @@
+query GetQuestions($limit: Float!, $page: Float!) {
+  getQuestions(limit: $limit, page: $page) {
+    data {
+      _id
+      title
+      type
+      createdAt
+      updatedAt
+      slug
+      status
+      answers
+      choices
+      description
+    }
+    totalDocs
+    totalPages
+    error
+    message
+  }
+}

@@ -6,12 +6,12 @@ import { GetPaginationResponse } from './Question';
 
 export function CustomResponse<Data>(DataClass: ClassType<Data>) {
   @ObjectType({ isAbstract: true })
-  abstract class CustomResponseClass {
+  abstract class CustomResponseClass extends GetPaginationResponse {
     @Field(() => [ErrorsT], { nullable: true })
     errors?: ErrorsT[];
 
-    @Field(() => DataClass, { nullable: true })
-    data?: Data;
+    @Field(() => DataClass || [DataClass], { nullable: true })
+    data?: Data | Data[];
 
     @Field({ nullable: true })
     error?: string;
