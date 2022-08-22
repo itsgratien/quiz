@@ -1,12 +1,4 @@
-import {
-  Resolver,
-  Mutation,
-  Query,
-  Authorized,
-  Args,
-  Ctx,
-  Arg,
-} from 'type-graphql';
+import { Resolver, Mutation, Authorized, Ctx, Arg } from 'type-graphql';
 import { attendantModel } from '../Models/AttendantModel';
 import { errorResponse } from '../Helpers/SharedHelper';
 import * as Usertype from '@/generated/User';
@@ -52,8 +44,8 @@ export class AttendantResolver extends AttendantHelper {
         message: 'Saved Successfully',
         data: format.getAttendant(add),
       };
-    } catch (error: any) {
-      return errorResponse(error.message, HttpCode.ServerError);
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 
@@ -109,8 +101,8 @@ export class AttendantResolver extends AttendantHelper {
         message: 'Saved Successfuly',
         items,
       };
-    } catch (error: any) {
-      return errorResponse(error.message, HttpCode.ServerError);
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 

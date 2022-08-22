@@ -1,0 +1,17 @@
+mutation AnswerMcQuestion(
+  $question: String!
+  $test: String!
+  $attendant: String!
+  $answers: [String!]!
+) {
+  answerMcQuestion(
+    question: $question
+    test: $test
+    attendant: $attendant
+    answers: $answers
+  ) {
+    message
+    error
+    errors
+  }
+}
