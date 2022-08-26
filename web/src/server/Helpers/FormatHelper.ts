@@ -25,6 +25,7 @@ export class FormatHelper {
               'email',
             ]) as User)
           : undefined,
+      points: value.points,
     };
   }
 

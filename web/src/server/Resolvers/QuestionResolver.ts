@@ -44,6 +44,7 @@ export class QuestionResolver {
         choices: args.choices,
         slug: generateSlug(args.title),
         status: args.assignToTest ? TestStatus.Published : TestStatus.Draft,
+        points: args.points
       });
 
       if (args.testId && args.assignToTest) {

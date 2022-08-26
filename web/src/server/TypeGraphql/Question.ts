@@ -29,6 +29,9 @@ export class AddMcQuestionArgs {
 
   @Field({ nullable: true })
   assignToTest?: boolean;
+
+  @Field()
+  points: number;
 }
 
 @ObjectType()

@@ -44,6 +44,10 @@ export class Question {
   @prop({ type: [String] })
   answers?: string[];
 
+  @Field()
+  @prop()
+  points: number;
+
   @Field({ nullable: true })
   createdAt?: string;
 
