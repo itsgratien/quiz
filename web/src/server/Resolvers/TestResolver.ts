@@ -8,7 +8,7 @@ import format from '@/server/Helpers/FormatHelper';
 import { attendantModel } from '../Models/AttendantModel';
 import { TestStatus } from '@/generated/Enum';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
-import { generatePagination } from '../Helpers/SharedHelper';
+import { generatePagination, generateSlug } from '../Helpers/SharedHelper';
 import { PaginationArgs } from '../TypeGraphql/Question';
 
 @Resolver()
@@ -24,6 +24,7 @@ export class TestResolver extends AttendantHelper {
       const add = await testModel.create({
         ...args,
         managerId: req.session.userId,
+        slug: generateSlug(args.title)
       });
       return {
         data: format.getTest(add, true) as Test,

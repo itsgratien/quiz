@@ -90,6 +90,7 @@ export class FormatHelper {
             typeof item.attendant === 'object' &&
             this.getAttendant(item.attendant),
         })),
+      slug: values.slug,
     };
   }
 }
