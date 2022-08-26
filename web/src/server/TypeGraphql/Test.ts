@@ -76,3 +76,6 @@ export class GetMyTestResponse extends CustomResponse(Test) {
   @Field(() => [Test], { nullable: true })
   items?: Test[];
 }
+
+@ObjectType()
+export class GetSingleTestResponse extends CustomResponse(Test) {}

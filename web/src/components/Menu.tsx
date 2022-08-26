@@ -70,7 +70,7 @@ export const Menu = () => {
             >
               <Icon icon="carbon:add" fontSize={40} />
             </button>
-            {/* <button
+            <button
             type="button"
             className={classname(
               'font-bold outline-none focus:outline-none',
@@ -78,7 +78,7 @@ export const Menu = () => {
             )}
           >
             Logout
-          </button> */}
+          </button>
           </div>
         </div>
       </div>

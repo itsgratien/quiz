@@ -1,5 +1,13 @@
 import { testModel, Test } from '@/server/Models/TestModel';
-import { Resolver, Args, Ctx, Mutation, Query, Authorized } from 'type-graphql';
+import {
+  Resolver,
+  Args,
+  Ctx,
+  Mutation,
+  Query,
+  Authorized,
+  Arg,
+} from 'type-graphql';
 import * as TestTg from '@/server/TypeGraphql/Test';
 import * as UserType from '@/generated/User';
 import { HttpCode } from '@/utils/HttpCode';
@@ -24,7 +32,7 @@ export class TestResolver extends AttendantHelper {
       const add = await testModel.create({
         ...args,
         managerId: req.session.userId,
-        slug: generateSlug(args.title)
+        slug: generateSlug(args.title),
       });
       return {
         data: format.getTest(add, true) as Test,
@@ -123,6 +131,34 @@ export class TestResolver extends AttendantHelper {
         message: 'Published Successfully',
       };
     } catch (error: any) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @Authorized()
+  @Query(() => TestTg.GetSingleTestResponse)
+  async getSingleTest(
+    @Arg('slug') slug: string,
+    @Ctx() ctx: UserType.ContextT
+  ): Promise<TestTg.GetSingleTestResponse> {
+    try {
+      const { req } = ctx;
+
+      const find = await testModel
+        .findOne({
+          $and: [{ slug }, { managerId: req.session.userId }],
+        })
+        .populate({ path: 'questions.question', model: 'Question' })
+        .populate({ path: 'attendants.attendant', model: 'Attendant' });
+
+      if (!find) {
+        return errorResponse('Not Found');
+      }
+
+      return {
+        data: format.getTest(find) as Test,
+      };
+    } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }

@@ -1,0 +1,32 @@
+query GetSingleTest($slug: string) {
+  getSingle(slug: $slug) {
+    data {
+      _id
+      title
+      createdAt
+      updatedAt
+      questions {
+        question {
+          _id
+          title
+          createdAt
+          updatedAt
+        }
+      }
+      attendants {
+        attendant {
+          _id
+          names
+          email
+          phoneNumber
+        }
+      }
+      passMark
+      subject
+      description
+      startDate
+      endDate
+    }
+    error
+  }
+}
