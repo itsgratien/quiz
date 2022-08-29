@@ -1,0 +1,50 @@
+@import 'src/styles/colors.scss';
+
+.header {
+  min-height: 70px;
+  padding: 15px 18px 15px 18px;
+  background-color: white;
+  .search {
+    background-color: $f1;
+    border-radius: 20px;
+    height: 70px;
+    width: 451px;
+    padding: 0 20px;
+    input {
+      height: 100%;
+      background-color: $f1;
+      font-size: 14px;
+    }
+  }
+  .notification {
+    margin-right: 70px;
+    button {
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+      padding: 0 0px 10px 5px;
+    }
+    .circle {
+      width: 15px;
+      height: 15px;
+      border-radius: 100%;
+      right: 0px;
+      margin-top: 3px;
+    }
+    .text {
+      margin-right: -4px;
+      background-color: white;
+      div {
+        font-size: 9px;
+        text-transform: uppercase;
+        color: $error;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-left: 10px;
+      }
+      .caret {
+        margin-right: -1.2px;
+        background-color: white;
+      }
+    }
+  }
+}
