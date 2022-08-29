@@ -1,110 +1,18 @@
 @import './colors.scss';
-.q {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100vh;
-  .container {
-    width: 65%;
-    border-bottom-right-radius: 0px;
-    margin-bottom: 0px;
-    position: relative;
-    background: white;
-    min-height: 100vh;
-    padding-top: 200px;
-    border-right: 1px solid rgba(217, 217, 217, 0.48);
-  }
-}
 
 .quiz {
-  width: 500px;
-  margin: auto;
-  height: 400px;
-  margin-left: 300px;
-}
-
-.heading {
-  width: 686px;
-  margin: auto;
-  .back {
-    span {
-      font-size: 13px;
-    }
+  .greeting {
+    margin-left: 20%;
+    margin-top: 90px;
   }
-  .name {
-    margin-top: 20px;
-    span {
-      &:first-child {
-        font-size: 20px;
-      }
-      &:last-child {
-        font-size: 12px;
-        color: #615d5d;
-      }
-    }
-  }
-  .status {
-    width: 150px;
-    background-color: rgba(217, 217, 217, 0.26);
-    height: 31px;
-    border-radius: 100px;
-    font-size: 12px;
-    .color {
-      width: 60px;
-      background-color: red;
-      height: 100%;
-      border-radius: 100px;
-      padding-left: 10px;
-    }
-    .text {
-      margin-left: 10px;
-    }
-  }
-}
-.other {
-  width: 720px;
-  margin: auto;
-  margin-top: 15px;
-  .people {
-    padding: 26px;
-    .items {
-      margin-top: 24px;
-      .buttons {
-        margin-top: 50px;
-        button {
-          width: 45px;
-          height: 62px;
-          border-radius: 10px;
-          background-color: rgba(217, 217, 217, 0.33);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: rgba(0, 0, 0, 0.43);
-          cursor: pointer;
-          z-index: 10;
-        }
-      }
-      .ul {
-        padding: 0 60px;
-      }
-    }
-  }
-  .questions {
-    padding: 26px;
-  }
-}
-
-@media screen and (min-width: 1824px) {
-  .quiz {
-    margin-left: 0;
+  .items {
+    width: 75%;
     margin: auto;
+    margin-top: 200px;
+    height: 100px;
   }
-  .q {
-    .container {
-      width: 71%;
-    }
+  .item{
+    width: 45%;
+    margin: 2%;
   }
 }

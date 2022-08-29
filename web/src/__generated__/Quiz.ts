@@ -19,30 +19,11 @@ export interface PeopleT {
   quizUri: string;
 }
 
-export interface QuizItemT {
-  _id: string;
-  name: string;
-  status: QuizStatus;
-  left?: number;
-  createdAt: string;
-}
-
-export interface QuizT extends QuizItemT {
-  managerId: string;
-  peoples: PeopleT[];
-  passMark: number;
-  startDate: string;
-  endDate: string;
-  updatedAt: string;
-}
 
 export interface UseQuizStatusColorPropsT {
   status: string;
 }
 
-export interface QuizItemPropsT {
-  item: QuizItemT;
-}
 
 export interface SectionHeaderPropsT {
   title: string;
@@ -74,4 +55,22 @@ export interface SetupQuizPropsT extends CustomModalPropsT {}
 export interface SetupHeaderPropsT {
   title: string;
   onClose: () => void;
+}
+
+// new
+export interface QuizPageProps {
+  me: any;
+}
+
+export interface StatItemProps {
+  title: string;
+  number: number;
+}
+
+export interface QuizItemProps {
+  item: {
+    name: string;
+    status: QuizStatus;
+  };
+  handleViewMore?: () => void;
 }
