@@ -1,158 +1,104 @@
 import React from 'react';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'next';
+import { withAuth } from '@/utils/WithAuth';
 import { Layout } from '@/components/Layout';
-import style from '../../../styles/Quiz.module.scss';
 import classname from 'classnames';
-import { Icon } from '@iconify/react';
-import { QuizStatus, PeopleT, QuestionT } from '@/generated/Quiz';
-import { useQuizStatusColor } from '@/hooks/UseQuizStatus';
+import style from 'src/styles/Quiz.module.scss';
+import Status from '@/components/Quiz/QuizItem/Status';
+import { QuizStatus } from '@/generated/Quiz';
+import QDate from '@/components/Quiz/QuizItem/QuizDate';
+import SectionTitle from '@/components/Quiz/SectionTitle';
+import question from '@/mocks/question';
 import Grid from '@mui/material/Grid';
-import { SectionHeader } from '@/components/Quiz/SectionHeader';
-const PeopleItem = React.lazy(() => import('@/components/Quiz/PeopleItem'));
-const QuestionItem = React.lazy(() => import('@/components/Quiz/QuestionItem'));
+import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
+import CandidateHeaderItem from '@/components/Quiz/Candidates/CandidateHeaderItem';
+import { AttendantStatus } from '@/generated/Enum';
 
-const peoples: PeopleT[] = [
-  {
-    quizUri: 'https://quiz.com/gratien',
-    names: 'Gratien Tuyishimire',
-    email: 'gratientuyishimire@gmail.com',
-    _id: String(Math.random()),
-  },
-  {
-    quizUri: 'https://quiz.com/gratien',
-    names: 'Gratien Tuyishimire',
-    email: 'gratientuyishimire@gmail.com',
-    _id: String(Math.random()),
-  },
-];
-
-const questions: QuestionT[] = [
-  {
-    _id: String(Math.random()),
-    title: 'What Is Capital City Of Rwanda ?',
-    slug: '',
-    createdAt: new Date().toDateString(),
-    updatedAt: new Date().toDateString(),
-    owner: '',
-    time: 1,
-    choices: [
-      'Programming Language',
-      'Country',
-      'City',
-      'Golden Heart',
-      'Laravel',
-    ],
-  },
-  {
-    _id: String(Math.random()),
-    title: 'What Is Javascript ?',
-    slug: '',
-    createdAt: new Date().toDateString(),
-    updatedAt: new Date().toDateString(),
-    owner: '',
-    time: 1,
-    choices: [
-      'Programming Language',
-      'Country',
-      'City',
-      'Golden Heart',
-      'Laravel',
-    ],
-  },
-];
-const QuizDetail: NextPage = () => {
-  const router = useRouter();
-
-  const bgColor = useQuizStatusColor({ status: QuizStatus.Published });
-
+const QuizDetailPage = () => {
   return (
-    <>
-      <Head>
-        <title>Quiz</title>
-      </Head>
-      <Layout>
-        <div className={style.q}>
-          <div className={style.container}>
-            <div
-              className={classname(
-                'relative flex justify-between',
-                style.heading
-              )}
-            >
-              <div>
-                <button
-                  type="button"
-                  className={classname('flex items-center', style.back)}
-                >
-                  <Icon icon="akar-icons:chevron-left" fontSize={50} />
-                  <span className="font-bold">back</span>
-                </button>
-                <div className={classname('flex flex-col', style.name)}>
-                  <span className="font-bold">English Quiz</span>
-                  <span className="font-bold">{new Date().toDateString()}</span>
-                </div>
-              </div>
-              <div
-                className={classname(
-                  'relative flex items-center',
-                  style.status
-                )}
-              >
-                <div
-                  className={style.color}
-                  style={{ background: bgColor }}
-                ></div>
-                <div className={style.text}>{QuizStatus.Published}</div>
-              </div>
-            </div>
-            <div className={style.other}>
-              <div className={style.people}>
-                <SectionHeader title="People" />
-                <div className={classname('relative w-full', style.items)}>
-                  <div
-                    className={classname(
-                      'absolute flex items-center justify-between left-0 right-0',
-                      style.buttons
-                    )}
-                  >
-                    <button type="button">
-                      <Icon icon="akar-icons:chevron-left" fontSize={25} />
-                    </button>
-                    <button type="button">
-                      <Icon icon="akar-icons:chevron-right" fontSize={25} />
-                    </button>
-                  </div>
-                  <div className={classname('relative', style.ul)}>
-                    <Grid container spacing={4}>
-                      {peoples.map((item) => (
-                        <Grid item xs={6} key={item._id}>
-                          <React.Suspense fallback={<></>}>
-                            <PeopleItem item={item} />
-                          </React.Suspense>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </div>
-                </div>
-              </div>
-              <div className={style.questions}>
-                <SectionHeader title="Questions" />
-                <div className={style.items}>
-                  {questions.map((item) => (
-                    <React.Suspense fallback={<></>} key={item._id}>
-                      <QuestionItem item={item} />
-                    </React.Suspense>
-                  ))}
-                </div>
-              </div>
-            </div>
+    <Layout goBack>
+      <div className={style.quiz}>
+        <div className={classname('relative', style.quizDetail)}>
+          <div className="text-25">
+            Javascript The Programming Language And The Weird Part
+          </div>
+          <div className={style.status}>
+            <Status status={QuizStatus.Published} />
+          </div>
+          <div style={{ marginTop: '29px' }}>
+            <QDate
+              label="start date & end date"
+              value={
+                <>
+                  {new Date().toDateString()}&nbsp; to &nbsp;
+                  {new Date().toDateString()}
+                </>
+              }
+            />
+            <QDate
+              label="Subject"
+              value="Programming"
+              iconName="mdi:air-humidifier"
+            />
           </div>
         </div>
-      </Layout>
-    </>
+        <div
+          className={style.hr}
+          style={{ transform: 'rotate(-2.67deg)' }}
+        ></div>
+        <div className={classname('relative', style.section)}>
+          <div className={classname(style.sectionTitle)}>
+            <SectionTitle title="Question Asked" total="50 total results" />
+          </div>
+          <div className={classname(style.questionItems)}>
+            <Grid container spacing={8}>
+              {question.getAll.map((item) => (
+                <Grid item xs={4} key={item._id}>
+                  <QuestionItem
+                    title={item.title}
+                    points={item.points}
+                    type={item.type}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        </div>
+        <div className={style.hr}></div>
+        <div className={classname('relative', style.section)}>
+          <div className={classname(style.sectionTitle)}>
+            <SectionTitle title="Invited Candidates" total="50 total results" />
+            <div className="flex items-center mt-5">
+              <CandidateHeaderItem
+                number={5}
+                status={AttendantStatus.Started}
+              />
+              <CandidateHeaderItem
+                number={20}
+                status={AttendantStatus.InProgress}
+              />
+              <CandidateHeaderItem
+                number={30}
+                status={AttendantStatus.Completed}
+              />
+            </div>
+          </div>
+
+          <div className={classname(style.questionItems)}>
+            <Grid container spacing={8}></Grid>
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 };
+export default QuizDetailPage;
 
-export default QuizDetail;
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
+  withAuth(ctx, () => {
+    const { params } = ctx;
+    console.log('params', params);
+    return {
+      props: {},
+    };
+  });

@@ -6,8 +6,8 @@ export enum QuizStatus {
 }
 
 export enum QuestionTypeEnum {
-  MCQ = 'MCQ', // Multiple Choice Question
-  VQ = 'VQ', // Video question
+  MCQ = 'Multiple Choice', // Multiple Choice Question
+  VQ = 'Video Question', // Video question
   SQ = 'SQ', // Special Question
 }
 

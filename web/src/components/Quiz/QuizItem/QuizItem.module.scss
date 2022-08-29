@@ -10,7 +10,7 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0
+    bottom: 0;
   }
   .container {
     padding: 74px 86px 74px 60px;
@@ -26,42 +26,8 @@
   .details {
     margin-top: 35px;
     padding-left: 23px;
-    .status {
-      height: 30px;
-      width: 140px;
-      border-radius: 15px;
-      background-color: rgba(255, 236, 68, 0.68);
-    }
-    .date {
-      margin-top: 21px;
-      .label {
-        .icon {
-          font-size: 25px;
-          width: 25px;
-        }
-        span {
-          font-size: 13px;
-          margin-left: 30px;
-        }
-      }
-      .text {
-        font-size: 13px;
-      }
-    }
     .statistic {
       margin-top: 28px;
-    }
-  }
-  .viewMore {
-    bottom: 15px;
-    right: 18px;
-    display: none;
-    button {
-      &:hover {
-        background-color: black;
-        color: $yellow;
-        border: none;
-      }
     }
   }
   &:hover {
@@ -70,14 +36,48 @@
       animation: onViewMoreHover 0.2s ease-in-out;
     }
   }
+}
 
-  @keyframes onViewMoreHover {
-    from {
-      bottom: 0px;
+.viewMore {
+  bottom: 15px;
+  right: 18px;
+  display: none;
+  button {
+    &:hover {
+      background-color: black;
+      color: $yellow;
+      border: none;
     }
-    to {
-      bottom: 15px;
+  }
+}
+@keyframes onViewMoreHover {
+  from {
+    bottom: 0px;
+  }
+  to {
+    bottom: 15px;
+  }
+}
+.status {
+  height: 30px;
+  width: 140px;
+  border-radius: 15px;
+  background-color: rgba(255, 236, 68, 0.68);
+}
+.date {
+  margin-top: 21px;
+  .label {
+    .icon {
+      font-size: 25px;
+      width: 25px;
     }
+    span {
+      font-size: 13px;
+      margin-left: 5px;
+    }
+  }
+  .text {
+    font-size: 13px;
   }
 }
 .statItem {
@@ -97,4 +97,10 @@
   width: 164px;
   height: 60px;
   box-shadow: 0px 4px 1px #000000;
+}
+
+.viewMoreBtnSmall {
+  width: auto;
+  padding: 0 20px;
+  height: 37px;
 }

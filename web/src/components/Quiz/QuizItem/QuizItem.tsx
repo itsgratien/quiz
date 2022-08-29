@@ -7,6 +7,7 @@ import Status from './Status';
 import ViewMoreButton from './ViewMoreButton';
 import { QuizItemProps } from '@/generated/Quiz';
 import Svg from './Svg';
+import QuizDate from './QuizDate';
 
 export const QuizItem = ({ item: { name, status, _id } }: QuizItemProps) => {
   const [more, setMore] = React.useState<boolean>(false);
@@ -26,23 +27,15 @@ export const QuizItem = ({ item: { name, status, _id } }: QuizItemProps) => {
         </div>
         <div className={style.details}>
           <Status status={status} />
-          <div className={style.date}>
-            <div
-              className={classname('relative flex items-center', style.label)}
-            >
-              <Icon
-                icon="clarity:date-outline-badged"
-                fontSize={25}
-                className={style.icon}
-                width={25}
-              />
-              <span className="font-bold">Start date and end date</span>
-            </div>
-            <div className={style.text}>
-              {new Date().toDateString()}&nbsp; to &nbsp;
-              {new Date().toDateString()}
-            </div>
-          </div>
+          <QuizDate
+            label="Start date and end date"
+            value={
+              <>
+                {new Date().toDateString()}&nbsp; to &nbsp;
+                {new Date().toDateString()}
+              </>
+            }
+          />
           <div
             className={classname('relative flex items-center', style.statistic)}
           >

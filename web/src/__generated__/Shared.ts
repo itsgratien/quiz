@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface TLayoutProps {
   children: React.ReactNode;
+  goBack?: boolean;
 }
 
 export interface TListItemProps {
