@@ -6,11 +6,24 @@ import Search from './Search';
 import Notification from './Notification';
 
 const Header = () => {
+  const [fixed, setFixed] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    window.onscroll = () => {
+      if (window.scrollY > 60) {
+        setFixed(true);
+      } else {
+        setFixed(false);
+      }
+    };
+  }, []);
+
   return (
     <header
       className={classname(
-        'relative w-full flex justify-between',
-        style.header
+        'w-full flex justify-between top-0 bg-white z-50',
+        style.header,
+        fixed ? 'fixed' : 'relative'
       )}
     >
       <div className={classname('flex cursor-pointer', style.menu)}>
