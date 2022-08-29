@@ -19,11 +19,9 @@ export interface PeopleT {
   quizUri: string;
 }
 
-
 export interface UseQuizStatusColorPropsT {
   status: string;
 }
-
 
 export interface SectionHeaderPropsT {
   title: string;
@@ -71,6 +69,6 @@ export interface QuizItemProps {
   item: {
     name: string;
     status: QuizStatus;
+    _id: string;
   };
-  handleViewMore?: () => void;
 }

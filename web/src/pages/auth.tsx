@@ -30,21 +30,21 @@ const Auth: NextPage = () => {
   const [authenticate] = useAuthenticateMutation();
 
   const provider = new GoogleAuthProvider();
-  
-  const authenticateFunc = async ()=> {
+
+  const authenticateFunc = async () => {
     const user = auth.currentUser;
 
     const idToken = await user?.getIdToken();
 
-    if(idToken){
-      await authenticate({variables: {idToken}});
+    if (idToken) {
+      await authenticate({ variables: { idToken } });
       return router.push('/m/quiz');
     }
-  }
+  };
   const handleLoginWithGoogle = async () => {
     try {
       const res = await signInWithPopup(auth, provider);
-      GoogleAuthProvider.credentialFromResult(res);      
+      GoogleAuthProvider.credentialFromResult(res);
       return authenticateFunc();
     } catch (error: any) {
       toast.error(error.message);

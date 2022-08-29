@@ -7,10 +7,10 @@ export const useQuizStatusColor = ({ status }: UseQuizStatusColorPropsT) => {
   React.useEffect(() => {
     switch (status) {
       case QuizStatus.Published:
-        setBgColor('#B3FF77');
+        setBgColor('#FFEC44');
         break;
       case QuizStatus.Draft:
-        setBgColor('black');
+        setBgColor('rgba(0, 0, 0, 0.12)');
         break;
       default:
         setBgColor(undefined);

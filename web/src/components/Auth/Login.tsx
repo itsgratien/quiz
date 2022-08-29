@@ -9,7 +9,12 @@ import { Icon } from '@iconify/react';
 import { loginSchema } from './Schema';
 import Error from './AuthError';
 
-export const Login = ({ open, handleClose, handleSubmit, error }: LoginPropsT) => {
+export const Login = ({
+  open,
+  handleClose,
+  handleSubmit,
+  error,
+}: LoginPropsT) => {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     onSubmit: handleSubmit,

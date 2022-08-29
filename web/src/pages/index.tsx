@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    router.push('/auth')
+    router.push('/auth');
   }, [router]);
 
   return (
@@ -16,10 +16,9 @@ const Home: NextPage = () => {
       <Head>
         <title>Quiz App</title>
         <meta name="description" content="Quiz App" />
-        <meta name="author" content='Gratien Tuyishimire' />
+        <meta name="author" content="Gratien Tuyishimire" />
       </Head>
-      <main className={styles.main}>
-      </main>
+      <main className={styles.main}></main>
     </>
   );
 };

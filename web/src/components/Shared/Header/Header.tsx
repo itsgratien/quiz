@@ -14,8 +14,8 @@ const Header = () => {
       )}
     >
       <div className={classname('flex cursor-pointer', style.menu)}>
-      <Icon icon="bx:menu-alt-left" fontSize={24} />
-        <span className='ml-1 font-bold'>Menu</span>
+        <Icon icon="bx:menu-alt-left" fontSize={24} />
+        <span className="ml-1 font-bold">Menu</span>
       </div>
       <Search />
       <div className={classname('flex justify-between')}>
@@ -23,7 +23,7 @@ const Header = () => {
         <div>
           <button type="button" className={classname('flex items-start')}>
             <Icon icon="uit:signout" fontSize={24} />
-            <span className='font-bold ml-1'>Signout</span>
+            <span className="font-bold ml-1">Signout</span>
           </button>
         </div>
       </div>

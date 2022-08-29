@@ -4,11 +4,11 @@ import Head from 'next/head';
 import { Layout } from '@/components/Layout';
 import style from 'src/styles/Quiz.module.scss';
 import QuizItem from '@/components/Quiz/QuizItem/QuizItem';
-import { QuizStatus } from '@/generated/Quiz';
 import { withAuth } from '@/utils/WithAuth';
 import { QuizPageProps } from '@/generated/Quiz';
 import { Icon } from '@iconify/react';
 import classname from 'classnames';
+import quiz from '@/mocks/quiz';
 
 const Quiz: NextPage<QuizPageProps> = ({ me }) => {
   return (
@@ -32,24 +32,17 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
               </span>
             </div>
           )}
-          <div className={classname('relative flex items-center', style.items)}>
-            <div className={style.item}>
-              <QuizItem
-                item={{
-                  name: 'Javascript the programming language and the weird part',
-                  status: QuizStatus.Draft,
-                }}
-                handleViewMore={() => ''}
-              />
-            </div>
-            <div className={style.item}>
-              <QuizItem
-                item={{
-                  name: 'Javascript the programming language and the weird part',
-                  status: QuizStatus.Published,
-                }}
-              />
-            </div>
+          <div
+            className={classname(
+              'relative flex items-center flex-wrap',
+              style.items
+            )}
+          >
+            {quiz.getAll.map((item) => (
+              <div className={style.item} key={item._id}>
+                <QuizItem item={item} />
+              </div>
+            ))}
           </div>
         </div>
       </Layout>

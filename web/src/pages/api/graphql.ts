@@ -25,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     endpoint: '/api/graphql',
     schema: await buildSchema({ resolvers, authChecker: customAuthChecker }),
     context: ({ req, res }) => ({
-      req: {...req, session },
+      req: { ...req, session },
       res,
     }),
   })(req, res);

@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 @ObjectType()
 export class User {
-  @Field(()=> String)
+  @Field(() => String)
   _id: mongoose.Types.ObjectId | string;
 
   @Field({ nullable: true })

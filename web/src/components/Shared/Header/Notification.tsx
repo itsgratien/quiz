@@ -17,9 +17,13 @@ const Notification = () => {
               className={classname('bg-red-600 absolute top-0', style.circle)}
             ></div>
           </div>
-          <div className={classname('relative',style.text)}>
+          <div className={classname('relative', style.text)}>
             <div>New</div>
-            <Icon icon="bi:caret-down-fill" fontSize={10} className={classname('absolute right-0', style.caret)} />
+            <Icon
+              icon="bi:caret-down-fill"
+              fontSize={10}
+              className={classname('absolute right-0', style.caret)}
+            />
           </div>
         </button>
       </div>

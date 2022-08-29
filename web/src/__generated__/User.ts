@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 export interface ContextT {
   req: NextApiRequest & {
-    session?: any
+    session?: any;
   };
   res: NextApiResponse;
 }
@@ -55,7 +55,6 @@ export interface IsAuthPropsT<T> {
 export interface AuthProviderPropsT {
   children: React.ReactNode;
 }
-
 
 export interface LoginParamT {
   email: string;

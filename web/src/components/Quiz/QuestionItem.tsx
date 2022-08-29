@@ -25,8 +25,13 @@ export const QuestionItem = ({ item }: QuestionItemPropsT) => {
           </ul>
         </div>
       )}
-      <div className={classname(style.time, 'flex items-center justify-center mt-2')}>
-        <span className='font-bold'>{item.time} minutes</span>
+      <div
+        className={classname(
+          style.time,
+          'flex items-center justify-center mt-2'
+        )}
+      >
+        <span className="font-bold">{item.time} minutes</span>
       </div>
     </div>
   );

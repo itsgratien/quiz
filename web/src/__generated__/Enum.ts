@@ -17,7 +17,7 @@ export enum AttendantStatus {
   Completed = 'Completed',
 }
 
-export enum QuestionType{
+export enum QuestionType {
   MultipleChoice = 'MultipleChoice',
-  Coding = 'Coding'
+  Coding = 'Coding',
 }

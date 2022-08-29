@@ -1,8 +1,5 @@
 export class AnswerHelper {
-  getMCQGrade = (
-    answers: string[],
-    userAnswers: string[]
-  ) => {
+  getMCQGrade = (answers: string[], userAnswers: string[]) => {
     const totalPercentage = 100;
 
     let grade = 0;
