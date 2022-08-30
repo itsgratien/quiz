@@ -1,1 +1,23 @@
 @import 'src/styles/colors.scss';
+
+.viewMore {
+  bottom: -8px;
+  right: 18px;
+  display: none;
+  animation: onViewMoreHover 0.2s ease-in-out;
+  @keyframes onViewMoreHover {
+    from {
+      bottom: -15px;
+    }
+    to {
+      bottom: -8px;
+    }
+  }
+  button {
+    &:hover {
+      background-color: black;
+      color: $yellow;
+      border: none;
+    }
+  }
+}

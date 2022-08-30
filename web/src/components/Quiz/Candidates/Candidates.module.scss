@@ -6,3 +6,15 @@
     margin-left: 0;
   }
 }
+.candidateItem {
+  padding: 35px 49px;
+  &:hover{
+    border: 1px solid $pbc;
+    .viewMore{
+      display: block;
+    }
+  }
+  .viewMore{
+
+  }
+}

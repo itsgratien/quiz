@@ -7,41 +7,20 @@
     border: 1px solid $pbc;
     .viewMore {
       display: block;
-      animation: onViewMoreHover 0.2s ease-in-out;
     }
   }
   .qName {
     width: 250px;
   }
-  .viewMore {
-    bottom: -8px;
-    right: 18px;
-    display: none;
-    button {
-      &:hover {
-        background-color: black;
-        color: $yellow;
-        border: none;
-      }
+  .qType {
+    margin-top: 13px;
+    margin-left: 15px;
+    height: 25px;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 20px;
+    &:first-child {
+      margin-left: 0px;
     }
-  }
-  @keyframes onViewMoreHover {
-    from {
-      bottom: -15px;
-    }
-    to {
-      bottom: -8px;
-    }
-  }
-}
-.qType {
-  margin-top: 13px;
-  margin-left: 15px;
-  height: 25px;
-  background: rgba(0, 0, 0, 0.12);
-  padding: 0 20px;
-  &:first-child {
-    margin-left: 0px;
   }
 }
 .rightButtons {

@@ -16,6 +16,7 @@ module.exports = {
       },
       borderRadius: {
         10: '10px',
+        5: '5px'
       },
       backgroundColor: {
         f1: '#f1f1f1',

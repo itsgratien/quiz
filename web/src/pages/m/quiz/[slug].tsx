@@ -8,11 +8,13 @@ import Status from '@/components/Quiz/QuizItem/Status';
 import { QuizStatus } from '@/generated/Quiz';
 import QDate from '@/components/Quiz/QuizItem/QuizDate';
 import SectionTitle from '@/components/Quiz/SectionTitle';
-import question from '@/mocks/question';
+import question from '@/mocks/Question';
 import Grid from '@mui/material/Grid';
 import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
 import CandidateHeaderItem from '@/components/Quiz/Candidates/CandidateHeaderItem';
 import { AttendantStatus } from '@/generated/Enum';
+import candidate from '@/mocks/Candidate';
+import CandidateItem from '@/components/Quiz/Candidates/CandidateItem';
 
 const QuizDetailPage = () => {
   return (
@@ -85,7 +87,13 @@ const QuizDetailPage = () => {
           </div>
 
           <div className={classname(style.questionItems)}>
-            <Grid container spacing={8}></Grid>
+            <Grid container spacing={8}>
+              {candidate.getAll.map((item) => (
+                <Grid item xs={4} key={item._id}>
+                  <CandidateItem {...item} handleViewAnswer={() => ''} />
+                </Grid>
+              ))}
+            </Grid>
           </div>
         </div>
       </div>

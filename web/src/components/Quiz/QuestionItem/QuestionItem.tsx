@@ -3,6 +3,7 @@ import classname from 'classnames';
 import style from './QuestionItem.module.scss';
 import QuestionType from './QType';
 import ViewMoreButton from '../QuizItem/ViewMoreButton';
+import ViewMore from '../ViewMore';
 
 const QuestionItem = ({
   title,
@@ -35,9 +36,9 @@ const QuestionItem = ({
         <QuestionType name={type} />
         <QuestionType name={`${points} Points`} point />
       </div>
-      <div className={classname(style.viewMore, 'absolute')}>
+      <ViewMore className={style.viewMore}>
         <ViewMoreButton size="small" />
-      </div>
+      </ViewMore>
     </div>
   );
 };

@@ -8,7 +8,7 @@ import { withAuth } from '@/utils/WithAuth';
 import { QuizPageProps } from '@/generated/Quiz';
 import { Icon } from '@iconify/react';
 import classname from 'classnames';
-import quiz from '@/mocks/quiz';
+import quiz from '@/mocks/Quiz';
 
 const Quiz: NextPage<QuizPageProps> = ({ me }) => {
   return (
