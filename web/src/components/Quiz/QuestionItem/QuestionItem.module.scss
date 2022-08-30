@@ -12,15 +12,15 @@
   .qName {
     width: 250px;
   }
-  .qType {
-    margin-top: 13px;
-    margin-left: 15px;
-    height: 25px;
-    background: rgba(0, 0, 0, 0.12);
-    padding: 0 20px;
-    &:first-child {
-      margin-left: 0px;
-    }
+}
+.qType {
+  margin-top: 13px;
+  margin-left: 15px;
+  height: 25px;
+  background: rgba(0, 0, 0, 0.12);
+  padding: 0 20px;
+  &:first-child {
+    margin-left: 0px;
   }
 }
 .editBtn {

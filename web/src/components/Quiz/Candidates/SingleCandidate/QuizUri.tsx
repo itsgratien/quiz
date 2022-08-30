@@ -8,7 +8,10 @@ const QuizUri = ({ label, value }: { value: string; label?: string }) => {
     <div className={classname('relative', style.quizUri)}>
       <div className="ml-10 text-12 uppercase">{label || 'Quiz Link'}</div>
       <div
-        className={classname('flex items-center justify-between rounded mt-2', style.input)}
+        className={classname(
+          'relative flex items-center justify-between rounded mt-2',
+          style.input
+        )}
       >
         <input
           type="text"
@@ -26,7 +29,7 @@ const QuizUri = ({ label, value }: { value: string; label?: string }) => {
           <Icon
             icon="fluent:copy-24-regular"
             fontSize={35}
-            color='rgba(255, 236, 68, 0.5)'
+            color="rgba(255, 236, 68, 0.5)"
           />
         </button>
       </div>

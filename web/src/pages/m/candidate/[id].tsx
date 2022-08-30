@@ -9,6 +9,9 @@ import Status from '@/components/Quiz/QuizItem/Status';
 import Svg from '@/components/Quiz/Candidates/SingleCandidate/SVG';
 import CandidateLabel from '@/components/Quiz/Candidates/SingleCandidate/CandidateLabel';
 import QuizUri from '@/components/Quiz/Candidates/SingleCandidate/QuizUri';
+import SectionTitle from '@/components/Quiz/SectionTitle';
+import AnswerGroup from '@/components/Quiz/Answer/AnswerGroup/AnswerGroup';
+import AnswerMock from '@/mocks/Answer';
 
 export const CandidatePage: NextPage = () => {
   return (
@@ -61,6 +64,26 @@ export const CandidatePage: NextPage = () => {
                 <QuizUri value="https://igihe.com/?attendant=sdskdsd&test=igihe" />
               </div>
             </div>
+          </div>
+        </div>
+        <div className={classname('relative', style.result)}>
+          <div className={style.sectionTitle}>
+            <SectionTitle title="Final Results" iconName="wpf:statistics" />
+            <div
+              className="text-12"
+              style={{
+                color: 'rgba(0, 0, 0, 0.6)',
+                width: '186px',
+                marginLeft: '32px',
+              }}
+            >
+              Questions asked and answers of each provided by the attendants
+            </div>
+          </div>
+          <div>
+            {AnswerMock.getAll.map((item) => (
+              <AnswerGroup key={item._id} />
+            ))}
           </div>
         </div>
       </Layout>

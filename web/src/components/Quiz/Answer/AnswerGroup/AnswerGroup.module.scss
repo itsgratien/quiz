@@ -1,0 +1,20 @@
+@import 'src/styles/colors.scss';
+
+.answerGroup {
+  margin-top: 40px;
+  padding: 66px 77px 60px 77px;
+  border-radius: 5px;
+  .description,
+  .answers {
+    margin-top: 34px;
+  }
+}
+.answerItem {
+  background: rgba(0, 0, 0, 0.12);
+  height: 50px;
+  margin-top: 18px;
+  padding: 0 23px;
+  .value {
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
