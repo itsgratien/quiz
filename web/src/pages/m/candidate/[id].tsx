@@ -82,7 +82,7 @@ export const CandidatePage: NextPage = () => {
           </div>
           <div>
             {AnswerMock.getAll.map((item) => (
-              <AnswerGroup key={item._id} />
+              <AnswerGroup key={item._id} item={item} />
             ))}
           </div>
         </div>

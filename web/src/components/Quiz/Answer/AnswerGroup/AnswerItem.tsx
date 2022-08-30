@@ -5,11 +5,28 @@ import { Icon } from '@iconify/react';
 
 const AnswerItem = ({
   value,
-  success,
+  solutions,
+  answers,
 }: {
   value: string;
-  success?: boolean;
+  solutions: string[];
+  answers?: string[];
 }) => {
+  const handleCorrectAnswer = () => {
+    if (!answers) {
+      return false;
+    } else {
+      let success = false;
+      for (const a of answers) {
+        const find = solutions.find((item) => item === a);
+        if (find && find === value) {
+          success = true;
+        }
+      }
+      console.log('answer', answers);
+      return success;
+    }
+  };
   return (
     <div
       className={classname(
@@ -18,13 +35,15 @@ const AnswerItem = ({
       )}
     >
       <span className={classname('text-14', style.value)}>{value}</span>
-      {typeof success !== 'undefined' && (
+      {answers && answers.includes(value) && (
         <Icon
           icon={
-            success ? 'akar-icons:circle-check-fill' : 'ep:circle-close-filled'
+            handleCorrectAnswer()
+              ? 'akar-icons:circle-check-fill'
+              : 'ep:circle-close-filled'
           }
           fontSize={40}
-          color={success ? '#00B76A' : '#FF001F'}
+          color={handleCorrectAnswer() ? '#00B76A' : '#FF001F'}
         />
       )}
     </div>

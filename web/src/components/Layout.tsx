@@ -11,7 +11,7 @@ export const Layout = ({ children, goBack }: TLayoutProps) => {
   return (
     <>
       <Header />
-      <main className='mb-5'>
+      <main className="mb-5">
         {goBack && (
           <div className={style.back}>
             <GoBack handleClick={() => router.back()} />

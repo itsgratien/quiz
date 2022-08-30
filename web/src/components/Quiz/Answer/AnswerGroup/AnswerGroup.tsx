@@ -6,23 +6,30 @@ import Answer from '@/mocks/Answer';
 import SectionTitle from '../../SectionTitle';
 import AnswerItem from './AnswerItem';
 
-const AnswerGroup = () => {
+const AnswerGroup = ({ item }: { item: typeof Answer.getAll[0] }) => {
+  const makeFirstUppercaseFunc = (value: string) => {
+    const getFirstChar = value.slice(0, 1).toUpperCase();
+
+    const remainedChar = value.slice(1);
+
+    return `${getFirstChar}${remainedChar}`;
+  };
+
   return (
     <div className={classname('relative bg-f1', style.answerGroup)}>
       <div style={{ width: '150px', marginLeft: '18px' }}>
-        <QType name="Multiple Choice" />
+        <QType name={item.question.type} />
       </div>
       <div
         className={classname('absolute top-0 right-0')}
         style={{ marginTop: '39px', marginRight: '66px' }}
       >
         <span className={classname('font-bold text-12 text-black')}>
-          {Answer.getAll[0].grade} out of {Answer.getAll[0].question.points}{' '}
-          points
+          {item.grade} out of {item.question.points} points
         </span>
       </div>
       <div className={classname('text-14 font-bold text-black mt-5')}>
-        Explain where React JS can be used for ?
+        {makeFirstUppercaseFunc(item.question.title)}
       </div>
       <div className={classname('relative', style.description)}>
         <SectionTitle
@@ -32,7 +39,7 @@ const AnswerGroup = () => {
           titleColor="fewBlack"
         />
         <div className={classname('text-14 mt-3')}>
-          {Answer.getAll[0].question.description}
+          {item.question.description}
         </div>
       </div>
       <div className={classname('relative', style.answers)}>
@@ -43,8 +50,13 @@ const AnswerGroup = () => {
           titleColor="fewBlack"
         />
         <div className={classname('relative mt-5', style.answerItems)}>
-          {Answer.getAll[0].question.choices.map((item) => (
-            <AnswerItem key={item} value={item} success />
+          {item.question.choices.map((choice) => (
+            <AnswerItem
+              key={choice}
+              value={choice}
+              solutions={item.question.answers}
+              answers={item.answers}
+            />
           ))}
         </div>
       </div>
