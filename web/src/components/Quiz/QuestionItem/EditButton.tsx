@@ -24,7 +24,7 @@ const EditButton = ({
       )}
       onClick={handleClick}
     >
-      <span>{name || 'Edit'}</span>
+      <span className="capitalize">{name || 'Edit'}</span>
       <Icon
         icon={iconName || 'dashicons:edit-large'}
         fontSize={15}

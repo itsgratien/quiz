@@ -8,42 +8,42 @@ const candidate = {
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       _id: Math.random().toString(),
-      status: AttendantStatus.Completed
+      status: AttendantStatus.Completed,
     },
     {
       names: faker.name.fullName(),
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       _id: Math.random().toString(),
-      status: AttendantStatus.Started
+      status: AttendantStatus.Started,
     },
     {
       names: faker.name.fullName(),
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       _id: Math.random().toString(),
-      status: AttendantStatus.Completed
+      status: AttendantStatus.Completed,
     },
     {
       names: faker.name.fullName(),
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       _id: Math.random().toString(),
-      status: AttendantStatus.InProgress
+      status: AttendantStatus.InProgress,
     },
     {
       names: faker.name.fullName(),
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       _id: Math.random().toString(),
-      status: AttendantStatus.Completed
+      status: AttendantStatus.Completed,
     },
     {
       names: faker.name.fullName(),
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       _id: Math.random().toString(),
-      status: AttendantStatus.Started
+      status: AttendantStatus.Started,
     },
   ],
 };

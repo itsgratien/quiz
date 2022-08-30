@@ -8,13 +8,14 @@
 }
 .candidateItem {
   padding: 35px 49px;
-  &:hover{
+  &:hover {
     border: 1px solid $pbc;
-    .viewMore{
+    .viewMore,
+    .rightBtn {
       display: block;
     }
   }
-  .viewMore{
-
+  .rightBtn {
+    display: none;
   }
 }

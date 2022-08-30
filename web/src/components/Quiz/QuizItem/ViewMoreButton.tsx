@@ -5,9 +5,11 @@ import style from './QuizItem.module.scss';
 const ViewMoreButton = ({
   name,
   size,
+  handleClick,
 }: {
   name?: string;
   size?: 'large' | 'small';
+  handleClick?: () => void;
 }) => {
   return (
     <button
@@ -18,6 +20,7 @@ const ViewMoreButton = ({
         size === 'small' && style.viewMoreBtnSmall
       )}
       type="button"
+      onClick={handleClick}
     >
       {name || 'View more'}
     </button>

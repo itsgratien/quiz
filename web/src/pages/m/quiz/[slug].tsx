@@ -15,6 +15,7 @@ import CandidateHeaderItem from '@/components/Quiz/Candidates/CandidateHeaderIte
 import { AttendantStatus } from '@/generated/Enum';
 import candidate from '@/mocks/Candidate';
 import CandidateItem from '@/components/Quiz/Candidates/CandidateItem';
+import LoadMoreButton from '@/components/Quiz/LoadMoreButton';
 
 const QuizDetailPage = () => {
   return (
@@ -65,6 +66,7 @@ const QuizDetailPage = () => {
               ))}
             </Grid>
           </div>
+          <LoadMoreButton marginTop="49px" className={style.sectionTitle} />
         </div>
         <div className={style.hr}></div>
         <div className={classname('relative', style.section)}>
@@ -95,7 +97,9 @@ const QuizDetailPage = () => {
               ))}
             </Grid>
           </div>
+          <LoadMoreButton marginTop="49px" className={style.sectionTitle} />
         </div>
+        <div className="mt-5"></div>
       </div>
     </Layout>
   );

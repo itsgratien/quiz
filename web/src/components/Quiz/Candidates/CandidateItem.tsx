@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react';
 import Status from '../QuizItem/Status';
 import ViewMoreButton from '../QuizItem/ViewMoreButton';
 import ViewMore from '../ViewMore';
+import EditButton from '../QuestionItem/EditButton';
+import RightButton from '../RightButtons';
 
 export const CandidateItem = ({
   handleViewAnswer,
@@ -12,12 +14,16 @@ export const CandidateItem = ({
   email,
   phoneNumber,
   status,
+  _id,
+  handleEdit,
 }: {
   handleViewAnswer?: (value: string) => void;
   names: string;
   phoneNumber: string;
   email: string;
   status: string;
+  _id: string;
+  handleEdit?: () => void;
 }) => {
   return (
     <div className={classname(style.candidateItem, 'relative bg-f1 rounded-5')}>
@@ -39,8 +45,15 @@ export const CandidateItem = ({
         <Status status={status} />
       </div>
       <ViewMore className={style.viewMore}>
-        <ViewMoreButton name="View Answer" size="small" />
+        <ViewMoreButton
+          name="View Answer"
+          size="small"
+          handleClick={() => handleViewAnswer && handleViewAnswer(_id)}
+        />
       </ViewMore>
+      <RightButton className={style.rightBtn}>
+        {handleEdit && <EditButton name="edit" handleClick={handleEdit} />}
+      </RightButton>
     </div>
   );
 };
