@@ -22,3 +22,5 @@ export const Layout = ({ children, goBack }: TLayoutProps) => {
     </>
   );
 };
+
+export default Layout;
