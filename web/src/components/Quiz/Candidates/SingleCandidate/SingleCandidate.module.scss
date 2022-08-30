@@ -1,0 +1,27 @@
+@import 'src/styles/colors.scss';
+
+.svg {
+  width: 100%;
+  height: auto;
+}
+.candidateLabel {
+  margin-left: 55px;
+  &:first-child {
+    margin-left: 0;
+  }
+}
+.quizUri {
+  margin-top: 15px;
+  width: 550px;
+  input {
+    font-size: 12px;
+    background: none;
+    padding-left: 35px;
+    color: rgba(0, 0, 0, 0.41);
+  }
+  .input {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    height: 55px;
+    padding: 0 8px;
+  }
+}

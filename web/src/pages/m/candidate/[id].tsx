@@ -6,6 +6,9 @@ import Head from 'next/head';
 import classname from 'classnames';
 import style from 'src/styles/Candidate.module.scss';
 import Status from '@/components/Quiz/QuizItem/Status';
+import Svg from '@/components/Quiz/Candidates/SingleCandidate/SVG';
+import CandidateLabel from '@/components/Quiz/Candidates/SingleCandidate/CandidateLabel';
+import QuizUri from '@/components/Quiz/Candidates/SingleCandidate/QuizUri';
 
 export const CandidatePage: NextPage = () => {
   return (
@@ -15,26 +18,17 @@ export const CandidatePage: NextPage = () => {
       </Head>
       <Layout goBack>
         <div className={classname('relative', style.header)}>
-          <svg
-            width="1100"
-            height="350"
-            viewBox="0 0 1100 350"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 10C0 4.47716 4.47715 0 10 0H1090C1095.52 0 1100 4.47715 1100 10V339.705C1100 345.342 1095.34 349.865 1089.71 349.701L9.70941 318.298C4.30202 318.141 0 313.712 0 308.302V10Z"
-              fill="#FFEC44"
-            />
-          </svg>
+          <Svg />
           <div
             className={classname('absolute top-0 right-0 left-0 z-10 w-full')}
           >
-            <div className={classname('font-bold text-25')}>
-              Gratien Tuyishimire
+            <div style={{ marginTop: '53px', marginLeft: '15%' }}>
+              <div className={classname('font-bold text-25')}>
+                Gratien Tuyishimire
+              </div>
+              <Status status="Completed" size="12" bold className="mt-19" />
             </div>
-            <Status status="Completed" size="12" bold />
-            <div className={classname('absolute top-10 right-20')}>
+            <div className={classname('absolute top-0 right-20 mt-30')}>
               <div className="flex items-center">
                 <span className={classname('font-bold text-20 text-black')}>
                   50%
@@ -48,6 +42,23 @@ export const CandidatePage: NextPage = () => {
               </div>
               <div className={classname('font-bold text-right text-14')}>
                 Failed
+              </div>
+            </div>
+            <div style={{ marginLeft: '13%', marginTop: '27px' }}>
+              <div className="flex items-center">
+                <CandidateLabel
+                  label="Email Address"
+                  value="gracian2020@gmail.com"
+                  iconName="eva:email-outline"
+                />
+                <CandidateLabel
+                  label="Phone Number"
+                  value="+250786601005"
+                  iconName="bi:phone"
+                />
+              </div>
+              <div>
+                <QuizUri value="https://igihe.com/?attendant=sdskdsd&test=igihe" />
               </div>
             </div>
           </div>

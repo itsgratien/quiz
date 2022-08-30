@@ -20,6 +20,14 @@ module.exports = {
       },
       backgroundColor: {
         f1: '#f1f1f1',
+        primary: '#ffec44',
+      },
+      color: {
+        primary: '#ffec44',
+      },
+      margin: {
+        19: '19px',
+        30: '30px',
       },
     },
   },
