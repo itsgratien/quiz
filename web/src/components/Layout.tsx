@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import style from './Style.module.scss';
 import classname from 'classnames';
 import { Icon } from '@iconify/react';
+import SetupQuiz from './Quiz/Setup/SetupQuiz';
 
 export const Layout = ({ children, goBack }: TLayoutProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -14,6 +15,7 @@ export const Layout = ({ children, goBack }: TLayoutProps) => {
 
   return (
     <>
+      {open && <SetupQuiz />}
       <Header />
       <main className="mb-5">
         {goBack && (
@@ -29,6 +31,7 @@ export const Layout = ({ children, goBack }: TLayoutProps) => {
             className={classname(
               'relative outline-none focus:outline-none bg-primary rounded-full flex items-center justify-center'
             )}
+            onClick={() => setOpen(true)}
           >
             <Icon icon="akar-icons:plus" fontSize={35} />
           </button>

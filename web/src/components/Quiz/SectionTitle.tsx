@@ -9,12 +9,14 @@ export const SectionTitle = ({
   iconName,
   iconColor,
   titleColor,
+  textSize,
 }: {
   title: string;
   total?: string;
   iconName?: string;
   iconColor?: string;
   titleColor?: 'black' | 'fewBlack';
+  textSize?: number;
 }) => {
   return (
     <div className={classname(style.sectionTitle, 'flex flex-col')}>
@@ -22,7 +24,7 @@ export const SectionTitle = ({
         {iconName && <Icon icon={iconName} fontSize={26} color={iconColor} />}
         <span
           className={classname(
-            'font-bold text-15 capitalize',
+            `font-bold text-${textSize || 15} capitalize`,
             iconName && 'ml-2'
           )}
           style={{

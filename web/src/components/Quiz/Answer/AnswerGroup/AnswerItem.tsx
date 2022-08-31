@@ -23,7 +23,6 @@ const AnswerItem = ({
           success = true;
         }
       }
-      console.log('answer', answers);
       return success;
     }
   };
