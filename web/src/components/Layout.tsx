@@ -15,7 +15,7 @@ export const Layout = ({ children, goBack }: TLayoutProps) => {
 
   return (
     <>
-      {open && <SetupQuiz />}
+      {open && <SetupQuiz open={open} handleClose={() => setOpen(false)} />}
       <Header />
       <main className="mb-5">
         {goBack && (

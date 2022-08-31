@@ -3,8 +3,33 @@ import classname from 'classnames';
 import style from './Setup.module.scss';
 import { Icon } from '@iconify/react';
 
-const DateInput = () => {
-  const [name, setName] = React.useState<string>('click to select date');
+const DateInput = ({
+  onChange,
+  value,
+}: {
+  onChange: (value: string) => void;
+  value: string;
+}) => {
+  const defaultName = 'click to select date';
+
+  const [name, setName] = React.useState<string>(defaultName);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      setName(defaultName);
+    } else {
+      setName(e.target.value);
+    }
+
+    onChange(e.target.value);
+  };
+
+  React.useEffect(() => {
+    if (value && value.length > 0 && value !== '') {
+      setName(value);
+    }
+  }, [value]);
+
   return (
     <div
       className={classname(
@@ -19,7 +44,14 @@ const DateInput = () => {
           style.buttonField
         )}
       >
-        <span className={classname('text-13')}>{name}</span>
+        <span
+          className={classname('text-13')}
+          style={{
+            color: name === defaultName ? 'rgba(0, 0, 0, 0.3)' : 'black',
+          }}
+        >
+          {name}
+        </span>
         <Icon
           icon="clarity:date-outline-badged"
           fontSize={20}
@@ -33,7 +65,7 @@ const DateInput = () => {
           style.date,
           'w-full h-full outline-none focus:outline-none cursor-pointer'
         )}
-        onChange={(e) => console.log('date', e.target.value)}
+        onChange={handleChange}
       />
     </div>
   );

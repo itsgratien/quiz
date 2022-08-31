@@ -7,80 +7,115 @@ import SectionTitle from '../SectionTitle';
 import DateInput from './DateInput';
 import { SetupQuizSchema } from './Schema';
 import { useFormik } from 'formik';
+import InputError from './InputError';
 
-const SetupQuiz = () => {
+const SetupQuiz = ({
+  open,
+  handleClose,
+}: {
+  open: boolean;
+  handleClose?: () => void;
+}) => {
   const formik = useFormik({
     validationSchema: SetupQuizSchema,
     initialValues: { name: '', startDate: '', endDate: '', subject: '' },
-    onSubmit: ()=> {},
-    validateOnChange: false
+    onSubmit: (values) => {
+      console.log('submit', values);
+    },
+    validateOnChange: true,
   });
-  
+  const { values, errors } = formik;
+
   return (
-    <form autoComplete="off" className="outline-none focus:outline-none" onSubmit={formik.handleSubmit}>
-      <Modal
-        open={true}
-        nextButton={
-          <Button name="Save & Continue" className="primary" type="submit" />
-        }
-        leftElement={
-          <div>
-            <input
-              type="text"
-              className={classname('outline-none focus:outline-none text-14')}
-              placeholder="Write name of your quiz"
-            />
-          </div>
-        }
+    <Modal
+      open={open}
+      handleClose={handleClose}
+      nextButton={
+        <Button
+          name="Save & Continue"
+          className="primary"
+          type="submit"
+          handleClick={formik.handleSubmit}
+        />
+      }
+      leftElement={
+        <div>
+          <input
+            type="text"
+            className={classname(
+              'outline-none focus:outline-none text-14 font-bold text-black'
+            )}
+            placeholder="Write name of your quiz"
+            value={values.name}
+            onChange={formik.handleChange}
+            name="name"
+          />
+          <InputError error={errors?.name} />
+        </div>
+      }
+    >
+      <div
+        className={classname(
+          'relative flex flex-col items-center',
+          style.setupQuiz
+        )}
       >
-        <div
-          className={classname(
-            'relative flex flex-col items-center',
-            style.setupQuiz
-          )}
-        >
-          <div>
-            <div className={classname('relative')}>
-              <SectionTitle
-                title="start date & end date"
-                iconName="clarity:date-outline-badged"
-                textSize={12}
-              />
-              <div
-                className={classname('flex items-center')}
-                style={{ marginTop: '12px' }}
-              >
-                <div className={classname(style.inputGroup)}>
-                  <DateInput />
-                </div>
-                <div style={{ margin: '0 20px' }}>-</div>
-                <div className={classname(style.inputGroup)}>
-                  <DateInput />
-                </div>
+        <div>
+          <div className={classname('relative')}>
+            <SectionTitle
+              title="start date & end date"
+              iconName="clarity:date-outline-badged"
+              textSize={12}
+            />
+            <div
+              className={classname('flex items-center')}
+              style={{ marginTop: '12px' }}
+            >
+              <div className={classname(style.inputGroup)}>
+                <DateInput
+                  onChange={(value) =>
+                    formik.setFieldValue('startDate', value, false)
+                  }
+                  value={values.startDate}
+                />
+                <InputError error={errors?.startDate} />
+              </div>
+              <div style={{ margin: '0 20px' }}>-</div>
+              <div className={classname(style.inputGroup)}>
+                <DateInput
+                  onChange={(value) =>
+                    formik.setFieldValue('endDate', value, false)
+                  }
+                  value={values.endDate}
+                />
+                <InputError error={errors?.endDate} />
               </div>
             </div>
-            <div className={classname('mt-5')}>
-              <SectionTitle
-                title="subject"
-                iconName="mdi:air-humidifier"
-                textSize={12}
+          </div>
+          <div className={classname('mt-10')}>
+            <SectionTitle
+              title="subject"
+              iconName="mdi:air-humidifier"
+              textSize={12}
+            />
+            <div className={style.inputGroup} style={{ marginTop: '12px' }}>
+              <input
+                type="text"
+                placeholder="subject"
+                className={classname(
+                  'outline-none focus:outline-none bg-f1 w-full rounded-10 h-full text-14',
+                  style.subjectInput
+                )}
+                value={values.subject}
+                name="subject"
+                onChange={formik.handleChange}
               />
-              <div className={style.inputGroup} style={{ marginTop: '12px' }}>
-                <input
-                  type="text"
-                  placeholder="subject"
-                  className={classname(
-                    'outline-none focus:outline-none bg-f1 w-full rounded-10 h-full text-14',
-                    style.subjectInput
-                  )}
-                  value=""
-                />
-              </div>
+              <InputError error={errors?.subject} />
             </div>
           </div>
         </div>
-      </Modal>
-    </form>
+      </div>
+    </Modal>
   );
 };
 
