@@ -3,9 +3,13 @@
 .questionItem {
   padding: 20px 30px 40px 30px;
   min-height: 135px;
+  .rightBtn {
+    display: none;
+  }
   &:hover {
     border: 1px solid $pbc;
-    .viewMore {
+    .viewMore,
+    .rightBtn {
       display: block;
     }
   }

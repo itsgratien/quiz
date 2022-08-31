@@ -72,8 +72,3 @@ export interface QuizItemProps {
     _id: string;
   };
 }
-
-export interface QuizModalContainerT {
-  open: boolean;
-  handleClose?: () => void;
-}

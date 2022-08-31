@@ -2,7 +2,6 @@ import * as React from 'react';
 import classname from 'classnames';
 import style from './Setup.module.scss';
 import Modal from '@mui/material/Modal';
-import { QuizModalContainerT } from '@/generated/Quiz';
 import Button from './Button';
 import { Icon } from '@iconify/react';
 
@@ -28,7 +27,7 @@ const ModalContainer = ({
       >
         <div
           className={classname(
-            'fixed right-0 left-0 bg-white top-0',
+            'fixed right-0 left-0 bg-white top-0 z-10',
             style.modalHeader
           )}
         >

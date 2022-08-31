@@ -20,7 +20,7 @@ export const SectionTitle = ({
   titleColor?: 'black' | 'fewBlack';
   textSize?: number;
   totalMarginLeft?: string;
-  totalColor: 'black' | 'fewBlack';
+  totalColor?: 'black' | 'fewBlack';
 }) => {
   return (
     <div className={classname(style.sectionTitle, 'flex flex-col')}>

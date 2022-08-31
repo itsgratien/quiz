@@ -4,15 +4,19 @@ import style from './QuestionItem.module.scss';
 import QuestionType from './QType';
 import ViewMoreButton from '../QuizItem/ViewMoreButton';
 import ViewMore from '../ViewMore';
+import RightButton from '@/components/Quiz/RightButtons';
+import EditButton from '../QuestionItem/EditButton';
 
 const QuestionItem = ({
   title,
   points,
   type,
+  handleEdit,
 }: {
   title: string;
   points: string | number;
   type: string;
+  handleEdit?: () => void;
 }) => {
   const handleTitle = (value: string) => {
     if (value.length > 55) {
@@ -39,6 +43,9 @@ const QuestionItem = ({
       <ViewMore className={style.viewMore}>
         <ViewMoreButton size="small" />
       </ViewMore>
+      <RightButton className={style.rightBtn}>
+        {handleEdit && <EditButton />}
+      </RightButton>
     </div>
   );
 };

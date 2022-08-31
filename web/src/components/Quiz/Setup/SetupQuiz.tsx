@@ -8,7 +8,7 @@ import DateInput from './DateInput';
 import { SetupQuizSchema } from './Schema';
 import { useFormik } from 'formik';
 import InputError from './InputError';
-import ViewAssignedQuestion from './ViewAssignedQuestion';
+import ViewAssignedQuestion from './ViewAssignedQuestion/ViewAssignedQuestion';
 
 const SetupQuiz = ({
   open,
