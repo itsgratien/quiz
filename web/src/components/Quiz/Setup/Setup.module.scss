@@ -1,5 +1,8 @@
 @import 'src/styles/colors.scss';
 
+.setup {
+  padding-top: 214px;
+}
 .modalHeader {
   padding: 15px 18px;
   .headerButton {
@@ -29,7 +32,6 @@
 .setupQuiz {
   width: 50%;
   margin: auto;
-  padding-top: 214px;
   .inputGroup {
     height: 40px;
     &:first-child,
@@ -57,4 +59,9 @@
       height: 100%;
     }
   }
+}
+
+.viewAssignedQuestion {
+  width: 60%;
+  margin: auto;
 }

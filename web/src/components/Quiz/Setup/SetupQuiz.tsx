@@ -8,6 +8,7 @@ import DateInput from './DateInput';
 import { SetupQuizSchema } from './Schema';
 import { useFormik } from 'formik';
 import InputError from './InputError';
+import ViewAssignedQuestion from './ViewAssignedQuestion';
 
 const SetupQuiz = ({
   open,
@@ -16,14 +17,17 @@ const SetupQuiz = ({
   open: boolean;
   handleClose?: () => void;
 }) => {
+  const [viewQ, setViewQ] = React.useState<boolean>(false);
+
   const formik = useFormik({
     validationSchema: SetupQuizSchema,
     initialValues: { name: '', startDate: '', endDate: '', subject: '' },
     onSubmit: (values) => {
-      console.log('submit', values);
+      setViewQ(true);
     },
     validateOnChange: true,
   });
+
   const { values, errors } = formik;
 
   return (
@@ -57,9 +61,16 @@ const SetupQuiz = ({
       <div
         className={classname(
           'relative flex flex-col items-center',
+          style.setup,
           style.setupQuiz
         )}
       >
+        {viewQ && (
+          <ViewAssignedQuestion
+            open={viewQ}
+            handleClose={() => setViewQ(false)}
+          />
+        )}
         <div>
           <div className={classname('relative')}>
             <SectionTitle
