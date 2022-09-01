@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './SetupQuestion.module.scss';
 import classname from 'classnames';
-import { Icon } from '@iconify/react';
+import { CheckBox } from './CheckBox';
 
 export const ChoiceType = ({
   label,
@@ -19,23 +19,11 @@ export const ChoiceType = ({
         style.choiceType
       )}
     >
-      <div className={classname('relative', style.checkBox)}>
-        <input
-          type="checkbox"
-          className={classname('outline-none focus:outline-none')}
-          onClick={() => onChange(label)}
-        />
-        <div
-          className={classname(
-            'absolute left-0 right-0 top-0 bottom-0 bg-f1 flex items-center justify-center',
-            style.absoluteCheck
-          )}
-        >
-          {label === value && (
-            <Icon icon="bi:check" fontSize={28} color="rgba(0, 0, 0, 0.54)" />
-          )}
-        </div>
-      </div>
+      <CheckBox
+        value={value}
+        label={label}
+        onClick={(value) => onChange(value)}
+      />
       <span
         className={classname('font-bold text-14 capitalize text-black')}
         style={{ marginLeft: '13px' }}

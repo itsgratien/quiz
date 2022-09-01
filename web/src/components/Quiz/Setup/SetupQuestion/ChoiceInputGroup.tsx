@@ -13,6 +13,18 @@ const ChoiceInputGroup = ({
   value: string;
   error?: string;
 }) => {
+  const onChange = (value: string) => {
+    const choices = [];
+
+    const selectedValue = Number(value);
+
+    for (let i = 0; i < selectedValue; i++) {
+      choices.push('');
+    }
+
+    formik.setFieldValue('choiceNumber', value, false);
+    formik.setFieldValue('choices', choices, false);
+  };
   return (
     <div className={classname(style.inputGroup)}>
       <div className="flex items-center">
@@ -23,11 +35,7 @@ const ChoiceInputGroup = ({
           (Maximum 5 & Minimum 2)
         </span>
       </div>
-      <ChoiceInput
-        onChange={(value) => formik.setFieldValue('choiceNumber', value, false)}
-        value={value}
-        error={error}
-      />
+      <ChoiceInput onChange={onChange} value={value} error={error} />
     </div>
   );
 };

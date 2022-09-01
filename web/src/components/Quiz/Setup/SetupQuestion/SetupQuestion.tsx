@@ -11,6 +11,8 @@ import { SetupQuestionSchema } from './Schema';
 import { ChoiceTypeEnum } from '@/generated/Enum';
 import InputError from '../InputError';
 import ChoiceInputGroup from './ChoiceInputGroup';
+import ChoiceOption from './ChoiceOption';
+import DescriptionField from './DescriptionField';
 
 export const SetupQuestion = ({
   open,
@@ -29,13 +31,14 @@ export const SetupQuestion = ({
         title: '',
         points: '',
         choiceType: '',
-        choices: [],
+        choices: ['', ''],
         description: '',
-        choiceNumber: '',
+        choiceNumber: '2',
+        answers: [''],
       }}
       validationSchema={SetupQuestionSchema}
       validateOnChange={false}
-      onSubmit={(values) => values}
+      onSubmit={(values, _actions) => values}
     >
       {(formik) => {
         const { values, errors } = formik;
@@ -48,6 +51,7 @@ export const SetupQuestion = ({
                 name="Save & Close"
                 className="primary"
                 handleClick={formik.handleSubmit}
+                type="submit"
               />
             }
             leftElement={
@@ -65,47 +69,63 @@ export const SetupQuestion = ({
                 style.setupQuestion
               )}
             >
-              <div className={classname(style.qTitle)}>
-                <input
-                  type="text"
-                  placeholder="Title of your question"
-                  className={classname(
-                    'rounded-10 bg-f1 outline-none focus:outline-none'
-                  )}
-                />
-              </div>
-              <div style={{ paddingLeft: '30px' }}>
-                <div className={style.inputGroup}>
-                  <SectionTitle title="Points" iconName="mdi:air-humidifier" />
-                  <InputField
-                    name="points"
-                    value={values.points}
-                    onChange={formik.handleChange}
-                    placeholder="Points"
-                    width="280px"
-                    error={errors.points}
-                    type="number"
+              <div style={{ margin: 'auto', width: '50%' }}>
+                <div className={classname(style.qTitle)}>
+                  <input
+                    type="text"
+                    placeholder="Title of your question"
+                    className={classname(
+                      'rounded-10 bg-f1 outline-none focus:outline-none'
+                    )}
                   />
                 </div>
-                <div className={classname(style.inputGroup)}>
-                  <div className={classname('flex items-center')}>
-                    <ChoiceType
-                      label={ChoiceTypeEnum.MultipleChoice}
-                      value={values.choiceType}
-                      onChange={(value) => onChangeChoiceType(formik, value)}
+                <div style={{ paddingLeft: '30px' }}>
+                  <div className={style.inputGroup}>
+                    <SectionTitle
+                      title="Points"
+                      iconName="mdi:air-humidifier"
                     />
-                    <ChoiceType
-                      label={ChoiceTypeEnum.SingleChoice}
-                      value={values.choiceType}
-                      onChange={(value) => onChangeChoiceType(formik, value)}
+                    <InputField
+                      name="points"
+                      value={values.points}
+                      onChange={formik.handleChange}
+                      placeholder="Points"
+                      width="280px"
+                      error={errors.points}
+                      type="number"
                     />
                   </div>
-                  <InputError error={errors.choiceType} />
+                  <div className={classname(style.inputGroup)}>
+                    <div className={classname('flex items-center')}>
+                      <ChoiceType
+                        label={ChoiceTypeEnum.MultipleChoice}
+                        value={values.choiceType}
+                        onChange={(value) => onChangeChoiceType(formik, value)}
+                      />
+                      <ChoiceType
+                        label={ChoiceTypeEnum.SingleChoice}
+                        value={values.choiceType}
+                        onChange={(value) => onChangeChoiceType(formik, value)}
+                      />
+                    </div>
+                    <InputError error={errors.choiceType} />
+                  </div>
+                  <ChoiceInputGroup
+                    formik={formik}
+                    value={values.choiceNumber}
+                    error={errors.choiceNumber}
+                  />
                 </div>
-                <ChoiceInputGroup
-                  formik={formik}
-                  value={values.choiceNumber}
-                  error={errors.choiceNumber}
+              </div>
+              <ChoiceOption
+                formik={formik}
+                choices={values.choices}
+                errors={errors}
+              />
+              <div className="mx-auto" style={{ width: '50%' }}>
+                <DescriptionField
+                  onChange={formik.handleChange}
+                  value={values.description}
                 />
               </div>
             </div>

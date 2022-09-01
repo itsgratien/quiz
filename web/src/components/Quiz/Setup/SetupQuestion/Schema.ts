@@ -1,5 +1,5 @@
-import { object, string, number } from 'yup';
-import { requiredMsg, minLengthMsg } from '@/utils/ValidationMsg';
+import { object, string, number, array } from 'yup';
+import { requiredMsg } from '@/utils/ValidationMsg';
 
 export const SetupQuestionSchema = object().shape({
   title: string().required(requiredMsg),
@@ -8,4 +8,12 @@ export const SetupQuestionSchema = object().shape({
     .positive('This field must be a positive number'),
   choiceType: string().required(requiredMsg),
   choiceNumber: string().required(requiredMsg),
+  choices: array()
+    .of(string().required(requiredMsg))
+    .required(requiredMsg)
+    .min(2, requiredMsg),
+  answers: array()
+    .of(string().required(requiredMsg))
+    .required(requiredMsg)
+    .min(1, requiredMsg),
 });

@@ -2,8 +2,7 @@
 @import '../Setup.module.scss';
 
 .setupQuestion {
-  width: 60%;
-  margin: auto;
+  width: 100%;
   .qTitle {
     width: 623px;
     height: 90px;
@@ -26,10 +25,10 @@
   &:first-child {
     margin-left: 0;
   }
-  .checkBox {
-    width: 28px;
-    height: 28px;
-  }
+}
+.checkBox {
+  width: 28px;
+  height: 28px;
   input[type='checkbox'] {
     width: 100%;
     height: 100%;
@@ -71,6 +70,16 @@
       to {
         margin-top: 5px;
       }
+    }
+  }
+}
+.choiceOption {
+  width: 80%;
+  margin: auto;
+  .optionItem {
+    .optionInputField {
+      height: 100px;
+      width: 80%;
     }
   }
 }
