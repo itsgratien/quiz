@@ -21,3 +21,8 @@ export enum QuestionType {
   MultipleChoice = 'MultipleChoice',
   Coding = 'Coding',
 }
+
+export enum ChoiceTypeEnum {
+  MultipleChoice = 'Multiple Choice',
+  SingleChoice = 'Single Choice',
+}

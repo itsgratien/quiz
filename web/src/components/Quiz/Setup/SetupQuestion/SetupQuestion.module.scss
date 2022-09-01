@@ -1,6 +1,76 @@
 @import 'src/styles/colors.scss';
 @import '../Setup.module.scss';
 
-.setupQuestion{
-    width: 75%;
+.setupQuestion {
+  width: 60%;
+  margin: auto;
+  .qTitle {
+    width: 623px;
+    height: 90px;
+    input {
+      height: 100%;
+      width: 100%;
+      padding: 0 48px;
+      padding-right: 10px;
+      &::placeholder {
+        font-size: 20px;
+      }
+    }
+  }
+  .inputGroup {
+    margin-top: 40px;
+  }
+}
+.choiceType {
+  margin-left: 56px;
+  &:first-child {
+    margin-left: 0;
+  }
+  .checkBox {
+    width: 28px;
+    height: 28px;
+  }
+  input[type='checkbox'] {
+    width: 100%;
+    height: 100%;
+  }
+  .absoluteCheck {
+    pointer-events: none;
+  }
+}
+
+.choiceInputGroup {
+  .choiceInput {
+    height: 40px;
+    padding: 0 20px 0 34px;
+  }
+  .options {
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 150px;
+    animation: optionsAnimation 0.2s ease;
+    li {
+      padding: 8px 20px 8px 34px;
+      border-bottom: 1px solid #dddddd61;
+      cursor: pointer;
+      font-size: 13px;
+      &:hover {
+        background: #f1f1f1;
+      }
+      &:last-child {
+        border-bottom: none;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+    }
+    @keyframes optionsAnimation {
+      from {
+        margin-top: 0px;
+      }
+      to {
+        margin-top: 5px;
+      }
+    }
+  }
 }

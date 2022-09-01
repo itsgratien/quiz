@@ -9,6 +9,7 @@ import { SetupQuizSchema } from './Schema';
 import { useFormik } from 'formik';
 import InputError from './InputError';
 import ViewAssignedQuestion from './ViewAssignedQuestion/ViewAssignedQuestion';
+import InputField from './InputField';
 
 const SetupQuiz = ({
   open,
@@ -25,7 +26,7 @@ const SetupQuiz = ({
     onSubmit: (values) => {
       setViewQ(true);
     },
-    validateOnChange: true,
+    validateOnChange: false,
   });
 
   const { values, errors } = formik;
@@ -110,18 +111,13 @@ const SetupQuiz = ({
               textSize={12}
             />
             <div className={style.inputGroup} style={{ marginTop: '12px' }}>
-              <input
-                type="text"
+              <InputField
                 placeholder="subject"
-                className={classname(
-                  'outline-none focus:outline-none bg-f1 w-full rounded-10 h-full text-14',
-                  style.subjectInput
-                )}
                 value={values.subject}
-                name="subject"
                 onChange={formik.handleChange}
+                name="subject"
+                error={errors.subject}
               />
-              <InputError error={errors?.subject} />
             </div>
           </div>
         </div>

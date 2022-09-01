@@ -1,9 +1,5 @@
 import { object, string } from 'yup';
-
-const requiredMsg = `This field can't be left blank`;
-
-const minLengthMsg = (value: number) =>
-  `This field can't accept below ${value} characters`;
+import { requiredMsg, minLengthMsg } from '@/utils/ValidationMsg';
 
 export const SetupQuizSchema = object().shape({
   name: string().required(requiredMsg).min(4, minLengthMsg(4)),
