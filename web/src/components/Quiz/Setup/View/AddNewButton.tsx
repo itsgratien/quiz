@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './ViewAssignedQuestion.module.scss';
 import classname from 'classnames';
 import LoadMoreButton from '@/components/Quiz/LoadMoreButton';
 

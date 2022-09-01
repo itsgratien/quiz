@@ -1,6 +1,6 @@
 import React from 'react';
 import classname from 'classnames';
-import style from './ViewAssignedQuestion.module.scss';
+import style from './View.module.scss';
 import Modal from '../ModalContainer';
 import Button from '../Button';
 import SectionTitle from '../../SectionTitle';
