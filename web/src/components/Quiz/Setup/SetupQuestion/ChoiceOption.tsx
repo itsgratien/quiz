@@ -28,11 +28,26 @@ export const ChoiceOption = ({
     }
     return undefined;
   };
+
+  const onUpdateAnswer = (value: string) => {
+    const find = formik.values.answers.find((item: string) => item === value);
+
+    if (!find) {
+      const newAnswers = [...formik.values.answers, value];
+      formik.setFieldValue('answers', newAnswers);
+    } else {
+      const filterAnswers = formik.values.answers.filter(
+        (item: string) => item !== value
+      );
+      formik.setFieldValue('answers', filterAnswers);
+    }
+  };
+
   return (
     <div className={classname(style.inputGroup)}>
       <FieldArray
         name="choices"
-        render={() => {
+        render={(arrayHelper) => {
           return (
             <div className={classname(style.choiceOption, 'relative')}>
               {choices.length > 0 && (
@@ -50,9 +65,30 @@ export const ChoiceOption = ({
                             'bg-f1 rounded-5',
                             style.optionInputField
                           )}
-                        ></div>
+                        >
+                          <textarea
+                            style={{ resize: 'none', height: '100px' }}
+                            className={classname(
+                              'w-full outline-none focus:outline-none h-full bg-f1 pt-7 pb-1',
+                              choices.length < 5 ? 'pl-10 pr-10' : 'pl-5 pr-5'
+                            )}
+                            placeholder="Type your answer"
+                            onChange={(e) =>
+                              arrayHelper.replace(itemKey, e.target.value)
+                            }
+                            value={item}
+                          >
+                            {item}
+                          </textarea>
+                        </div>
                         <div className="ml-3">
-                          <CheckBox label={item} onClick={(value) => ''} />
+                          <CheckBox
+                            label={item}
+                            onClick={onUpdateAnswer}
+                            value={formik.values.answers.find(
+                              (a: string) => a === item
+                            )}
+                          />
                         </div>
                       </div>
                       <InputError error={getError(itemKey)} />

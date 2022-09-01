@@ -1,8 +1,8 @@
 import { object, string, number, array } from 'yup';
-import { requiredMsg } from '@/utils/ValidationMsg';
+import { requiredMsg, minLengthMsg } from '@/utils/ValidationMsg';
 
 export const SetupQuestionSchema = object().shape({
-  title: string().required(requiredMsg),
+  title: string().required(requiredMsg).min(5, minLengthMsg(5)),
   points: number()
     .required(requiredMsg)
     .positive('This field must be a positive number'),

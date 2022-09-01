@@ -6,7 +6,7 @@ import Button from '../Button';
 import SectionTitle from '../../SectionTitle';
 import { InputField } from '../InputField';
 import ChoiceType from './ChoiceType';
-import { Formik, FormikProps, FieldArray } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { SetupQuestionSchema } from './Schema';
 import { ChoiceTypeEnum } from '@/generated/Enum';
 import InputError from '../InputError';
@@ -34,7 +34,7 @@ export const SetupQuestion = ({
         choices: ['', ''],
         description: '',
         choiceNumber: '2',
-        answers: [''],
+        answers: [],
       }}
       validationSchema={SetupQuestionSchema}
       validateOnChange={false}
@@ -77,7 +77,11 @@ export const SetupQuestion = ({
                     className={classname(
                       'rounded-10 bg-f1 outline-none focus:outline-none'
                     )}
+                    value={values.title}
+                    onChange={formik.handleChange}
+                    name="title"
                   />
+                  <InputError error={errors.title} />
                 </div>
                 <div style={{ paddingLeft: '30px' }}>
                   <div className={style.inputGroup}>

@@ -18,9 +18,15 @@ export const DescriptionField = ({
         onChange={onChange}
         name="description"
         className={classname(
-          'outline-none focus:outline-none bg-f1 mt-14 rounded-5 mb-10'
+          'outline-none focus:outline-none bg-f1 mt-14 rounded-5 mb-10',
+          style.descriptionArea
         )}
-        style={{ width: '623px', height: '150px', padding: '32px' }}
+        style={{
+          width: '623px',
+          height: '150px',
+          padding: '32px',
+          resize: 'none',
+        }}
         placeholder="write your description"
       ></textarea>
     </div>
