@@ -6,6 +6,10 @@ import AddNewButton from './AddNewButton';
 import Modal from '../ModalContainer';
 import Button from '../Button';
 import SectionTitle from '@/components/Quiz/SectionTitle';
+import AttendantMock from '@/mocks/Candidate';
+import CandidateItem from '../../Candidates/CandidateItem';
+import Grid from '@mui/material/Grid';
+import Warning from '@/components/Shared/Alert/WarningAlertModal';
 
 export const ViewInvitedCandidate = ({
   open,
@@ -15,6 +19,9 @@ export const ViewInvitedCandidate = ({
   handleClose?: () => void;
 }) => {
   const [openC, setOpenC] = React.useState<boolean>(false);
+
+  const [warning, setWarning] = React.useState<boolean>(false);
+
   return (
     <Modal
       open={open}
@@ -26,6 +33,15 @@ export const ViewInvitedCandidate = ({
         </div>
       }
     >
+      {warning && (
+        <Warning
+          open={warning}
+          handleClose={() => setWarning(false)}
+          enable={{ name: 'By importing them', onClick: () => {} }}
+          disable={{ name: 'Using default', onClick: () => {} }}
+          message="How would you like to invite candidates to the quiz ?"
+        />
+      )}
       <div
         className={classname(
           style.setup,
@@ -41,12 +57,25 @@ export const ViewInvitedCandidate = ({
           totalMarginLeft="0"
           totalColor="fewBlack"
         />
-        <div className={classname(style.notFoundSec)}>
-          <NotFound message="There are No Candidates Invited click on the button below to add new" />
-          <div style={{ marginTop: '38px' }}>
-            <AddNewButton onClick={() => setOpenC(true)} />
+        {AttendantMock.getAll.length > 0 ? (
+          <div className={classname(style.candidateItems, 'mt-10')}>
+            <Grid container spacing={4}>
+              {AttendantMock.getAll.map((item) => (
+                <Grid item xs={4} key={item._id}>
+                  <CandidateItem {...item} handleEdit={() => ''} />
+                </Grid>
+              ))}
+            </Grid>
+            <AddNewButton position="fixed" onClick={() => setWarning(true)} />
           </div>
-        </div>
+        ) : (
+          <div className={classname(style.notFoundSec)}>
+            <NotFound message="There are No Candidates Invited click on the button below to add new" />
+            <div style={{ marginTop: '38px' }}>
+              <AddNewButton onClick={() => setOpenC(true)} />
+            </div>
+          </div>
+        )}
       </div>
     </Modal>
   );

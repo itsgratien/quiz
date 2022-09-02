@@ -1,0 +1,44 @@
+@import 'src/styles/colors.scss';
+
+.warningModal {
+  height: 100%;
+  .warning {
+    width: 632px;
+    padding: 107px;
+    border-radius: 20px;
+    .btn {
+      border-radius: 20px;
+      box-shadow: 0px 4px 1px rgba(0, 0, 0, 0.6);
+      padding: 0 22px;
+      height: 54px;
+    }
+    .closeBtn {
+      margin-bottom: -25px;
+      margin-right: -20px;
+      &:hover {
+        margin-bottom: -20px;
+        margin-right: -15px;
+        animation: closeBtnAnimation 0.2s ease-in-out;
+        button {
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+      }
+      @keyframes closeBtnAnimation {
+        from {
+          margin-bottom: -25px;
+          margin-right: -20px;
+        }
+        to {
+          margin-bottom: -20px;
+          margin-right: -15px;
+        }
+      }
+      button {
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+        background: #ff0000;
+      }
+    }
+  }
+}
