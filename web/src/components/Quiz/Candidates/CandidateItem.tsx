@@ -16,14 +16,16 @@ export const CandidateItem = ({
   status,
   _id,
   handleEdit,
+  handleRemove,
 }: {
   handleViewAnswer?: (value: string) => void;
   names: string;
   phoneNumber: string;
   email: string;
-  status: string;
-  _id: string;
+  status?: string;
+  _id?: string;
   handleEdit?: () => void;
+  handleRemove?: () => void;
 }) => {
   return (
     <div className={classname(style.candidateItem, 'relative bg-f1 rounded-5')}>
@@ -41,18 +43,30 @@ export const CandidateItem = ({
         <Icon icon="bi:phone" fontSize={20} />
         <span className={classname('text-12 ml-1')}>{phoneNumber}</span>
       </div>
-      <div style={{ marginTop: '19px' }}>
-        <Status status={status} />
-      </div>
+      {status && (
+        <div style={{ marginTop: '19px' }}>
+          <Status status={status} />
+        </div>
+      )}
       <ViewMore className={style.viewMore}>
-        <ViewMoreButton
-          name="View Answer"
-          size="small"
-          handleClick={() => handleViewAnswer && handleViewAnswer(_id)}
-        />
+        {handleViewAnswer && (
+          <ViewMoreButton
+            name="View Answer"
+            size="small"
+            handleClick={() => handleViewAnswer && _id && handleViewAnswer(_id)}
+          />
+        )}
       </ViewMore>
       <RightButton className={style.rightBtn}>
         {handleEdit && <EditButton name="edit" handleClick={handleEdit} />}
+        {handleRemove && (
+          <EditButton
+            name="drop"
+            handleClick={handleRemove}
+            iconName="fluent:delete-16-regular"
+            type="danger"
+          />
+        )}
       </RightButton>
     </div>
   );

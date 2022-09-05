@@ -1,9 +1,13 @@
 import * as React from 'react';
 import style from './Import.module.scss';
 import classname from 'classnames';
-import { Icon } from '@iconify/react';
+import ImportButton from './ImportButton';
 
-const NB = () => {
+const NB = ({
+  handleChange,
+}: {
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
   return (
     <div className={classname('relative', style.nb)}>
       <div className={classname('flex')}>
@@ -29,24 +33,7 @@ const NB = () => {
           </span>
         </div>
       </div>
-      <div
-        className={classname(
-          'flex items-center justify-center relative',
-          style.btnSection
-        )}
-        style={{ marginTop: '33px' }}
-      >
-        <button
-          type="button"
-          className={classname(
-            'outline-none focus:outline-none flex items-center justify-center rounded-10'
-          )}
-        >
-          <Icon fontSize={36} icon="clarity:import-line" />
-          <span className="font-bold text-14 text-black ml-2">Import List</span>
-        </button>
-        <input type="file" className="absolute opacity-0" />
-      </div>
+      <ImportButton handleChange={handleChange} />
     </div>
   );
 };

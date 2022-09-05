@@ -11,7 +11,7 @@ const EditButton = ({
 }: {
   name?: string;
   handleClick?: () => void;
-  type?: 'primary' | 'secondary';
+  type?: 'primary' | 'secondary' | 'danger';
   iconName?: string;
 }) => {
   return (
@@ -20,7 +20,11 @@ const EditButton = ({
       className={classname(
         'outline-none focus:outline-none flex items-center justify-center  text-12 text-black font-bold',
         style.editBtn,
-        type === 'primary' ? style.editBtnPrimary : style.editBtnSecondary
+        type === 'primary'
+          ? style.editBtnPrimary
+          : type === 'danger'
+          ? `${style.dangerBtn} text-white`
+          : style.editBtnSecondary
       )}
       onClick={handleClick}
     >
@@ -28,7 +32,7 @@ const EditButton = ({
       <Icon
         icon={iconName || 'dashicons:edit-large'}
         fontSize={15}
-        className="ml-3"
+        className="ml-2"
       />
     </button>
   );

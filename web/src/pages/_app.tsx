@@ -3,8 +3,6 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import '@/utils/Firebase';
 import { Toaster } from 'react-hot-toast';
-import apolloClient from '@/utils/ApolloClient';
-import { ApolloProvider } from '@apollo/client';
 import AuthProvider from '@/components/Auth/AuthProvider';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
