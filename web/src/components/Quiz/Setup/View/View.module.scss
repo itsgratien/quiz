@@ -10,3 +10,21 @@
   margin: auto;
   margin-top: 158px;
 }
+.questionDetail {
+  .heading {
+    width: 30%;
+    margin: auto;
+  }
+  .detailChoice {
+    width: 60%;
+    margin: auto;
+    margin-top: 42px;
+    .title {
+      margin-left: 25%;
+    }
+  }
+  .description {
+    padding: 55px 63px 54px 57px;
+    margin-top: 20px;
+  }
+}

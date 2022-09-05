@@ -11,6 +11,7 @@ import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
 import Grid from '@mui/material/Grid';
 import SetupQuestion from '../SetupQuestion/SetupQuestion';
 import LeftTitle from '../LeftTitle';
+import QuestionDetail from './QuestionDetail';
 
 export const ViewAssignedQuestion = ({
   open,
@@ -20,6 +21,8 @@ export const ViewAssignedQuestion = ({
   handleClose?: () => void;
 }) => {
   const [openQ, setOpenQ] = React.useState<boolean>(false);
+
+  const [viewQ, setViewQ] = React.useState<boolean>(false);
 
   return (
     <Modal
@@ -33,6 +36,9 @@ export const ViewAssignedQuestion = ({
       <div className={classname(style.setup, style.viewAssignedQuestion)}>
         {openQ && (
           <SetupQuestion open={openQ} handleClose={() => setOpenQ(false)} />
+        )}
+        {viewQ && (
+          <QuestionDetail open={viewQ} handleClose={() => setViewQ(false)} />
         )}
         <SectionTitle
           title="Add Questions To The Quiz"
@@ -48,7 +54,7 @@ export const ViewAssignedQuestion = ({
               <Grid container spacing={6}>
                 {QuestionMock.getAll.map((item) => (
                   <Grid item xs={4} key={item._id}>
-                    <QuestionItem {...item} handleEdit={() => ''} />
+                    <QuestionItem {...item} handleView={() => setViewQ(true)} />
                   </Grid>
                 ))}
               </Grid>

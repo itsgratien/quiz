@@ -12,6 +12,7 @@ export const SectionTitle = ({
   textSize,
   totalMarginLeft,
   totalColor,
+  totalMarginTop,
 }: {
   title: string;
   total?: string;
@@ -21,6 +22,7 @@ export const SectionTitle = ({
   textSize?: number;
   totalMarginLeft?: string;
   totalColor?: 'black' | 'fewBlack';
+  totalMarginTop?: string;
 }) => {
   return (
     <div className={classname(style.sectionTitle, 'flex flex-col')}>
@@ -40,9 +42,11 @@ export const SectionTitle = ({
       </div>
       {total && (
         <span
-          className={classname('text-12', `ml-${totalMarginLeft || 3}`)}
+          className={classname('text-12 ml-3')}
           style={{
             color: totalColor === 'fewBlack' ? 'rgba(0, 0, 0, 0.5)' : 'black',
+            marginTop: totalMarginTop || '0px',
+            marginLeft: `${totalMarginLeft}px`,
           }}
         >
           {total}

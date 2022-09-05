@@ -1,6 +1,6 @@
 import React from 'react';
 import { UseQuizStatusColorPropsT, QuizStatus } from '@/generated/Quiz';
-import { AttendantStatus } from '@/generated/Enum';
+import { AttendantStatus, TestStatus } from '@/generated/Enum';
 
 export const useQuizStatusColor = ({ status }: UseQuizStatusColorPropsT) => {
   const [bgColor, setBgColor] = React.useState<string>();
@@ -22,6 +22,9 @@ export const useQuizStatusColor = ({ status }: UseQuizStatusColorPropsT) => {
         break;
       case AttendantStatus.Started:
         setBgColor('rgba(0, 0, 0, 0.12)');
+        break;
+      case TestStatus.Closed:
+        setBgColor('#FF0000');
         break;
       default:
         setBgColor(undefined);

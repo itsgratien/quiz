@@ -12,11 +12,13 @@ const QuestionItem = ({
   points,
   type,
   handleEdit,
+  handleView,
 }: {
   title: string;
   points: string | number;
   type: string;
   handleEdit?: () => void;
+  handleView?: () => void;
 }) => {
   const handleTitle = (value: string) => {
     if (value.length > 55) {
@@ -40,9 +42,11 @@ const QuestionItem = ({
         <QuestionType name={type} />
         <QuestionType name={`${points} Points`} point />
       </div>
-      <ViewMore className={style.viewMore}>
-        <ViewMoreButton size="small" />
-      </ViewMore>
+      {handleView && (
+        <ViewMore className={style.viewMore}>
+          <ViewMoreButton size="small" handleClick={handleView} />
+        </ViewMore>
+      )}
       <RightButton className={style.rightBtn}>
         {handleEdit && <EditButton />}
       </RightButton>
