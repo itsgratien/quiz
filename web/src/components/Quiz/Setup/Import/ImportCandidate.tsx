@@ -4,6 +4,7 @@ import classname from 'classnames';
 import Modal from '../ModalContainer';
 import Button from '../Button';
 import LeftTitle from '../LeftTitle';
+import NB from './NB';
 
 const ImportCandidate = ({
   open,
@@ -12,22 +13,25 @@ const ImportCandidate = ({
   open: boolean;
   handleClose: () => void;
 }) => {
+  const [showNextButton, setShowNextButton] = React.useState<boolean>(false);
   return (
     <Modal
       open={open}
       handleClose={handleClose}
       nextButton={
-        <Button
-          type="submit"
-          name="Accept & Close"
-          className="accept"
-          handleClick={() => ''}
-        />
+        showNextButton ? (
+          <Button
+            type="submit"
+            name="Accept & Close"
+            className="accept"
+            handleClick={() => ''}
+          />
+        ) : undefined
       }
       leftElement={<LeftTitle title="Import New Candidate" />}
     >
       <div className={classname(style.setup)}>
-        <h1>Hello world</h1>
+        <NB />
       </div>
     </Modal>
   );
