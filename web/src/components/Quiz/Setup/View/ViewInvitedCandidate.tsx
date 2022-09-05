@@ -10,6 +10,9 @@ import AttendantMock from '@/mocks/Candidate';
 import CandidateItem from '../../Candidates/CandidateItem';
 import Grid from '@mui/material/Grid';
 import Warning from '@/components/Shared/Alert/WarningAlertModal';
+import NewCandidate from '../NewCandidate';
+import ImportCandidate from '../Import/ImportCandidate';
+import LeftTitle from '../LeftTitle';
 
 export const ViewInvitedCandidate = ({
   open,
@@ -22,24 +25,48 @@ export const ViewInvitedCandidate = ({
 
   const [warning, setWarning] = React.useState<boolean>(false);
 
+  const [setupCandidate, setSetupCandidate] = React.useState<boolean>(false);
+
+  const [importCandidate, setImportCandidate] = React.useState<boolean>(false);
+
   return (
     <Modal
       open={open}
       handleClose={handleClose}
       nextButton={<Button name="Next" className="next" />}
-      leftElement={
-        <div>
-          <span className="font-bold text-14 text-black">Javascript Quiz</span>
-        </div>
-      }
+      leftElement={<LeftTitle title="Javascript Quiz" />}
     >
       {warning && (
         <Warning
           open={warning}
           handleClose={() => setWarning(false)}
-          enable={{ name: 'By importing them', onClick: () => {} }}
-          disable={{ name: 'Using default', onClick: () => {} }}
+          enable={{
+            name: 'By importing them',
+            onClick: () => {
+              setImportCandidate(true);
+              setWarning(false);
+            },
+          }}
+          disable={{
+            name: 'Using default',
+            onClick: () => {
+              setSetupCandidate(true);
+              setWarning(false);
+            },
+          }}
           message="How would you like to invite candidates to the quiz ?"
+        />
+      )}
+      {setupCandidate && (
+        <NewCandidate
+          open={setupCandidate}
+          handleClose={() => setSetupCandidate(false)}
+        />
+      )}
+      {importCandidate && (
+        <ImportCandidate
+          open={importCandidate}
+          handleClose={() => setImportCandidate(false)}
         />
       )}
       <div

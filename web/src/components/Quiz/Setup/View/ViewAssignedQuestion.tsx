@@ -10,6 +10,7 @@ import AddNewButton from './AddNewButton';
 import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
 import Grid from '@mui/material/Grid';
 import SetupQuestion from '../SetupQuestion/SetupQuestion';
+import LeftTitle from '../LeftTitle';
 
 export const ViewAssignedQuestion = ({
   open,
@@ -27,11 +28,7 @@ export const ViewAssignedQuestion = ({
       nextButton={
         <Button name="Next" className="next" handleClick={() => ''} />
       }
-      leftElement={
-        <div>
-          <span className="font-bold text-14 text-black">Javascript Quiz</span>
-        </div>
-      }
+      leftElement={<LeftTitle title="Javascript Quiz" />}
     >
       <div className={classname(style.setup, style.viewAssignedQuestion)}>
         {openQ && (
