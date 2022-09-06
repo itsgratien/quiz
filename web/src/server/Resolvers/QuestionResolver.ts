@@ -40,7 +40,7 @@ export class QuestionResolver {
         owner: req.session.userId,
         title: args.title,
         description: args.description,
-        answers: args.answers,
+        solutions: args.solutions,
         choices: args.choices,
         slug: generateSlug(args.title),
         status: args.assignToTest ? TestStatus.Published : TestStatus.Draft,

@@ -1,0 +1,61 @@
+mutation SetupTest(
+  $title: String!
+  $startDate: String!
+  $endDate: String!
+  $description: String
+  $subject: String!
+) {
+  addTest(
+    title: $title
+    startDate: $startDate
+    endDate: $endDate
+    description: $description
+    subject: $subject
+  ) {
+    message
+    error
+    data {
+      ...Test
+    }
+  }
+}
+
+query GetMyTests($limit: Float, $page: Float!) {
+  getMyTests(limit: $limit, page: $page) {
+    error
+    items {
+      ...Test
+    }
+    totalDocs
+    totalPages
+  }
+}
+
+mutation PublishTest($testId: String!) {
+  publishTest(testId: $testId) {
+    message
+    error
+  }
+}
+
+fragment Test on Test {
+  _id
+  title
+  subject
+  description
+  startDate
+  endDate
+  createdAt
+  updatedAt
+  slug
+  questions {
+    question {
+      ...Question
+    }
+  }
+  attendants {
+    attendant {
+      ...Attendant
+    }
+  }
+}

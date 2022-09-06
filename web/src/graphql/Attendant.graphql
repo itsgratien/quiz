@@ -1,0 +1,15 @@
+fragment Attendant on Attendant {
+  _id
+  names
+  email
+  phoneNumber
+  testUri
+  status
+  createdAt
+  updatedAt
+  testId {
+    _id
+    title
+    subject
+  }
+}

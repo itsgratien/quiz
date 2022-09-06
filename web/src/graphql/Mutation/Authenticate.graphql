@@ -1,5 +1,0 @@
-mutation Authenticate($idToken: String!) {
-  authenticate(idToken: $idToken) {
-    message
-  }
-}

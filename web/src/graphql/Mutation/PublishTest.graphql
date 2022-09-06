@@ -1,5 +1,0 @@
-mutation PublishTest($testId: String!) {
-  publishTest(testId: $testId) {
-    message
-  }
-}

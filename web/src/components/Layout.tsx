@@ -1,5 +1,5 @@
 import React from 'react';
-import { TLayoutProps } from '@/generated/Shared';
+import { LayoutProps } from '@/generated/Shared';
 import Header from '@/components/Shared/Header/Header';
 import GoBack from './Shared/GoBack';
 import { useRouter } from 'next/router';
@@ -8,7 +8,7 @@ import classname from 'classnames';
 import { Icon } from '@iconify/react';
 import SetupQuiz from './Quiz/Setup/SetupQuiz';
 
-export const Layout = ({ children, goBack }: TLayoutProps) => {
+export const Layout = ({ children, goBack }: LayoutProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const router = useRouter();

@@ -42,7 +42,7 @@ export class Question {
 
   @Field(() => [String], { nullable: true })
   @prop({ type: [String] })
-  answers?: string[];
+  solutions?: string[];
 
   @Field()
   @prop()

@@ -1,0 +1,16 @@
+fragment Question on Question {
+  _id
+  title
+  type
+  slug
+  status
+  description
+  choices
+  solutions
+  points
+  createdAt
+  updatedAt
+  owner {
+    ...User
+  }
+}

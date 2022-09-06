@@ -19,7 +19,7 @@ export class AddMcQuestionArgs {
 
   @Field(() => [String])
   @IsArray()
-  answers: string[];
+  solutions: string[];
 
   @Field({ nullable: true })
   description?: string;

@@ -1,10 +1,10 @@
 import type { GetServerSidePropsContext } from 'next';
 import apollo from './ApolloClient';
-import { GetUserDocument, GetUserQuery } from '@/generated/graphql';
+import { GetUserDocument, GetUserQuery, User } from '@/generated/graphql';
 
 export const withAuth = async (
   context: GetServerSidePropsContext,
-  callback: (user?: any) => void
+  callback: (user?: User) => void
 ) => {
   const defaultRedirectObject = {
     redirect: {

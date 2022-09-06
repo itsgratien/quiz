@@ -46,9 +46,6 @@ export class AddTestArgs {
   subject: string;
 
   @Field()
-  passMark: string;
-
-  @Field()
   startDate: string;
 
   @Field()

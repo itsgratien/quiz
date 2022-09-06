@@ -1,0 +1,26 @@
+query GetUser {
+  getUser {
+    error
+    data {
+      ...User
+    }
+  }
+}
+
+fragment User on User {
+  _id
+  email
+  names
+  createdAt
+  updatedAt
+  username
+  role
+  slug
+  profilePicture
+}
+
+mutation Authenticate($idToken: String!) {
+  authenticate(idToken: $idToken) {
+    message
+  }
+}
