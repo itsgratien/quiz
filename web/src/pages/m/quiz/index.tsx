@@ -10,25 +10,31 @@ import { Icon } from '@iconify/react';
 import classname from 'classnames';
 import { useGetMyTestsLazyQuery, Test } from '@/generated/graphql';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import { useRouter } from 'next/router';
 
 const Quiz: NextPage<QuizPageProps> = ({ me }) => {
   const [page, setPage] = React.useState<number>(1);
 
   const [items, setItems] = React.useState<Test[]>([]);
 
-  const [getMyTest, { data, loading }] = useGetMyTestsLazyQuery({
-    variables: { page, limit: 14 },
-  });
+  const [getMyTest, { data, loading, error }] = useGetMyTestsLazyQuery();
+
+  const router = useRouter();
 
   React.useEffect(() => {
-    getMyTest();
-  }, [getMyTest]);
+    getMyTest({ variables: { page } });
+  }, [getMyTest, page]);
 
   React.useEffect(() => {
     if (data && data.getMyTests && data.getMyTests.items) {
       setItems(data.getMyTests.items as Test[]);
     }
   }, [data]);
+
+  const handleView = (slug: string) => {
+    router.push(`/m/quiz/${slug}`);
+  };
 
   return (
     <>
@@ -51,7 +57,7 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
               </span>
             </div>
           )}
-          {!loading && (
+          {!loading && items && (
             <>
               {' '}
               {items && items.length > 0 && (
@@ -61,21 +67,18 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
                     style.items
                   )}
                 >
-                  {items && (
-                    <>
-                      {items.length > 0 &&
-                        items.map((item) => (
-                          <div className={style.item} key={item._id}>
-                            <QuizItem item={item} />
-                          </div>
-                        ))}
-                    </>
-                  )}
+                  {items.length > 0 &&
+                    items.map((item) => (
+                      <div className={style.item} key={item._id}>
+                        <QuizItem item={item} handleView={handleView} />
+                      </div>
+                    ))}
                 </div>
               )}
               {items && items.length <= 0 && <NotFound />}
             </>
           )}
+          {loading && <LoadingSpinner />}
         </div>
       </Layout>
     </>

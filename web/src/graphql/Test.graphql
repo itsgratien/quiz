@@ -8,6 +8,7 @@ fragment Test on Test {
   createdAt
   updatedAt
   slug
+  status
   questions {
     question {
       ...Question

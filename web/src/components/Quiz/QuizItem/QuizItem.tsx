@@ -8,10 +8,14 @@ import { Test } from '@/generated/graphql';
 import Svg from './Svg';
 import QuizDate from './QuizDate';
 
-export const QuizItem = ({ item: { title, status, _id } }: { item: Test }) => {
+export const QuizItem = ({
+  item: { title, status, startDate, endDate, questions, attendants, slug },
+  handleView,
+}: {
+  item: Test;
+  handleView?: (value: string) => void;
+}) => {
   const [more, setMore] = React.useState<boolean>(false);
-
-  const [qId, setQId] = React.useState<string>();
 
   return (
     <div
@@ -30,19 +34,31 @@ export const QuizItem = ({ item: { title, status, _id } }: { item: Test }) => {
             label="Start date and end date"
             value={
               <>
-                {new Date().toDateString()}&nbsp; to &nbsp;
-                {new Date().toDateString()}
+                {new Date(startDate).toDateString()}&nbsp; to &nbsp;
+                {new Date(endDate).toDateString()}
               </>
             }
           />
           <div
             className={classname('relative flex items-center', style.statistic)}
           >
-            <StatItem title="Questions assigned to this quiz" number={50} />
-            <StatItem title=" Attendants were invited" number={50} />
+            {questions && (
+              <StatItem
+                title="Questions assigned to this quiz"
+                number={questions.length}
+              />
+            )}
+            {attendants && (
+              <StatItem
+                title=" Attendants were invited"
+                number={attendants.length}
+              />
+            )}
           </div>
           <div className={classname('absolute', style.viewMore)}>
-            <ViewMoreButton />
+            {handleView && slug && (
+              <ViewMoreButton handleClick={() => handleView(slug)} />
+            )}
           </div>
         </div>
       </div>

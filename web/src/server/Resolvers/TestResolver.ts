@@ -45,6 +45,8 @@ export class TestResolver extends AttendantHelper {
         ...args,
         managerId: req.session.userId,
         slug: generateSlug(args.title),
+        startDate,
+        endDate,
       });
 
       return {
@@ -79,7 +81,7 @@ export class TestResolver extends AttendantHelper {
         .populate({ path: 'attendants.attendant', model: 'Attendant' });
 
       return {
-        items: find.map((item) => format.getTest(item)) as Test[],
+        items: find.map((item) => format.getTest(item)),
         totalDocs: pagination.totalDocs,
         totalPages: pagination.totalPages,
       };

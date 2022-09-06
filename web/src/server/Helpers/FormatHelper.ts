@@ -3,6 +3,7 @@ import { User } from '@/server/Models/UserModel';
 import { Attendant } from '@/server/Models/AttendantModel';
 import { Test } from '@/server/Models/TestModel';
 import { pick } from 'lodash';
+import { TestQuestion, TestAttendant } from '../Models/TestModel';
 
 export class FormatHelper {
   getQuestion(value: Question, showOwner?: boolean): Question {
@@ -60,8 +61,28 @@ export class FormatHelper {
     };
   }
 
-  getTest(values: Test, allowManagerInfo?: boolean) {
-    const { questions, attendants } = values;
+  getTestQuestions(questions?: TestQuestion[]) {
+    if (questions && questions.length > 0) {
+      const d = questions.map((item) => ({
+        question: this.getQuestion(item.question as any),
+      }));
+      return d;
+    }
+    return undefined;
+  }
+
+  getTestCandidates(attendants?: TestAttendant[]) {
+    if (attendants && attendants.length > 0) {
+      const candidates = attendants.map((item) => ({
+        attendant: this.getAttendant(item.attendant as any),
+      }));
+
+      return candidates;
+    }
+    return undefined;
+  }
+
+  getTest(values: Test, allowManagerInfo?: boolean): Test {
     return {
       _id: values._id,
       createdAt: values.createdAt,
@@ -74,22 +95,8 @@ export class FormatHelper {
       endDate: values.endDate,
       passMark: values.passMark,
       managerId: allowManagerInfo ? values.managerId : undefined,
-      questions:
-        questions &&
-        questions.length > 0 &&
-        questions.map((item) => ({
-          question:
-            typeof item.question === 'object' &&
-            this.getQuestion(item.question),
-        })),
-      attendants:
-        attendants &&
-        attendants.length > 0 &&
-        attendants.map((item) => ({
-          attendant:
-            typeof item.attendant === 'object' &&
-            this.getAttendant(item.attendant),
-        })),
+      questions: this.getTestQuestions(values.questions),
+      attendants: this.getTestCandidates(values.attendants),
       slug: values.slug,
     };
   }
