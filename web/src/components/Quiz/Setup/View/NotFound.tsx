@@ -17,7 +17,7 @@ export const NotFound = ({ message }: { message?: string }) => {
         color="rgba(0, 0, 0, 0.5)"
       />
       <span className={classname('text-12')} style={{ marginTop: '26px' }}>
-        {message || 'Not Found'}
+        {message || 'No Result Found'}
       </span>
     </div>
   );

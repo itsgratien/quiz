@@ -59,3 +59,11 @@ mutation PublishTest($testId: String!) {
     error
   }
 }
+
+query GetSingleTest($slug: String!) {
+  getSingleTest(slug: $slug) {
+    data {
+      ...Test
+    }
+  }
+}

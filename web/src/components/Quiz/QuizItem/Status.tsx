@@ -9,7 +9,7 @@ export const Status = ({
   bold,
   className,
 }: {
-  status: string;
+  status?: string;
   size?: '12' | '14' | '15';
   bold?: boolean;
   className?: any;

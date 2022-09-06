@@ -391,6 +391,13 @@ export type PublishTestMutationVariables = Exact<{
 
 export type PublishTestMutation = { __typename?: 'Mutation', publishTest: { __typename?: 'AddTestResponse', message?: string | null, error?: string | null } };
 
+export type GetSingleTestQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GetSingleTestQuery = { __typename?: 'Query', getSingleTest: { __typename?: 'GetSingleTestResponse', data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } } }> | null } | null } };
+
 export type UserFragment = { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null };
 
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -599,6 +606,43 @@ export function usePublishTestMutation(baseOptions?: Apollo.MutationHookOptions<
 export type PublishTestMutationHookResult = ReturnType<typeof usePublishTestMutation>;
 export type PublishTestMutationResult = Apollo.MutationResult<PublishTestMutation>;
 export type PublishTestMutationOptions = Apollo.BaseMutationOptions<PublishTestMutation, PublishTestMutationVariables>;
+export const GetSingleTestDocument = gql`
+    query GetSingleTest($slug: String!) {
+  getSingleTest(slug: $slug) {
+    data {
+      ...Test
+    }
+  }
+}
+    ${TestFragmentDoc}`;
+
+/**
+ * __useGetSingleTestQuery__
+ *
+ * To run a query within a React component, call `useGetSingleTestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSingleTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSingleTestQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetSingleTestQuery(baseOptions: Apollo.QueryHookOptions<GetSingleTestQuery, GetSingleTestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSingleTestQuery, GetSingleTestQueryVariables>(GetSingleTestDocument, options);
+      }
+export function useGetSingleTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSingleTestQuery, GetSingleTestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSingleTestQuery, GetSingleTestQueryVariables>(GetSingleTestDocument, options);
+        }
+export type GetSingleTestQueryHookResult = ReturnType<typeof useGetSingleTestQuery>;
+export type GetSingleTestLazyQueryHookResult = ReturnType<typeof useGetSingleTestLazyQuery>;
+export type GetSingleTestQueryResult = Apollo.QueryResult<GetSingleTestQuery, GetSingleTestQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   getUser {

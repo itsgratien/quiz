@@ -1,15 +1,14 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './QuizItem.module.scss';
-import { Icon } from '@iconify/react';
 import StatItem from './StatItem';
 import Status from './Status';
 import ViewMoreButton from './ViewMoreButton';
-import { QuizItemProps } from '@/generated/Quiz';
+import { Test } from '@/generated/graphql';
 import Svg from './Svg';
 import QuizDate from './QuizDate';
 
-export const QuizItem = ({ item: { name, status, _id } }: QuizItemProps) => {
+export const QuizItem = ({ item: { title, status, _id } }: { item: Test }) => {
   const [more, setMore] = React.useState<boolean>(false);
 
   const [qId, setQId] = React.useState<string>();
@@ -23,10 +22,10 @@ export const QuizItem = ({ item: { name, status, _id } }: QuizItemProps) => {
       <Svg more={more} />
       <div className={classname('z-10 relative', style.container)}>
         <div className={classname(style.title, 'text-20 capitalize')}>
-          {name}
+          {title}
         </div>
         <div className={style.details}>
-          <Status status={status} />
+          <Status status={String(status)} />
           <QuizDate
             label="Start date and end date"
             value={

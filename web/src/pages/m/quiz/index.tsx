@@ -8,9 +8,28 @@ import { withAuth } from '@/utils/WithAuth';
 import { QuizPageProps } from '@/generated/Quiz';
 import { Icon } from '@iconify/react';
 import classname from 'classnames';
-import quiz from '@/mocks/Quiz';
+import { useGetMyTestsLazyQuery, Test } from '@/generated/graphql';
+import NotFound from '@/components/Quiz/Setup/View/NotFound';
 
 const Quiz: NextPage<QuizPageProps> = ({ me }) => {
+  const [page, setPage] = React.useState<number>(1);
+
+  const [items, setItems] = React.useState<Test[]>([]);
+
+  const [getMyTest, { data, loading }] = useGetMyTestsLazyQuery({
+    variables: { page, limit: 14 },
+  });
+
+  React.useEffect(() => {
+    getMyTest();
+  }, [getMyTest]);
+
+  React.useEffect(() => {
+    if (data && data.getMyTests && data.getMyTests.items) {
+      setItems(data.getMyTests.items as Test[]);
+    }
+  }, [data]);
+
   return (
     <>
       <Head>
@@ -32,18 +51,31 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
               </span>
             </div>
           )}
-          <div
-            className={classname(
-              'relative flex items-center flex-wrap',
-              style.items
-            )}
-          >
-            {quiz.getAll.map((item) => (
-              <div className={style.item} key={item._id}>
-                <QuizItem item={item} />
-              </div>
-            ))}
-          </div>
+          {!loading && (
+            <>
+              {' '}
+              {items && items.length > 0 && (
+                <div
+                  className={classname(
+                    'relative flex items-center flex-wrap',
+                    style.items
+                  )}
+                >
+                  {items && (
+                    <>
+                      {items.length > 0 &&
+                        items.map((item) => (
+                          <div className={style.item} key={item._id}>
+                            <QuizItem item={item} />
+                          </div>
+                        ))}
+                    </>
+                  )}
+                </div>
+              )}
+              {items && items.length <= 0 && <NotFound />}
+            </>
+          )}
         </div>
       </Layout>
     </>

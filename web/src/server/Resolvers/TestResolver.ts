@@ -18,6 +18,7 @@ import { TestStatus } from '@/generated/Enum';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
 import { generatePagination, generateSlug } from '../Helpers/SharedHelper';
 import { PaginationArgs } from '../TypeGraphql/Question';
+import { format as formatDate, compareDesc } from 'date-fns';
 
 @Resolver()
 export class TestResolver extends AttendantHelper {
@@ -29,14 +30,26 @@ export class TestResolver extends AttendantHelper {
   ): Promise<TestTg.AddTestResponse> {
     try {
       const { req } = ctx;
+
+      const startDate = formatDate(new Date(args.startDate), 'MM/dd/yyyy');
+
+      const endDate = formatDate(new Date(args.endDate), 'MM/dd/yyyy');
+
+      const compare = compareDesc(new Date(startDate), new Date(endDate));
+
+      if (compare === -1) {
+        return errorResponse('end date should be greater than start date');
+      }
+
       const add = await testModel.create({
         ...args,
         managerId: req.session.userId,
         slug: generateSlug(args.title),
       });
+
       return {
         data: format.getTest(add, true) as Test,
-        message: 'Saved successfully',
+        message: 'Saved Successfully',
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

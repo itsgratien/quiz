@@ -11,7 +11,7 @@ export enum QuestionTypeEnum {
 }
 
 export interface UseQuizStatusColorPropsT {
-  status: string;
+  status?: string;
 }
 
 // new
