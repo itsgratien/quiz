@@ -1,3 +1,25 @@
+fragment Test on Test {
+  _id
+  title
+  subject
+  description
+  startDate
+  endDate
+  createdAt
+  updatedAt
+  slug
+  questions {
+    question {
+      ...Question
+    }
+  }
+  attendants {
+    attendant {
+      ...Attendant
+    }
+  }
+}
+
 mutation SetupTest(
   $title: String!
   $startDate: String!
@@ -35,27 +57,5 @@ mutation PublishTest($testId: String!) {
   publishTest(testId: $testId) {
     message
     error
-  }
-}
-
-fragment Test on Test {
-  _id
-  title
-  subject
-  description
-  startDate
-  endDate
-  createdAt
-  updatedAt
-  slug
-  questions {
-    question {
-      ...Question
-    }
-  }
-  attendants {
-    attendant {
-      ...Attendant
-    }
   }
 }

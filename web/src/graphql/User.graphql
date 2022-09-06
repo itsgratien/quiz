@@ -1,12 +1,3 @@
-query GetUser {
-  getUser {
-    error
-    data {
-      ...User
-    }
-  }
-}
-
 fragment User on User {
   _id
   email
@@ -17,6 +8,15 @@ fragment User on User {
   role
   slug
   profilePicture
+}
+
+query GetUser {
+  getUser {
+    error
+    data {
+      ...User
+    }
+  }
 }
 
 mutation Authenticate($idToken: String!) {
