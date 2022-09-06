@@ -3,11 +3,18 @@ import style from './View.module.scss';
 import classname from 'classnames';
 import { Icon } from '@iconify/react';
 
-export const NotFound = ({ message }: { message?: string }) => {
+export const NotFound = ({
+  message,
+  alignItem,
+}: {
+  message?: string;
+  alignItem?: 'center' | 'start' | 'end';
+}) => {
   return (
     <div
       className={classname(
-        'relative m-auto flex items-center flex-col',
+        'relative m-auto flex flex-col',
+        `items-${alignItem || 'center'}`,
         style.notFound
       )}
     >

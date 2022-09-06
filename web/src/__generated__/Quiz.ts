@@ -1,4 +1,5 @@
-import { User } from './graphql';
+import { User, Test } from './graphql';
+
 export enum QuizStatus {
   Published = 'Published',
   Draft = 'Draft',
@@ -17,4 +18,9 @@ export interface UseQuizStatusColorPropsT {
 // new
 export interface QuizPageProps {
   me: User;
+}
+
+export interface QuizDetailPageProps {
+  loading?: boolean;
+  data?: Test;
 }
