@@ -298,6 +298,7 @@ export class QuestionResolver {
         items: find.map((item) => format.getQuestion(item)),
         totalPages: pagination.totalPages,
         totalDocs: pagination.totalDocs,
+        nextPage: pagination.nextPage,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

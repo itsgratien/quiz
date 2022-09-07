@@ -8,12 +8,14 @@ export const LoadMoreButton = ({
   align,
   marginTop,
   className,
+  disabled,
 }: {
   name?: string;
   handleClick?: () => void;
   align?: 'center' | 'start' | 'end';
   marginTop?: string;
   className?: string;
+  disabled?: boolean;
 }) => {
   return (
     <div
@@ -30,6 +32,7 @@ export const LoadMoreButton = ({
           style.loadMoreButton
         )}
         onClick={handleClick}
+        disabled={disabled}
       >
         {name || 'Load More'}
       </button>

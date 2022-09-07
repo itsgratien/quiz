@@ -20,12 +20,12 @@ const QuestionItem = ({
   handleEdit?: () => void;
   handleView?: () => void;
 }) => {
-  const handleTitle = (value: string) => {
-    if (value.length > 55) {
-      const newV = value.slice(0, 55);
+  const handleTitle = () => {
+    if (title && title.length > 55) {
+      const newV = title.slice(0, 55);
       return `${newV} ..`;
     } else {
-      return value;
+      return title;
     }
   };
   return (
@@ -35,9 +35,7 @@ const QuestionItem = ({
         style.questionItem
       )}
     >
-      <div className={classname('text-14', style.qName)}>
-        {handleTitle(title)}
-      </div>
+      <div className={classname('text-14', style.qName)}>{handleTitle()}</div>
       <div className={classname('relative flex items-center')}>
         <QuestionType name={type} />
         <QuestionType name={`${points} Points`} point />

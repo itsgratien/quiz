@@ -26,6 +26,9 @@ export function CustomResponse<Data>(DataClass: ClassType<Data>) {
 
     @Field({ nullable: true })
     totalPages?: number;
+
+    @Field({ nullable: true })
+    nextPage?: number;
   }
 
   return CustomResponseClass;

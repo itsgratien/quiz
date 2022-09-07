@@ -160,6 +160,7 @@ export class AttendantResolver extends AttendantHelper {
         items: find.map((item) => format.getAttendant(item)),
         totalDocs: pagination.totalDocs,
         totalPages: pagination.totalPages,
+        nextPage: pagination.nextPage,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

@@ -28,6 +28,7 @@ export const generatePagination = async (
     offset,
     limit,
     totalPages,
+    nextPage: page + 1,
   };
 };
 

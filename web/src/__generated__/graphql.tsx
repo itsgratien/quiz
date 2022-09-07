@@ -27,6 +27,7 @@ export type AddAttendantResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -39,6 +40,7 @@ export type AddMoreAttendantResponse = {
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Attendant>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -50,6 +52,7 @@ export type AddQuestionResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -61,6 +64,7 @@ export type AddQuestionToTestResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -72,6 +76,7 @@ export type AddTestResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -96,6 +101,7 @@ export type AnswerResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -132,6 +138,7 @@ export type GetAttendantByTestResponse = {
   errors?: Maybe<Array<ErrorsT>>;
   items: Array<Attendant>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -144,6 +151,7 @@ export type GetMyTestResponse = {
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Test>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -156,6 +164,7 @@ export type GetQuestionAssignedToTestResponse = {
   errors?: Maybe<Array<ErrorsT>>;
   items: Array<Question>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -167,6 +176,7 @@ export type GetQuestionResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -179,6 +189,7 @@ export type GetQuestionsResponse = {
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Question>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -190,6 +201,7 @@ export type GetSingleTestResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -201,6 +213,7 @@ export type GetUserResponse = {
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -414,7 +427,7 @@ export type GetAttendantByTestQueryVariables = Exact<{
 }>;
 
 
-export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string }> } };
+export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string }> } };
 
 export type AddAttendantMutationVariables = Exact<{
   testId: Scalars['String'];
@@ -454,7 +467,7 @@ export type GetQuestionAssignedToTestQueryVariables = Exact<{
 }>;
 
 
-export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, error?: string | null, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
+export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, nextPage?: number | null, error?: string | null, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
 
 export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } }> | null };
 
@@ -582,6 +595,7 @@ export const GetAttendantByTestDocument = gql`
     }
     totalDocs
     totalPages
+    nextPage
     error
   }
 }
@@ -749,6 +763,7 @@ export const GetQuestionAssignedToTestDocument = gql`
     }
     totalPages
     totalDocs
+    nextPage
     error
   }
 }
