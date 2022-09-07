@@ -12,80 +12,104 @@ import QuizUri from '@/components/Quiz/Candidates/SingleCandidate/QuizUri';
 import SectionTitle from '@/components/Quiz/SectionTitle';
 import AnswerGroup from '@/components/Quiz/Answer/AnswerGroup/AnswerGroup';
 import AnswerMock from '@/mocks/Answer';
+import apollo from '@/utils/ApolloClient';
+import {
+  GetAttendantByIdDocument,
+  GetAttendantByIdQuery,
+  GetAttendantByIdQueryVariables,
+  Attendant,
+} from '@/generated/graphql';
 
-export const CandidatePage: NextPage = () => {
+export const CandidatePage: NextPage<{
+  data?: Attendant;
+  error?: string;
+}> = ({ data }) => {
   return (
     <>
       <Head>
-        <title>Candidate</title>
+        <title>Candidate | {data ? data.names : ''}</title>
       </Head>
       <Layout goBack>
-        <div className={classname('relative', style.header)}>
-          <Svg />
-          <div
-            className={classname('absolute top-0 right-0 left-0 z-10 w-full')}
-          >
-            <div style={{ marginTop: '53px', marginLeft: '15%' }}>
-              <div className={classname('font-bold text-25')}>
-                Gratien Tuyishimire
+        {data && (
+          <>
+            <div className={classname('relative', style.header)}>
+              <Svg />
+              <div
+                className={classname(
+                  'absolute top-0 right-0 left-0 z-10 w-full'
+                )}
+              >
+                <div style={{ marginTop: '53px', marginLeft: '15%' }}>
+                  <div className={classname('font-bold text-25')}>
+                    {data.names}
+                  </div>
+                  <Status
+                    status={data.status}
+                    size="12"
+                    bold
+                    className="mt-19"
+                  />
+                </div>
+                <div className={classname('absolute top-0 right-20 mt-30')}>
+                  <div className="flex items-center">
+                    <span className={classname('font-bold text-20 text-black')}>
+                      50%
+                    </span>
+                    <span
+                      className={classname('font-bold text-f1 text-15 ml-2')}
+                      style={{ color: 'rgba(0, 0, 0, 0.28)' }}
+                    >
+                      Overall grade
+                    </span>
+                  </div>
+                  <div className={classname('font-bold text-right text-14')}>
+                    {data.status}
+                  </div>
+                </div>
+                <div style={{ marginLeft: '13%', marginTop: '27px' }}>
+                  <div className="flex items-center">
+                    <CandidateLabel
+                      label="Email Address"
+                      value={data.email}
+                      iconName="eva:email-outline"
+                    />
+                    <CandidateLabel
+                      label="Phone Number"
+                      value={data.phoneNumber}
+                      iconName="bi:phone"
+                    />
+                  </div>
+                  {data.testUri && (
+                    <div>
+                      <QuizUri value={data.testUri} />
+                    </div>
+                  )}
+                </div>
               </div>
-              <Status status="Completed" size="12" bold className="mt-19" />
             </div>
-            <div className={classname('absolute top-0 right-20 mt-30')}>
-              <div className="flex items-center">
-                <span className={classname('font-bold text-20 text-black')}>
-                  50%
-                </span>
-                <span
-                  className={classname('font-bold text-f1 text-15 ml-2')}
-                  style={{ color: 'rgba(0, 0, 0, 0.28)' }}
+
+            <div className={classname('relative', style.result)}>
+              <div className={style.sectionTitle}>
+                <SectionTitle title="Final Results" iconName="wpf:statistics" />
+                <div
+                  className="text-12"
+                  style={{
+                    color: 'rgba(0, 0, 0, 0.6)',
+                    width: '186px',
+                    marginLeft: '32px',
+                  }}
                 >
-                  Overall grade
-                </span>
-              </div>
-              <div className={classname('font-bold text-right text-14')}>
-                Failed
-              </div>
-            </div>
-            <div style={{ marginLeft: '13%', marginTop: '27px' }}>
-              <div className="flex items-center">
-                <CandidateLabel
-                  label="Email Address"
-                  value="gracian2020@gmail.com"
-                  iconName="eva:email-outline"
-                />
-                <CandidateLabel
-                  label="Phone Number"
-                  value="+250786601005"
-                  iconName="bi:phone"
-                />
+                  Questions asked and answers of each provided by the attendants
+                </div>
               </div>
               <div>
-                <QuizUri value="https://igihe.com/?attendant=sdskdsd&test=igihe" />
+                {AnswerMock.getAll.map((item) => (
+                  <AnswerGroup key={item._id} item={item} />
+                ))}
               </div>
             </div>
-          </div>
-        </div>
-        <div className={classname('relative', style.result)}>
-          <div className={style.sectionTitle}>
-            <SectionTitle title="Final Results" iconName="wpf:statistics" />
-            <div
-              className="text-12"
-              style={{
-                color: 'rgba(0, 0, 0, 0.6)',
-                width: '186px',
-                marginLeft: '32px',
-              }}
-            >
-              Questions asked and answers of each provided by the attendants
-            </div>
-          </div>
-          <div>
-            {AnswerMock.getAll.map((item) => (
-              <AnswerGroup key={item._id} item={item} />
-            ))}
-          </div>
-        </div>
+          </>
+        )}
       </Layout>
     </>
   );
@@ -93,8 +117,32 @@ export const CandidatePage: NextPage = () => {
 export default CandidatePage;
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) =>
-  withAuth(context, () => {
-    return {
-      props: {},
-    };
+  withAuth(context, async () => {
+    try {
+      const res = await apollo(context).query<
+        GetAttendantByIdQuery,
+        GetAttendantByIdQueryVariables
+      >({
+        query: GetAttendantByIdDocument,
+        variables: { attendantId: context.params.id },
+      });
+
+      const { getAttendantById } = res.data;
+
+      if (getAttendantById && getAttendantById.data) {
+        return {
+          props: {
+            data: getAttendantById.data,
+            error: getAttendantById.error,
+          },
+        };
+      }
+      return {
+        notFound: true,
+      };
+    } catch (error) {
+      return {
+        props: {},
+      };
+    }
   });

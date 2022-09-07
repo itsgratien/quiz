@@ -1,7 +1,9 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import type { NextPageContext } from 'next';
+import type { NextPageContext, GetServerSidePropsContext } from 'next';
 
-const handleCookieFunc = (ctx?: NextPageContext) => {
+const handleCookieFunc = (
+  ctx?: NextPageContext | GetServerSidePropsContext
+) => {
   if (typeof window === 'undefined' && ctx) {
     const { req } = ctx;
 
@@ -13,7 +15,7 @@ const handleCookieFunc = (ctx?: NextPageContext) => {
   return '';
 };
 
-const client = (ctx?: NextPageContext) =>
+const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
   new ApolloClient({
     uri: 'http://localhost:3000/api/graphql',
     cache: new InMemoryCache(),

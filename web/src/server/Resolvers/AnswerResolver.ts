@@ -28,7 +28,7 @@ export class AnswerResolver extends AnswerHelper {
       }
 
       const grade = this.getMCQGrade(
-        getQuestion.answers as string[],
+        getQuestion.solutions as string[],
         args.answers
       );
 

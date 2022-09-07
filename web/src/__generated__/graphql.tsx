@@ -317,6 +317,7 @@ export type MutationSetupMultipleChoiceQuestionArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAttendantById: GetAttendantByTestResponse;
   getAttendantByTest: GetAttendantByTestResponse;
   getMyTests: GetMyTestResponse;
   getQuestion: GetQuestionResponse;
@@ -324,6 +325,11 @@ export type Query = {
   getQuestions: GetQuestionsResponse;
   getSingleTest: GetSingleTestResponse;
   getUser: GetUserResponse;
+};
+
+
+export type QueryGetAttendantByIdArgs = {
+  attendantId: Scalars['String'];
 };
 
 
@@ -447,6 +453,13 @@ export type AddMoreAttendantMutationVariables = Exact<{
 
 
 export type AddMoreAttendantMutation = { __typename?: 'Mutation', addMoreAttendant: { __typename?: 'AddMoreAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } | null } };
+
+export type GetAttendantByIdQueryVariables = Exact<{
+  attendantId: Scalars['String'];
+}>;
+
+
+export type GetAttendantByIdQuery = { __typename?: 'Query', getAttendantById: { __typename?: 'GetAttendantByTestResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } | null } };
 
 export type QuestionFragment = { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null };
 
@@ -710,6 +723,44 @@ export function useAddMoreAttendantMutation(baseOptions?: Apollo.MutationHookOpt
 export type AddMoreAttendantMutationHookResult = ReturnType<typeof useAddMoreAttendantMutation>;
 export type AddMoreAttendantMutationResult = Apollo.MutationResult<AddMoreAttendantMutation>;
 export type AddMoreAttendantMutationOptions = Apollo.BaseMutationOptions<AddMoreAttendantMutation, AddMoreAttendantMutationVariables>;
+export const GetAttendantByIdDocument = gql`
+    query GetAttendantById($attendantId: String!) {
+  getAttendantById(attendantId: $attendantId) {
+    data {
+      ...Attendant
+    }
+    error
+  }
+}
+    ${AttendantFragmentDoc}`;
+
+/**
+ * __useGetAttendantByIdQuery__
+ *
+ * To run a query within a React component, call `useGetAttendantByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAttendantByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAttendantByIdQuery({
+ *   variables: {
+ *      attendantId: // value for 'attendantId'
+ *   },
+ * });
+ */
+export function useGetAttendantByIdQuery(baseOptions: Apollo.QueryHookOptions<GetAttendantByIdQuery, GetAttendantByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAttendantByIdQuery, GetAttendantByIdQueryVariables>(GetAttendantByIdDocument, options);
+      }
+export function useGetAttendantByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAttendantByIdQuery, GetAttendantByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAttendantByIdQuery, GetAttendantByIdQueryVariables>(GetAttendantByIdDocument, options);
+        }
+export type GetAttendantByIdQueryHookResult = ReturnType<typeof useGetAttendantByIdQuery>;
+export type GetAttendantByIdLazyQueryHookResult = ReturnType<typeof useGetAttendantByIdLazyQuery>;
+export type GetAttendantByIdQueryResult = Apollo.QueryResult<GetAttendantByIdQuery, GetAttendantByIdQueryVariables>;
 export const SetupMcQuestionDocument = gql`
     mutation SetupMcQuestion($title: String!, $choices: [String!]!, $solutions: [String!]!, $description: String, $testId: String, $assignToTest: Boolean, $points: Float!) {
   setupMultipleChoiceQuestion(

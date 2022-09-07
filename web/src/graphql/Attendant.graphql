@@ -42,3 +42,12 @@ mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
     error
   }
 }
+
+query GetAttendantById($attendantId: String!) {
+  getAttendantById(attendantId: $attendantId) {
+    data {
+      ...Attendant
+    }
+    error
+  }
+}

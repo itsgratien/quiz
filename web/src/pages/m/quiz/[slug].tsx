@@ -74,7 +74,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
     try {
       const { params }: any = ctx;
 
-      const res = await apollo(ctx as any).query<GetSingleTestQuery>({
+      const res = await apollo(ctx).query<GetSingleTestQuery>({
         query: GetSingleTestDocument,
         variables: { slug: params.slug },
       });

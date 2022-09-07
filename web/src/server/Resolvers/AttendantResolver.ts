@@ -182,4 +182,20 @@ export class AttendantResolver extends AttendantHelper {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
+
+  @Authorized()
+  @Query(() => attendantTg.GetAttendantByTestResponse)
+  async getAttendantById(
+    @Arg('attendantId') attendantId: string
+  ): Promise<attendantTg.GetAttendantByTestResponse> {
+    try {
+      const find = await attendantModel.findById(attendantId);
+
+      return {
+        data: find ? format.getAttendant(find) : undefined,
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
 }
