@@ -13,3 +13,14 @@ fragment Attendant on Attendant {
     subject
   }
 }
+
+query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {
+  getAttendantByTest(testId: $testId, page: $page, limit: $limit) {
+    items {
+      ...Attendant
+    }
+    totalDocs
+    totalPages
+    error
+  }
+}

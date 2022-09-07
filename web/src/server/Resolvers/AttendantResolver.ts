@@ -1,6 +1,17 @@
-import { Resolver, Mutation, Authorized, Ctx, Arg } from 'type-graphql';
+import {
+  Resolver,
+  Mutation,
+  Authorized,
+  Ctx,
+  Arg,
+  Args,
+  Query,
+} from 'type-graphql';
 import { attendantModel } from '../Models/AttendantModel';
-import { errorResponse } from '../Helpers/SharedHelper';
+import {
+  errorResponse,
+  generatePagination,
+} from '@/server/Helpers/SharedHelper';
 import * as Usertype from '@/generated/User';
 import * as attendantTg from '../TypeGraphql/Attendant';
 import format from '../Helpers/FormatHelper';
@@ -126,4 +137,32 @@ export class AttendantResolver extends AttendantHelper {
     }
     return false;
   };
+
+  @Authorized()
+  @Query(() => attendantTg.GetAttendantByTestResponse)
+  async getAttendantByTest(
+    @Args() args: attendantTg.GetAttendantByTestArgs
+  ): Promise<attendantTg.GetAttendantByTestResponse> {
+    try {
+      const filterQuery = { testId: args.testId };
+      const pagination = await generatePagination(
+        attendantModel,
+        args,
+        filterQuery
+      );
+
+      const find = await attendantModel
+        .find(filterQuery)
+        .limit(pagination.limit)
+        .skip(pagination.offset);
+
+      return {
+        items: find.map((item) => format.getAttendant(item)),
+        totalDocs: pagination.totalDocs,
+        totalPages: pagination.totalPages,
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
 }
