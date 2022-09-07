@@ -40,3 +40,18 @@ mutation SetupMcQuestion(
     }
   }
 }
+
+query GetQuestionAssignedToTest(
+  $page: Float!
+  $limit: Float
+  $testId: String!
+) {
+  getQuestionAssignedToTest(page: $page, limit: $limit, testId: $testId) {
+    items {
+      ...Question
+    }
+    totalPages
+    totalDocs
+    error
+  }
+}

@@ -27,6 +27,7 @@ export class FormatHelper {
             ]) as User)
           : undefined,
       points: value.points,
+      solutions: value.solutions,
     };
   }
 

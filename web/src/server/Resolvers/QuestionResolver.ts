@@ -6,6 +6,7 @@ import {
   Ctx,
   Authorized,
   UseMiddleware,
+  Arg,
 } from 'type-graphql';
 import {
   AddQuestionResponse,
@@ -24,6 +25,7 @@ import * as questionMiddleware from '@/server/Middlewares/QuestionMiddleware';
 import { HttpCode } from '@/utils/HttpCode';
 import { testModel } from '@/server/Models/TestModel';
 import { TestStatus } from '@/generated/Enum';
+import mongoose from 'mongoose';
 
 @Resolver()
 export class QuestionResolver {
@@ -266,6 +268,36 @@ export class QuestionResolver {
 
       return {
         message: 'Saved Successfully',
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @Authorized()
+  @Query(() => questionTg.GetQuestionAssignedToTestResponse)
+  async getQuestionAssignedToTest(
+    @Args() args: questionTg.GetQuestionAssignedToTestArgs
+  ): Promise<questionTg.GetQuestionAssignedToTestResponse> {
+    try {
+      const filterQuery = {
+        'tests.test': new mongoose.Types.ObjectId(args.testId),
+      };
+      const pagination = await generatePagination(
+        questionModel,
+        args,
+        filterQuery
+      );
+
+      const find = await questionModel
+        .find(filterQuery)
+        .limit(pagination.limit)
+        .skip(pagination.offset);
+
+      return {
+        items: find.map((item) => format.getQuestion(item)),
+        totalPages: pagination.totalPages,
+        totalDocs: pagination.totalDocs,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

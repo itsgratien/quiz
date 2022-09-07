@@ -11,7 +11,7 @@ export const generateSlug = (value: string) =>
 export const generatePagination = async (
   model: any,
   value: PaginationArgs,
-  filter?: { [key: string]: string }
+  filter?: { [key: string]: string } | any
 ) => {
   const totalDocs = await model.find(filter || {}).countDocuments();
 

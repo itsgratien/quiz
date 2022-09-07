@@ -113,3 +113,17 @@ export class AddQuestionToTestResponse extends CustomResponse(Question) {}
 
 @ObjectType()
 export class GetMyQuestionResponse extends CustomResponse(Question) {}
+
+@ArgsType()
+export class GetQuestionAssignedToTestArgs extends PaginationArgs {
+  @Field()
+  testId: string;
+}
+
+@ObjectType()
+export class GetQuestionAssignedToTestResponse extends CustomResponse(
+  Question
+) {
+  @Field(() => [Question])
+  items?: Question[];
+}
