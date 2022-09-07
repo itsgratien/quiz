@@ -133,12 +133,15 @@ export type ErrorsT = {
 
 export type GetAttendantByTestResponse = {
   __typename?: 'GetAttendantByTestResponse';
+  completedDoc?: Maybe<Scalars['Float']>;
   data?: Maybe<Attendant>;
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
+  inProgressDoc?: Maybe<Scalars['Float']>;
   items: Array<Attendant>;
   message?: Maybe<Scalars['String']>;
   nextPage?: Maybe<Scalars['Float']>;
+  startedDoc?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -427,7 +430,7 @@ export type GetAttendantByTestQueryVariables = Exact<{
 }>;
 
 
-export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string }> } };
+export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, inProgressDoc?: number | null, startedDoc?: number | null, completedDoc?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string }> } };
 
 export type AddAttendantMutationVariables = Exact<{
   testId: Scalars['String'];
@@ -596,6 +599,9 @@ export const GetAttendantByTestDocument = gql`
     totalDocs
     totalPages
     nextPage
+    inProgressDoc
+    startedDoc
+    completedDoc
     error
   }
 }

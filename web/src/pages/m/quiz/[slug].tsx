@@ -71,16 +71,30 @@ export default QuizDetailPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
   withAuth(ctx, async () => {
-    const { params }: any = ctx;
+    try {
+      const { params }: any = ctx;
 
-    const res = await apollo(ctx as any).query<GetSingleTestQuery>({
-      query: GetSingleTestDocument,
-      variables: { slug: params.slug },
-    });
+      const res = await apollo(ctx as any).query<GetSingleTestQuery>({
+        query: GetSingleTestDocument,
+        variables: { slug: params.slug },
+      });
 
-    return {
-      props: {
-        data: res.data.getSingleTest?.data,
-      },
-    };
+      const { getSingleTest } = res.data;
+
+      if (getSingleTest && getSingleTest.data) {
+        return {
+          props: {
+            data: getSingleTest.data,
+          },
+        };
+      } else {
+        return {
+          notFound: true,
+        };
+      }
+    } catch (error) {
+      return {
+        props: {},
+      };
+    }
   });

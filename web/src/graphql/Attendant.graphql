@@ -18,6 +18,9 @@ query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {
     totalDocs
     totalPages
     nextPage
+    inProgressDoc
+    startedDoc
+    completedDoc
     error
   }
 }

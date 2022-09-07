@@ -157,15 +157,15 @@ export class AttendantResolver extends AttendantHelper {
         .limit(pagination.limit)
         .skip(pagination.offset);
 
-      const startedDocs = await attendantModel
+      const startedDoc = await attendantModel
         .find({ status: AttendantStatus.Started })
         .count();
 
-      const inProgressDocs = await attendantModel
+      const inProgressDoc = await attendantModel
         .find({ status: AttendantStatus.InProgress })
         .count();
 
-      const completedDocs = await attendantModel
+      const completedDoc = await attendantModel
         .find({ status: AttendantStatus.Completed })
         .count();
 
@@ -174,9 +174,9 @@ export class AttendantResolver extends AttendantHelper {
         totalDocs: pagination.totalDocs,
         totalPages: pagination.totalPages,
         nextPage: pagination.nextPage,
-        inProgressDocs,
-        startedDocs,
-        completedDocs,
+        inProgressDoc,
+        startedDoc,
+        completedDoc,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

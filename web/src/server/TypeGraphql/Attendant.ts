@@ -41,11 +41,11 @@ export class GetAttendantByTestResponse extends CustomResponse(Attendant) {
   items?: Attendant[];
 
   @Field({ nullable: true })
-  completedDocs?: number;
+  completedDoc?: number;
 
   @Field({ nullable: true })
-  startedDocs?: number;
+  startedDoc?: number;
 
   @Field({ nullable: true })
-  inProgressDocs?: number;
+  inProgressDoc?: number;
 }

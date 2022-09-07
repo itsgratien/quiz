@@ -10,6 +10,7 @@ import { Attendant, useGetAttendantByTestLazyQuery } from '@/generated/graphql';
 import { AttendantStatus } from '@/generated/Enum';
 import LoadMoreButton from '../LoadMoreButton';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import { useRouter } from 'next/router';
 
 const InvitedCandidate = ({ testId }: { testId: string }) => {
   const [page, setPage] = React.useState<number>(1);
@@ -18,7 +19,11 @@ const InvitedCandidate = ({ testId }: { testId: string }) => {
 
   const [items, setItems] = React.useState<Attendant[]>();
 
+  const [statistic, setStatistic] = React.useState<{ [key: string]: number }>();
+
   const [getAttendant, { data, loading }] = useGetAttendantByTestLazyQuery();
+
+  const router = useRouter();
 
   const handleLoadMore = () => {
     setPage((item) => item + 1);
@@ -43,6 +48,15 @@ const InvitedCandidate = ({ testId }: { testId: string }) => {
         }
       });
       setTotalDocs(data.getAttendantByTest.totalDocs || undefined);
+
+      const { startedDoc, inProgressDoc, completedDoc } =
+        data.getAttendantByTest;
+
+      setStatistic({
+        started: startedDoc || 0,
+        inProgress: inProgressDoc || 0,
+        completed: completedDoc || 0,
+      });
     }
   }, [data, page]);
 
@@ -54,12 +68,18 @@ const InvitedCandidate = ({ testId }: { testId: string }) => {
           total={totalDocs ? `${totalDocs} total results` : undefined}
         />
         <div className="flex items-center mt-5">
-          <CandidateHeaderItem number={5} status={AttendantStatus.Started} />
           <CandidateHeaderItem
-            number={20}
+            number={statistic ? statistic.started : 0}
+            status={AttendantStatus.Started}
+          />
+          <CandidateHeaderItem
+            number={statistic ? statistic.inProgress : 0}
             status={AttendantStatus.InProgress}
           />
-          <CandidateHeaderItem number={30} status={AttendantStatus.Completed} />
+          <CandidateHeaderItem
+            number={statistic ? statistic.completed : 0}
+            status={AttendantStatus.Completed}
+          />
         </div>
       </div>
 
@@ -75,7 +95,9 @@ const InvitedCandidate = ({ testId }: { testId: string }) => {
                       <CandidateItem
                         {...item}
                         status={String(item.status)}
-                        handleViewAnswer={() => ''}
+                        handleViewAnswer={() =>
+                          router.push(`/m/candidate/${item._id}`)
+                        }
                       />
                     </Grid>
                   ))}
@@ -86,7 +108,7 @@ const InvitedCandidate = ({ testId }: { testId: string }) => {
                   marginTop="49px"
                   className={style.sectionTitle}
                   handleClick={handleLoadMore}
-                  disabled={loading}
+                  loading={loading}
                 />
               )}
             </>
@@ -97,7 +119,7 @@ const InvitedCandidate = ({ testId }: { testId: string }) => {
           )}
         </>
       )}
-      {loading && (
+      {loading && !items && (
         <div className={style.sectionTitle}>
           <LoadingSpinner size={30} justify="start" />
         </div>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classname from 'classnames';
 import style from './Quiz.module.scss';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
 export const LoadMoreButton = ({
   name,
@@ -8,14 +9,14 @@ export const LoadMoreButton = ({
   align,
   marginTop,
   className,
-  disabled,
+  loading,
 }: {
   name?: string;
   handleClick?: () => void;
   align?: 'center' | 'start' | 'end';
   marginTop?: string;
   className?: string;
-  disabled?: boolean;
+  loading?: boolean;
 }) => {
   return (
     <div
@@ -29,12 +30,13 @@ export const LoadMoreButton = ({
         type="button"
         className={classname(
           'uppercase outline-none focus:outline-none text-14 font-bold flex items-center justify-center',
-          style.loadMoreButton
+          style.loadMoreButton,
+          loading && style.loadMoreButtonLoading
         )}
         onClick={handleClick}
-        disabled={disabled}
+        disabled={loading}
       >
-        {name || 'Load More'}
+        {loading ? <LoadingSpinner size={20} /> : <>{name || 'Load More'}</>}
       </button>
     </div>
   );

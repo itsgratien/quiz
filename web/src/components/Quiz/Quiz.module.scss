@@ -29,6 +29,11 @@
   height: 50px;
   width: 133px;
 }
+.loadMoreButtonLoading {
+  background: rgba(0, 0, 0, 0.21);
+  box-shadow: none;
+  cursor: not-allowed;
+}
 
 .rightButtons {
   right: -20px;

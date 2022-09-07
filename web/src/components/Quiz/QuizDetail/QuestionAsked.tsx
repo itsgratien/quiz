@@ -83,7 +83,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
                   marginTop="49px"
                   className={style.sectionTitle}
                   handleClick={handleLoadMore}
-                  disabled={loading}
+                  loading={loading}
                 />
               )}
             </>
@@ -95,7 +95,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
           )}
         </>
       )}
-      {loading && (
+      {loading && !items && (
         <div className={style.sectionTitle}>
           <LoadingSpinner size={30} justify="start" />
         </div>
