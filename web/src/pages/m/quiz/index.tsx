@@ -12,29 +12,34 @@ import { useGetMyTestsLazyQuery, Test } from '@/generated/graphql';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 const Quiz: NextPage<QuizPageProps> = ({ me }) => {
   const [page, setPage] = React.useState<number>(1);
 
   const [items, setItems] = React.useState<Test[]>([]);
 
-  const [getMyTest, { data, loading, error }] = useGetMyTestsLazyQuery();
+  const [getMyTest, { data, loading }] = useGetMyTestsLazyQuery();
 
   const router = useRouter();
 
   React.useEffect(() => {
-    getMyTest({ variables: { page } });
+    getMyTest({ variables: { page, limit: 14 } });
   }, [getMyTest, page]);
 
   React.useEffect(() => {
     if (data && data.getMyTests && data.getMyTests.items) {
       setItems(data.getMyTests.items as Test[]);
     }
+    if (data && data.getMyTests && data.getMyTests.error) {
+      toast.error(data.getMyTests.error);
+    }
   }, [data]);
 
   const handleView = (slug: string) => {
     router.push(`/m/quiz/${slug}`);
   };
+  console.log('data', data?.getMyTests);
 
   return (
     <>

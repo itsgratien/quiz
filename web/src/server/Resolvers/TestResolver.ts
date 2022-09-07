@@ -85,8 +85,8 @@ export class TestResolver extends AttendantHelper {
         totalDocs: pagination.totalDocs,
         totalPages: pagination.totalPages,
       };
-    } catch (error) {
-      return errorResponse(undefined, HttpCode.ServerError);
+    } catch (error: any) {
+      return errorResponse(error.message, HttpCode.ServerError);
     }
   }
 
