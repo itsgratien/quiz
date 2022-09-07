@@ -6,7 +6,14 @@ import typegoose, {
 import { Field, ObjectType } from 'type-graphql';
 import { QuestionType, TestStatus } from '@/generated/Enum';
 import { User } from './UserModel';
+import { Test } from './TestModel';
 
+@ObjectType()
+export class LinkedTest {
+  @Field(() => Test)
+  @prop({ ref: () => Test })
+  test: typegoose.Ref<Test, string>;
+}
 @ObjectType()
 export class Question {
   @Field()
@@ -47,6 +54,10 @@ export class Question {
   @Field()
   @prop()
   points: number;
+
+  @Field(() => [LinkedTest])
+  @prop({ required: false })
+  tests?: LinkedTest[];
 
   @Field({ nullable: true })
   createdAt?: string;

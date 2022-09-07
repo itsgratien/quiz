@@ -62,10 +62,12 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
                   />
                 </div>
               </div>
-              {data.questions && <div
-                className={style.hr}
-                style={{ transform: 'rotate(-2.67deg)' }}
-              ></div>}
+              {data.questions && (
+                <div
+                  className={style.hr}
+                  style={{ transform: 'rotate(-2.67deg)' }}
+                ></div>
+              )}
               <div className={classname('relative', style.section)}>
                 <div className={classname(style.sectionTitle)}>
                   <SectionTitle

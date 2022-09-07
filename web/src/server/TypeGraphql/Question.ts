@@ -1,7 +1,14 @@
 import { Field, ArgsType, ObjectType } from 'type-graphql';
 import { CustomResponse } from './Test';
 import { Question } from '@/server/Models/QuestionModel';
-import { IsNotEmpty, IsEnum, IsArray } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsEnum,
+  IsArray,
+  IsBoolean,
+  IsPositive,
+  IsNumber,
+} from 'class-validator';
 import { TestStatus } from '@/generated/Enum';
 
 @ObjectType()
@@ -25,12 +32,16 @@ export class AddMcQuestionArgs {
   description?: string;
 
   @Field({ nullable: true })
+  @IsNotEmpty()
   testId?: string;
 
   @Field({ nullable: true })
   assignToTest?: boolean;
 
   @Field()
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
   points: number;
 }
 

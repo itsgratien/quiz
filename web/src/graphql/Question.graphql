@@ -14,3 +14,29 @@ fragment Question on Question {
     ...User
   }
 }
+
+mutation SetupMcQuestion(
+  $title: String!
+  $choices: [String!]!
+  $solutions: [String]!
+  $description: String
+  $testId: String
+  $assignToTest: Boolean
+  $points: Float!
+) {
+  setupMultipleChoiceQuestion(
+    title: $title
+    choices: $choices
+    solutions: $solutions
+    description: $description
+    testId: $testId
+    assignToTest: $assignToTest
+    points: $points
+  ) {
+    message
+    error
+    data {
+      ...Question
+    }
+  }
+}

@@ -36,6 +36,16 @@ export class QuestionResolver {
     try {
       const { req } = ctx;
 
+      if (args.testId) {
+        const findTest = await testModel.findOne({
+          $and: [{ _id: args.testId }, { managerId: req.session.userId }],
+        });
+
+        if (!findTest) {
+          return errorResponse('Test Not Found');
+        }
+      }
+
       const add = await questionModel.create({
         owner: req.session.userId,
         title: args.title,
@@ -54,6 +64,7 @@ export class QuestionResolver {
 
         if (checkTestOwner) {
           await this.assignQuestionsToTheTest(add._id, checkTestOwner._id);
+          await this.linkTestToQuestion(add._id, checkTestOwner._id);
         }
       }
       return {
@@ -192,6 +203,30 @@ export class QuestionResolver {
       }
     }
 
+    return false;
+  };
+
+  private linkTestToQuestion = async (questionId: string, testId: string) => {
+    const findQuestion = await questionModel.findById(questionId);
+
+    if (findQuestion) {
+      const isNotIncluded = findQuestion.tests
+        ? findQuestion.tests.find((item) => item.test === testId)
+          ? false
+          : true
+        : true;
+
+      if (isNotIncluded) {
+        const updateQ = await questionModel.updateOne(
+          { _id: questionId },
+          { $push: { tests: { test: testId } } }
+        );
+
+        if (updateQ.modifiedCount > 0) {
+          return true;
+        }
+      }
+    }
     return false;
   };
 
