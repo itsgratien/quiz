@@ -19,6 +19,7 @@ import { HttpCode } from '@/utils/HttpCode';
 import { testModel } from '@/server/Models/TestModel';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
 import { AssignAttendantToTestArgs } from '@/generated/Attendant';
+import { AttendantStatus } from '@/generated/Enum';
 
 @Resolver()
 export class AttendantResolver extends AttendantHelper {
@@ -156,11 +157,26 @@ export class AttendantResolver extends AttendantHelper {
         .limit(pagination.limit)
         .skip(pagination.offset);
 
+      const startedDocs = await attendantModel
+        .find({ status: AttendantStatus.Started })
+        .count();
+
+      const inProgressDocs = await attendantModel
+        .find({ status: AttendantStatus.InProgress })
+        .count();
+
+      const completedDocs = await attendantModel
+        .find({ status: AttendantStatus.Completed })
+        .count();
+
       return {
         items: find.map((item) => format.getAttendant(item)),
         totalDocs: pagination.totalDocs,
         totalPages: pagination.totalPages,
         nextPage: pagination.nextPage,
+        inProgressDocs,
+        startedDocs,
+        completedDocs,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

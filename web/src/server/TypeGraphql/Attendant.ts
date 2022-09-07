@@ -39,4 +39,13 @@ export class GetAttendantByTestArgs extends PaginationArgs {
 export class GetAttendantByTestResponse extends CustomResponse(Attendant) {
   @Field(() => [Attendant])
   items?: Attendant[];
+
+  @Field({ nullable: true })
+  completedDocs?: number;
+
+  @Field({ nullable: true })
+  startedDocs?: number;
+
+  @Field({ nullable: true })
+  inProgressDocs?: number;
 }
