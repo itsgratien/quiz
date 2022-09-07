@@ -33,3 +33,12 @@ mutation AddAttendant($testId: String!, $args: AddAttendantArgs!) {
     error
   }
 }
+
+mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
+  addMoreAttendant(testId: $testId, args: $args) {
+    data {
+      ...Attendant
+    }
+    error
+  }
+}

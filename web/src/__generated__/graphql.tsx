@@ -424,6 +424,14 @@ export type AddAttendantMutationVariables = Exact<{
 
 export type AddAttendantMutation = { __typename?: 'Mutation', addAttendant: { __typename?: 'AddAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } } | null } };
 
+export type AddMoreAttendantMutationVariables = Exact<{
+  testId: Scalars['String'];
+  args: Array<AddAttendantArgs> | AddAttendantArgs;
+}>;
+
+
+export type AddMoreAttendantMutation = { __typename?: 'Mutation', addMoreAttendant: { __typename?: 'AddMoreAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } } | null } };
+
 export type QuestionFragment = { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null };
 
 export type SetupMcQuestionMutationVariables = Exact<{
@@ -649,6 +657,43 @@ export function useAddAttendantMutation(baseOptions?: Apollo.MutationHookOptions
 export type AddAttendantMutationHookResult = ReturnType<typeof useAddAttendantMutation>;
 export type AddAttendantMutationResult = Apollo.MutationResult<AddAttendantMutation>;
 export type AddAttendantMutationOptions = Apollo.BaseMutationOptions<AddAttendantMutation, AddAttendantMutationVariables>;
+export const AddMoreAttendantDocument = gql`
+    mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
+  addMoreAttendant(testId: $testId, args: $args) {
+    data {
+      ...Attendant
+    }
+    error
+  }
+}
+    ${AttendantFragmentDoc}`;
+export type AddMoreAttendantMutationFn = Apollo.MutationFunction<AddMoreAttendantMutation, AddMoreAttendantMutationVariables>;
+
+/**
+ * __useAddMoreAttendantMutation__
+ *
+ * To run a mutation, you first call `useAddMoreAttendantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddMoreAttendantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addMoreAttendantMutation, { data, loading, error }] = useAddMoreAttendantMutation({
+ *   variables: {
+ *      testId: // value for 'testId'
+ *      args: // value for 'args'
+ *   },
+ * });
+ */
+export function useAddMoreAttendantMutation(baseOptions?: Apollo.MutationHookOptions<AddMoreAttendantMutation, AddMoreAttendantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMoreAttendantMutation, AddMoreAttendantMutationVariables>(AddMoreAttendantDocument, options);
+      }
+export type AddMoreAttendantMutationHookResult = ReturnType<typeof useAddMoreAttendantMutation>;
+export type AddMoreAttendantMutationResult = Apollo.MutationResult<AddMoreAttendantMutation>;
+export type AddMoreAttendantMutationOptions = Apollo.BaseMutationOptions<AddMoreAttendantMutation, AddMoreAttendantMutationVariables>;
 export const SetupMcQuestionDocument = gql`
     mutation SetupMcQuestion($title: String!, $choices: [String!]!, $solutions: [String!]!, $description: String, $testId: String, $assignToTest: Boolean, $points: Float!) {
   setupMultipleChoiceQuestion(
