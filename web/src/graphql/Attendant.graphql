@@ -24,3 +24,12 @@ query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {
     error
   }
 }
+
+mutation AddAttendant($testId: String!, $args: AddAttendantArgs!) {
+  addAttendant(testId: $testId, args: $args) {
+    data {
+      ...Attendant
+    }
+    error
+  }
+}

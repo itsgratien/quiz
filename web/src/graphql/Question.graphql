@@ -18,7 +18,7 @@ fragment Question on Question {
 mutation SetupMcQuestion(
   $title: String!
   $choices: [String!]!
-  $solutions: [String]!
+  $solutions: [String!]!
   $description: String
   $testId: String
   $assignToTest: Boolean

@@ -125,12 +125,36 @@ export type ErrorsT = {
   message: Scalars['String'];
 };
 
+export type GetAttendantByTestResponse = {
+  __typename?: 'GetAttendantByTestResponse';
+  data?: Maybe<Attendant>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  items: Array<Attendant>;
+  message?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['Float']>;
+  totalDocs?: Maybe<Scalars['Float']>;
+  totalPages?: Maybe<Scalars['Float']>;
+};
+
 export type GetMyTestResponse = {
   __typename?: 'GetMyTestResponse';
   data?: Maybe<Test>;
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Test>>;
+  message?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['Float']>;
+  totalDocs?: Maybe<Scalars['Float']>;
+  totalPages?: Maybe<Scalars['Float']>;
+};
+
+export type GetQuestionAssignedToTestResponse = {
+  __typename?: 'GetQuestionAssignedToTestResponse';
+  data?: Maybe<Question>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  items: Array<Question>;
   message?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
@@ -180,6 +204,11 @@ export type GetUserResponse = {
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
+};
+
+export type LinkedTest = {
+  __typename?: 'LinkedTest';
+  test: Test;
 };
 
 export type Mutation = {
@@ -272,11 +301,20 @@ export type MutationSetupMultipleChoiceQuestionArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAttendantByTest: GetAttendantByTestResponse;
   getMyTests: GetMyTestResponse;
   getQuestion: GetQuestionResponse;
+  getQuestionAssignedToTest: GetQuestionAssignedToTestResponse;
   getQuestions: GetQuestionsResponse;
   getSingleTest: GetSingleTestResponse;
   getUser: GetUserResponse;
+};
+
+
+export type QueryGetAttendantByTestArgs = {
+  limit?: InputMaybe<Scalars['Float']>;
+  page: Scalars['Float'];
+  testId: Scalars['String'];
 };
 
 
@@ -288,6 +326,13 @@ export type QueryGetMyTestsArgs = {
 
 export type QueryGetQuestionArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryGetQuestionAssignedToTestArgs = {
+  limit?: InputMaybe<Scalars['Float']>;
+  page: Scalars['Float'];
+  testId: Scalars['String'];
 };
 
 
@@ -312,6 +357,7 @@ export type Question = {
   slug: Scalars['String'];
   solutions?: Maybe<Array<Scalars['String']>>;
   status?: Maybe<Scalars['String']>;
+  tests: Array<LinkedTest>;
   title: Scalars['String'];
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
@@ -361,7 +407,46 @@ export type User = {
 
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } };
 
+export type GetAttendantByTestQueryVariables = Exact<{
+  testId: Scalars['String'];
+  page: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Float']>;
+}>;
+
+
+export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } }> } };
+
+export type AddAttendantMutationVariables = Exact<{
+  testId: Scalars['String'];
+  args: AddAttendantArgs;
+}>;
+
+
+export type AddAttendantMutation = { __typename?: 'Mutation', addAttendant: { __typename?: 'AddAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } } | null } };
+
 export type QuestionFragment = { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null };
+
+export type SetupMcQuestionMutationVariables = Exact<{
+  title: Scalars['String'];
+  choices: Array<Scalars['String']> | Scalars['String'];
+  solutions: Array<Scalars['String']> | Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+  testId?: InputMaybe<Scalars['String']>;
+  assignToTest?: InputMaybe<Scalars['Boolean']>;
+  points: Scalars['Float'];
+}>;
+
+
+export type SetupMcQuestionMutation = { __typename?: 'Mutation', setupMultipleChoiceQuestion: { __typename?: 'AddQuestionResponse', message?: string | null, error?: string | null, data?: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } | null } };
+
+export type GetQuestionAssignedToTestQueryVariables = Exact<{
+  page: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Float']>;
+  testId: Scalars['String'];
+}>;
+
+
+export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, error?: string | null, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
 
 export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: { __typename?: 'Test', _id: string, title: string, subject: string } } }> | null };
 
@@ -485,6 +570,178 @@ export const TestFragmentDoc = gql`
 }
     ${QuestionFragmentDoc}
 ${AttendantFragmentDoc}`;
+export const GetAttendantByTestDocument = gql`
+    query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {
+  getAttendantByTest(testId: $testId, page: $page, limit: $limit) {
+    items {
+      ...Attendant
+    }
+    totalDocs
+    totalPages
+    error
+  }
+}
+    ${AttendantFragmentDoc}`;
+
+/**
+ * __useGetAttendantByTestQuery__
+ *
+ * To run a query within a React component, call `useGetAttendantByTestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAttendantByTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAttendantByTestQuery({
+ *   variables: {
+ *      testId: // value for 'testId'
+ *      page: // value for 'page'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetAttendantByTestQuery(baseOptions: Apollo.QueryHookOptions<GetAttendantByTestQuery, GetAttendantByTestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAttendantByTestQuery, GetAttendantByTestQueryVariables>(GetAttendantByTestDocument, options);
+      }
+export function useGetAttendantByTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAttendantByTestQuery, GetAttendantByTestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAttendantByTestQuery, GetAttendantByTestQueryVariables>(GetAttendantByTestDocument, options);
+        }
+export type GetAttendantByTestQueryHookResult = ReturnType<typeof useGetAttendantByTestQuery>;
+export type GetAttendantByTestLazyQueryHookResult = ReturnType<typeof useGetAttendantByTestLazyQuery>;
+export type GetAttendantByTestQueryResult = Apollo.QueryResult<GetAttendantByTestQuery, GetAttendantByTestQueryVariables>;
+export const AddAttendantDocument = gql`
+    mutation AddAttendant($testId: String!, $args: AddAttendantArgs!) {
+  addAttendant(testId: $testId, args: $args) {
+    data {
+      ...Attendant
+    }
+    error
+  }
+}
+    ${AttendantFragmentDoc}`;
+export type AddAttendantMutationFn = Apollo.MutationFunction<AddAttendantMutation, AddAttendantMutationVariables>;
+
+/**
+ * __useAddAttendantMutation__
+ *
+ * To run a mutation, you first call `useAddAttendantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddAttendantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addAttendantMutation, { data, loading, error }] = useAddAttendantMutation({
+ *   variables: {
+ *      testId: // value for 'testId'
+ *      args: // value for 'args'
+ *   },
+ * });
+ */
+export function useAddAttendantMutation(baseOptions?: Apollo.MutationHookOptions<AddAttendantMutation, AddAttendantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddAttendantMutation, AddAttendantMutationVariables>(AddAttendantDocument, options);
+      }
+export type AddAttendantMutationHookResult = ReturnType<typeof useAddAttendantMutation>;
+export type AddAttendantMutationResult = Apollo.MutationResult<AddAttendantMutation>;
+export type AddAttendantMutationOptions = Apollo.BaseMutationOptions<AddAttendantMutation, AddAttendantMutationVariables>;
+export const SetupMcQuestionDocument = gql`
+    mutation SetupMcQuestion($title: String!, $choices: [String!]!, $solutions: [String!]!, $description: String, $testId: String, $assignToTest: Boolean, $points: Float!) {
+  setupMultipleChoiceQuestion(
+    title: $title
+    choices: $choices
+    solutions: $solutions
+    description: $description
+    testId: $testId
+    assignToTest: $assignToTest
+    points: $points
+  ) {
+    message
+    error
+    data {
+      ...Question
+    }
+  }
+}
+    ${QuestionFragmentDoc}`;
+export type SetupMcQuestionMutationFn = Apollo.MutationFunction<SetupMcQuestionMutation, SetupMcQuestionMutationVariables>;
+
+/**
+ * __useSetupMcQuestionMutation__
+ *
+ * To run a mutation, you first call `useSetupMcQuestionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetupMcQuestionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setupMcQuestionMutation, { data, loading, error }] = useSetupMcQuestionMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      choices: // value for 'choices'
+ *      solutions: // value for 'solutions'
+ *      description: // value for 'description'
+ *      testId: // value for 'testId'
+ *      assignToTest: // value for 'assignToTest'
+ *      points: // value for 'points'
+ *   },
+ * });
+ */
+export function useSetupMcQuestionMutation(baseOptions?: Apollo.MutationHookOptions<SetupMcQuestionMutation, SetupMcQuestionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetupMcQuestionMutation, SetupMcQuestionMutationVariables>(SetupMcQuestionDocument, options);
+      }
+export type SetupMcQuestionMutationHookResult = ReturnType<typeof useSetupMcQuestionMutation>;
+export type SetupMcQuestionMutationResult = Apollo.MutationResult<SetupMcQuestionMutation>;
+export type SetupMcQuestionMutationOptions = Apollo.BaseMutationOptions<SetupMcQuestionMutation, SetupMcQuestionMutationVariables>;
+export const GetQuestionAssignedToTestDocument = gql`
+    query GetQuestionAssignedToTest($page: Float!, $limit: Float, $testId: String!) {
+  getQuestionAssignedToTest(page: $page, limit: $limit, testId: $testId) {
+    items {
+      ...Question
+    }
+    totalPages
+    totalDocs
+    error
+  }
+}
+    ${QuestionFragmentDoc}`;
+
+/**
+ * __useGetQuestionAssignedToTestQuery__
+ *
+ * To run a query within a React component, call `useGetQuestionAssignedToTestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetQuestionAssignedToTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetQuestionAssignedToTestQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      limit: // value for 'limit'
+ *      testId: // value for 'testId'
+ *   },
+ * });
+ */
+export function useGetQuestionAssignedToTestQuery(baseOptions: Apollo.QueryHookOptions<GetQuestionAssignedToTestQuery, GetQuestionAssignedToTestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetQuestionAssignedToTestQuery, GetQuestionAssignedToTestQueryVariables>(GetQuestionAssignedToTestDocument, options);
+      }
+export function useGetQuestionAssignedToTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetQuestionAssignedToTestQuery, GetQuestionAssignedToTestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetQuestionAssignedToTestQuery, GetQuestionAssignedToTestQueryVariables>(GetQuestionAssignedToTestDocument, options);
+        }
+export type GetQuestionAssignedToTestQueryHookResult = ReturnType<typeof useGetQuestionAssignedToTestQuery>;
+export type GetQuestionAssignedToTestLazyQueryHookResult = ReturnType<typeof useGetQuestionAssignedToTestLazyQuery>;
+export type GetQuestionAssignedToTestQueryResult = Apollo.QueryResult<GetQuestionAssignedToTestQuery, GetQuestionAssignedToTestQueryVariables>;
 export const SetupTestDocument = gql`
     mutation SetupTest($title: String!, $startDate: String!, $endDate: String!, $description: String, $subject: String!) {
   addTest(

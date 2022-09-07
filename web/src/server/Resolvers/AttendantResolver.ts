@@ -48,7 +48,7 @@ export class AttendantResolver extends AttendantHelper {
         return errorResponse('Attendant Already Assigned To The Test');
       }
 
-      const add = await attendantModel.create(args);
+      const add = await attendantModel.create({ ...args, testId });
 
       await this.assignAttendantsToTest([{ attendant: add._id }], testId);
       return {
