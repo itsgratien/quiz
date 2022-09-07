@@ -8,6 +8,11 @@ fragment Attendant on Attendant {
   createdAt
   updatedAt
   testId
+  test {
+    _id
+    title
+    status
+  }
 }
 
 query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {

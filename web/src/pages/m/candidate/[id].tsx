@@ -19,11 +19,21 @@ import {
   GetAttendantByIdQueryVariables,
   Attendant,
 } from '@/generated/graphql';
+import { TestStatus } from '@/generated/Enum';
+import NotFound from '@/components/Quiz/Setup/View/NotFound';
 
-export const CandidatePage: NextPage<{
+const CandidatePage: NextPage<{
   data?: Attendant;
   error?: string;
 }> = ({ data }) => {
+  const [showResult, setShowResult] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (data && data.test) {
+      setShowResult(data.test.status === TestStatus.Published);
+    }
+  }, [data]);
+
   return (
     <>
       <Head>
@@ -50,22 +60,26 @@ export const CandidatePage: NextPage<{
                     className="mt-19"
                   />
                 </div>
-                <div className={classname('absolute top-0 right-20 mt-30')}>
-                  <div className="flex items-center">
-                    <span className={classname('font-bold text-20 text-black')}>
-                      50%
-                    </span>
-                    <span
-                      className={classname('font-bold text-f1 text-15 ml-2')}
-                      style={{ color: 'rgba(0, 0, 0, 0.28)' }}
-                    >
-                      Overall grade
-                    </span>
+                {showResult && (
+                  <div className={classname('absolute top-0 right-20 mt-30')}>
+                    <div className="flex items-center">
+                      <span
+                        className={classname('font-bold text-20 text-black')}
+                      >
+                        50%
+                      </span>
+                      <span
+                        className={classname('font-bold text-f1 text-15 ml-2')}
+                        style={{ color: 'rgba(0, 0, 0, 0.28)' }}
+                      >
+                        Overall grade
+                      </span>
+                    </div>
+                    <div className={classname('font-bold text-right text-14')}>
+                      {data.status}
+                    </div>
                   </div>
-                  <div className={classname('font-bold text-right text-14')}>
-                    {data.status}
-                  </div>
-                </div>
+                )}
                 <div style={{ marginLeft: '13%', marginTop: '27px' }}>
                   <div className="flex items-center">
                     <CandidateLabel
@@ -103,9 +117,17 @@ export const CandidatePage: NextPage<{
                 </div>
               </div>
               <div>
-                {AnswerMock.getAll.map((item) => (
-                  <AnswerGroup key={item._id} item={item} />
-                ))}
+                {showResult ? (
+                  <>
+                    {AnswerMock.getAll.map((item) => (
+                      <AnswerGroup key={item._id} item={item} />
+                    ))}
+                  </>
+                ) : (
+                  <div className="mt-5">
+                    <NotFound message=" " alignItem="start" />
+                  </div>
+                )}
               </div>
             </div>
           </>
@@ -119,12 +141,14 @@ export default CandidatePage;
 export const getServerSideProps = async (context: GetServerSidePropsContext) =>
   withAuth(context, async () => {
     try {
+      const { id } = context.params as any;
+
       const res = await apollo(context).query<
         GetAttendantByIdQuery,
         GetAttendantByIdQueryVariables
       >({
         query: GetAttendantByIdDocument,
-        variables: { attendantId: context.params.id },
+        variables: { attendantId: id },
       });
 
       const { getAttendantById } = res.data;

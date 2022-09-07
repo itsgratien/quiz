@@ -39,7 +39,6 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
   const handleView = (slug: string) => {
     router.push(`/m/quiz/${slug}`);
   };
-  console.log('data', data?.getMyTests);
 
   return (
     <>

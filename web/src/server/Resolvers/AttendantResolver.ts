@@ -189,7 +189,11 @@ export class AttendantResolver extends AttendantHelper {
     @Arg('attendantId') attendantId: string
   ): Promise<attendantTg.GetAttendantByTestResponse> {
     try {
-      const find = await attendantModel.findById(attendantId);
+      const find = await attendantModel.findById(attendantId).populate({
+        path: 'testId',
+        model: 'Test',
+        select: '_id status title',
+      });
 
       return {
         data: find ? format.getAttendant(find) : undefined,

@@ -8,6 +8,17 @@ import { Test } from './TestModel';
 import { AttendantStatus } from '@/generated/Enum';
 
 @ObjectType()
+class SubTest {
+  @Field()
+  _id: string;
+
+  @Field()
+  title: string;
+
+  @Field()
+  status: string;
+}
+@ObjectType()
 export class Attendant {
   @Field()
   _id: string;
@@ -28,7 +39,7 @@ export class Attendant {
   @prop({ type: String, unique: true, required: false })
   testUri?: string;
 
-  @Field(() => String)
+  @Field(() => String || Test, { nullable: true })
   @prop({ ref: () => 'Test', required: false })
   testId?: typegoose.Ref<Test, string>;
 
@@ -44,6 +55,9 @@ export class Attendant {
 
   @Field({ nullable: true })
   updatedAt?: string;
+
+  @Field(() => SubTest, { nullable: true })
+  test?: SubTest;
 }
 
 export const attendantModel = getModelForClass(Attendant, {

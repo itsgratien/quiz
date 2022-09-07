@@ -115,7 +115,8 @@ export type Attendant = {
   names: Scalars['String'];
   phoneNumber: Scalars['String'];
   status?: Maybe<Scalars['String']>;
-  testId: Scalars['String'];
+  test?: Maybe<SubTest>;
+  testId?: Maybe<Scalars['String']>;
   testUri?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
 };
@@ -385,6 +386,13 @@ export type Question = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type SubTest = {
+  __typename?: 'SubTest';
+  _id: Scalars['String'];
+  status: Scalars['String'];
+  title: Scalars['String'];
+};
+
 export type Test = {
   __typename?: 'Test';
   _id: Scalars['String'];
@@ -427,7 +435,7 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
-export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string };
+export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null };
 
 export type GetAttendantByTestQueryVariables = Exact<{
   testId: Scalars['String'];
@@ -436,7 +444,7 @@ export type GetAttendantByTestQueryVariables = Exact<{
 }>;
 
 
-export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, inProgressDoc?: number | null, startedDoc?: number | null, completedDoc?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string }> } };
+export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, inProgressDoc?: number | null, startedDoc?: number | null, completedDoc?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null }> } };
 
 export type AddAttendantMutationVariables = Exact<{
   testId: Scalars['String'];
@@ -444,7 +452,7 @@ export type AddAttendantMutationVariables = Exact<{
 }>;
 
 
-export type AddAttendantMutation = { __typename?: 'Mutation', addAttendant: { __typename?: 'AddAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } | null } };
+export type AddAttendantMutation = { __typename?: 'Mutation', addAttendant: { __typename?: 'AddAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } | null } };
 
 export type AddMoreAttendantMutationVariables = Exact<{
   testId: Scalars['String'];
@@ -452,14 +460,14 @@ export type AddMoreAttendantMutationVariables = Exact<{
 }>;
 
 
-export type AddMoreAttendantMutation = { __typename?: 'Mutation', addMoreAttendant: { __typename?: 'AddMoreAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } | null } };
+export type AddMoreAttendantMutation = { __typename?: 'Mutation', addMoreAttendant: { __typename?: 'AddMoreAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } | null } };
 
 export type GetAttendantByIdQueryVariables = Exact<{
   attendantId: Scalars['String'];
 }>;
 
 
-export type GetAttendantByIdQuery = { __typename?: 'Query', getAttendantById: { __typename?: 'GetAttendantByTestResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } | null } };
+export type GetAttendantByIdQuery = { __typename?: 'Query', getAttendantById: { __typename?: 'GetAttendantByTestResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } | null } };
 
 export type QuestionFragment = { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null };
 
@@ -485,7 +493,7 @@ export type GetQuestionAssignedToTestQueryVariables = Exact<{
 
 export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, nextPage?: number | null, error?: string | null, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
 
-export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } }> | null };
+export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } }> | null };
 
 export type SetupTestMutationVariables = Exact<{
   title: Scalars['String'];
@@ -496,7 +504,7 @@ export type SetupTestMutationVariables = Exact<{
 }>;
 
 
-export type SetupTestMutation = { __typename?: 'Mutation', addTest: { __typename?: 'AddTestResponse', message?: string | null, error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } }> | null } | null } };
+export type SetupTestMutation = { __typename?: 'Mutation', addTest: { __typename?: 'AddTestResponse', message?: string | null, error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } }> | null } | null } };
 
 export type GetMyTestsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Float']>;
@@ -504,7 +512,7 @@ export type GetMyTestsQueryVariables = Exact<{
 }>;
 
 
-export type GetMyTestsQuery = { __typename?: 'Query', getMyTests: { __typename?: 'GetMyTestResponse', error?: string | null, totalDocs?: number | null, totalPages?: number | null, items?: Array<{ __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } }> | null }> | null } };
+export type GetMyTestsQuery = { __typename?: 'Query', getMyTests: { __typename?: 'GetMyTestResponse', error?: string | null, totalDocs?: number | null, totalPages?: number | null, items?: Array<{ __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } }> | null }> | null } };
 
 export type PublishTestMutationVariables = Exact<{
   testId: Scalars['String'];
@@ -518,7 +526,7 @@ export type GetSingleTestQueryVariables = Exact<{
 }>;
 
 
-export type GetSingleTestQuery = { __typename?: 'Query', getSingleTest: { __typename?: 'GetSingleTestResponse', data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId: string } }> | null } | null } };
+export type GetSingleTestQuery = { __typename?: 'Query', getSingleTest: { __typename?: 'GetSingleTestResponse', data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'SubTest', _id: string, title: string, status: string } | null } }> | null } | null } };
 
 export type UserFragment = { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null };
 
@@ -576,6 +584,11 @@ export const AttendantFragmentDoc = gql`
   createdAt
   updatedAt
   testId
+  test {
+    _id
+    title
+    status
+  }
 }
     `;
 export const TestFragmentDoc = gql`

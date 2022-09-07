@@ -4,6 +4,8 @@ import { Attendant } from '@/server/Models/AttendantModel';
 import { Test } from '@/server/Models/TestModel';
 import { pick } from 'lodash';
 import { TestQuestion, TestAttendant } from '../Models/TestModel';
+import { SubTest } from '@/generated/graphql';
+import { get } from 'lodash';
 
 export class FormatHelper {
   getQuestion(value: Question, showOwner?: boolean): Question {
@@ -56,11 +58,26 @@ export class FormatHelper {
       createdAt: value.createdAt,
       updatedAt: value.updatedAt,
       testUri: value.testUri,
-      testId:
-        typeof value.testId === 'string' ? String(value.testId) : value.testId,
+      testId: value.testId
+        ? typeof value.testId === 'object'
+          ? get(value.testId, '_id')
+          : value.testId
+        : undefined,
       status: value.status,
+      test:
+        value.testId && typeof value.testId === 'object'
+          ? this.getMinTestAttendant(value.testId as SubTest)
+          : undefined,
     };
   }
+
+  private getMinTestAttendant = (value: SubTest) => {
+    return {
+      _id: value._id,
+      title: value.title,
+      status: value.status,
+    };
+  };
 
   getTestQuestions(questions?: TestQuestion[]) {
     if (questions && questions.length > 0) {
