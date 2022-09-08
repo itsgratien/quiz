@@ -13,7 +13,6 @@ import InputError from '../InputError';
 import ChoiceInputGroup from './ChoiceInputGroup';
 import ChoiceOption from './ChoiceOption';
 import DescriptionField from './DescriptionField';
-import ViewInvitedCandidate from '../View/ViewInvitedCandidate';
 
 export const SetupQuestion = ({
   open,
@@ -22,8 +21,6 @@ export const SetupQuestion = ({
   open: boolean;
   handleClose?: () => void;
 }) => {
-  const [openC, setOpenC] = React.useState<boolean>(false);
-
   const onChangeChoiceType = (formik: FormikProps<any>, value: string) => {
     formik.setFieldValue('choiceType', value, false);
   };
@@ -41,7 +38,9 @@ export const SetupQuestion = ({
       }}
       validationSchema={SetupQuestionSchema}
       validateOnChange={false}
-      onSubmit={(values, _actions) => setOpenC(true)}
+      onSubmit={(values, _actions) => {
+        // values
+      }}
     >
       {(formik) => {
         const { values, errors } = formik;
@@ -65,12 +64,6 @@ export const SetupQuestion = ({
               </div>
             }
           >
-            {openC && (
-              <ViewInvitedCandidate
-                open={openC}
-                handleClose={() => setOpenC(false)}
-              />
-            )}
             <div
               className={classname(
                 'relative',

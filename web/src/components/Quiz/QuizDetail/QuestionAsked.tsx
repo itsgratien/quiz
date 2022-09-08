@@ -23,7 +23,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
   const [getQuestions, { data, loading }] =
     useGetQuestionAssignedToTestLazyQuery();
 
-    const router = useRouter();
+  const router = useRouter();
 
   const handleLoadMore = () => {
     setPage((item) => item + 1);
@@ -75,7 +75,9 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
                         title={item.title}
                         points={item.points}
                         type={item.type as string}
-                        handleView={() => router.push(`/m/question/${item.slug}`)}
+                        handleView={() =>
+                          router.push(`/m/question/${item.slug}`)
+                        }
                       />
                     </Grid>
                   ))}

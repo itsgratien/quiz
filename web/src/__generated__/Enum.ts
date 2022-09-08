@@ -26,3 +26,9 @@ export enum ChoiceTypeEnum {
   MultipleChoice = 'Multiple Choice',
   SingleChoice = 'Single Choice',
 }
+
+export enum SetupStep {
+  SetupQuiz = 'SetupQuiz',
+  Question = 'Question',
+  Attendant = 'Attendant',
+}

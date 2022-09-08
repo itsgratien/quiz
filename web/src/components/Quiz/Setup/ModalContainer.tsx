@@ -11,12 +11,14 @@ const ModalContainer = ({
   handleClose,
   nextButton,
   leftElement,
+  hideCloseButton,
 }: {
   children: React.ReactNode;
   open: boolean;
   handleClose?: () => void;
   nextButton?: JSX.Element;
   leftElement?: JSX.Element;
+  hideCloseButton?: boolean;
 }) => {
   return (
     <Modal open={open}>
@@ -38,13 +40,15 @@ const ModalContainer = ({
               <div className="ml-3">{leftElement}</div>
             </div>
             <div className={classname('flex items-center', style.headerButton)}>
-              <Button
-                type="button"
-                name="Close"
-                className="close"
-                icon={{ color: '#FF0000', name: 'ep:circle-close-filled' }}
-                handleClick={handleClose}
-              />
+              {!hideCloseButton && (
+                <Button
+                  type="button"
+                  name="Close"
+                  className="close"
+                  icon={{ color: '#FF0000', name: 'ep:circle-close-filled' }}
+                  handleClick={handleClose}
+                />
+              )}
               {nextButton || <div></div>}
             </div>
           </div>

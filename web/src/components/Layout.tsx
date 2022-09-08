@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import style from './Style.module.scss';
 import classname from 'classnames';
 import { Icon } from '@iconify/react';
-import SetupQuiz from './Quiz/Setup/SetupQuiz';
+import Setup from './Quiz/Setup/Setup';
 
 export const Layout = ({ children, goBack }: LayoutProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -15,7 +15,7 @@ export const Layout = ({ children, goBack }: LayoutProps) => {
 
   return (
     <>
-      {open && <SetupQuiz open={open} handleClose={() => setOpen(false)} />}
+      {open && <Setup open={open} handleClose={() => setOpen(false)} />}
       <Header />
       <main className="mb-5">
         {goBack && (

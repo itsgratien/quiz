@@ -13,14 +13,9 @@ import Warning from '@/components/Shared/Alert/WarningAlertModal';
 import NewCandidate from '../NewCandidate';
 import ImportCandidate from '../Import/ImportCandidate';
 import LeftTitle from '../LeftTitle';
+import { SetupProps } from '@/generated/Shared';
 
-export const ViewInvitedCandidate = ({
-  open,
-  handleClose,
-}: {
-  open: boolean;
-  handleClose?: () => void;
-}) => {
+export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const [openC, setOpenC] = React.useState<boolean>(false);
 
   const [warning, setWarning] = React.useState<boolean>(false);

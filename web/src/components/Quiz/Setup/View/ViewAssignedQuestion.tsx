@@ -12,24 +12,29 @@ import Grid from '@mui/material/Grid';
 import SetupQuestion from '../SetupQuestion/SetupQuestion';
 import LeftTitle from '../LeftTitle';
 import QuestionDetail from './QuestionDetail';
+import { SetupProps } from '@/generated/Shared';
+import useSetup from '@/hooks/useSetup';
+import { SetupStep } from '@/generated/Enum';
 
-export const ViewAssignedQuestion = ({
-  open,
-  handleClose,
-}: {
-  open: boolean;
-  handleClose?: () => void;
-}) => {
+export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
   const [openQ, setOpenQ] = React.useState<boolean>(false);
 
   const [viewQ, setViewQ] = React.useState<boolean>(false);
+
+  const setup = useSetup();
+
+  const handleNext = () => {
+    if (setup.handleStep) {
+      setup.handleStep(SetupStep.Attendant);
+    }
+  };
 
   return (
     <Modal
       open={open}
       handleClose={handleClose}
       nextButton={
-        <Button name="Next" className="next" handleClick={() => ''} />
+        <Button name="Next" className="next" handleClick={handleNext} />
       }
       leftElement={<LeftTitle title="Javascript Quiz" />}
     >
