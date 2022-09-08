@@ -9,12 +9,18 @@ import { SetupProps } from '@/generated/Shared';
 const Setup = (props: SetupProps) => {
   const [step, setStep] = React.useState<SetupStep>(SetupStep.SetupQuiz);
 
+  const [testId, setTestId] = React.useState<string>();
+
   const handleStep = (value: SetupStep) => {
     setStep(value);
   };
 
+  const handleTest = (value: string) => {
+    setTestId(value);
+  };
+
   return (
-    <SetupContext.Provider value={{ step, handleStep }}>
+    <SetupContext.Provider value={{ step, handleStep, testId, handleTest }}>
       <SetupContext.Consumer>
         {(value) => {
           switch (value.step) {
@@ -23,7 +29,7 @@ const Setup = (props: SetupProps) => {
             case SetupStep.Attendant:
               return <ViewInvitedCandidate {...props} />;
             default:
-              return <SetupQuiz {...props} />;
+              return <ViewAssignedQuestion {...props} />;
           }
         }}
       </SetupContext.Consumer>

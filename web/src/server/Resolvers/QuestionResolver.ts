@@ -6,7 +6,6 @@ import {
   Ctx,
   Authorized,
   UseMiddleware,
-  Arg,
 } from 'type-graphql';
 import {
   AddQuestionResponse,

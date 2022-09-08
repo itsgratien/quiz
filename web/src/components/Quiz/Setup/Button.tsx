@@ -2,6 +2,7 @@ import React from 'react';
 import classname from 'classnames';
 import style from './Setup.module.scss';
 import { Icon } from '@iconify/react';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
 export const Button = ({
   name,
@@ -33,13 +34,20 @@ export const Button = ({
       onClick={handleClick}
       disabled={disabled}
     >
-      {icon ? (
+      {!disabled ? (
         <>
-          <Icon icon={icon.name} fontSize={30} color={icon.color} />
-          <span className="text-14 font-bold text-black ml-2">{name}</span>
+          {' '}
+          {icon ? (
+            <>
+              <Icon icon={icon.name} fontSize={30} color={icon.color} />
+              <span className="text-14 font-bold text-black ml-2">{name}</span>
+            </>
+          ) : (
+            <>{name}</>
+          )}
         </>
       ) : (
-        <>{name}</>
+        <LoadingSpinner size={30} />
       )}
     </button>
   );

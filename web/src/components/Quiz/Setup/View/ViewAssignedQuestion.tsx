@@ -15,19 +15,59 @@ import QuestionDetail from './QuestionDetail';
 import { SetupProps } from '@/generated/Shared';
 import useSetup from '@/hooks/useSetup';
 import { SetupStep } from '@/generated/Enum';
+import {
+  useGetQuestionAssignedToTestLazyQuery,
+  Question,
+} from '@/generated/graphql';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
 export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
   const [openQ, setOpenQ] = React.useState<boolean>(false);
 
   const [viewQ, setViewQ] = React.useState<boolean>(false);
 
+  const [page, setPage] = React.useState<number>(1);
+
+  const [items, setItems] = React.useState<Question[]>();
+
+  const limit = 1;
+
   const setup = useSetup();
+
+  const [getQuestion, { data, loading }] =
+    useGetQuestionAssignedToTestLazyQuery();
+
+  const { testId } = setup;
 
   const handleNext = () => {
     if (setup.handleStep) {
       setup.handleStep(SetupStep.Attendant);
     }
   };
+
+  React.useEffect(() => {
+    if (testId) {
+      getQuestion({ variables: { testId, page, limit } });
+    }
+  }, [testId, getQuestion, page]);
+
+  React.useEffect(() => {
+    if (
+      data &&
+      data.getQuestionAssignedToTest &&
+      data.getQuestionAssignedToTest.items
+    ) {
+      setItems((item) => {
+        if (item) {
+          if (data.getQuestionAssignedToTest.nextPage === page) {
+            return item;
+          }
+          return [...item, ...data.getQuestionAssignedToTest.items];
+        }
+        return data.getQuestionAssignedToTest.items;
+      });
+    }
+  }, [data]);
 
   return (
     <Modal
@@ -38,41 +78,50 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
       }
       leftElement={<LeftTitle title="Javascript Quiz" />}
     >
+      {openQ && (
+        <SetupQuestion open={openQ} handleClose={() => setOpenQ(false)} />
+      )}
+      {viewQ && (
+        <QuestionDetail open={viewQ} handleClose={() => setViewQ(false)} />
+      )}
       <div className={classname(style.setup, style.viewAssignedQuestion)}>
-        {openQ && (
-          <SetupQuestion open={openQ} handleClose={() => setOpenQ(false)} />
-        )}
-        {viewQ && (
-          <QuestionDetail open={viewQ} handleClose={() => setViewQ(false)} />
-        )}
-        <SectionTitle
-          title="Add Questions To The Quiz"
-          titleColor="fewBlack"
-          total="(Javascript programming quiz)"
-          textSize={14}
-          totalMarginLeft="0"
-          totalColor="fewBlack"
-        />
-        {QuestionMock.getAll.length > 0 ? (
-          <>
-            <div style={{ marginTop: '70px' }}>
-              <Grid container spacing={6}>
-                {QuestionMock.getAll.map((item) => (
-                  <Grid item xs={4} key={item._id}>
-                    <QuestionItem {...item} handleView={() => setViewQ(true)} />
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-            <AddNewButton position="fixed" onClick={() => setOpenQ(true)} />
-          </>
+        {loading ? (
+          <LoadingSpinner />
         ) : (
-          <div className={classname(style.notFoundSec)}>
-            <NotFound message="There are No Questions Added, click on the button below to add new" />
-            <div style={{ marginTop: '38px' }}>
-              <AddNewButton onClick={() => setOpenQ(true)} />
-            </div>
-          </div>
+          <>
+            <SectionTitle
+              title="Add Questions To The Quiz"
+              titleColor="fewBlack"
+              total="(Javascript programming quiz)"
+              textSize={14}
+              totalMarginLeft="0"
+              totalColor="fewBlack"
+            />
+            {QuestionMock.getAll.length > 0 ? (
+              <>
+                <div style={{ marginTop: '70px' }}>
+                  <Grid container spacing={6}>
+                    {QuestionMock.getAll.map((item) => (
+                      <Grid item xs={4} key={item._id}>
+                        <QuestionItem
+                          {...item}
+                          handleView={() => setViewQ(true)}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </div>
+                <AddNewButton position="fixed" onClick={() => setOpenQ(true)} />
+              </>
+            ) : (
+              <div className={classname(style.notFoundSec)}>
+                <NotFound message="There are No Questions Added, click on the button below to add new" />
+                <div style={{ marginTop: '38px' }}>
+                  <AddNewButton onClick={() => setOpenQ(true)} />
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </Modal>

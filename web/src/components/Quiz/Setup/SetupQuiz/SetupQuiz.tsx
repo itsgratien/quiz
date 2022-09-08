@@ -13,20 +13,33 @@ import useSetup from '@/hooks/useSetup';
 import { SetupStep } from '@/generated/Enum';
 
 const SetupQuiz = ({ open, handleClose }: SetupProps) => {
+  const [registerQuiz, { data, loading }] = useSetupTestMutation();
+
   const setup = useSetup();
 
   const formik = useFormik({
     validationSchema: SetupQuizSchema,
     initialValues: { title: '', startDate: '', endDate: '', subject: '' },
-    onSubmit: (values) => {
-      if (setup.handleStep) {
-        setup.handleStep(SetupStep.Question);
-      }
+    onSubmit: async (values) => {
+      await registerQuiz({ variables: values });
     },
     validateOnChange: false,
   });
 
   const { errors } = formik;
+
+  React.useEffect(() => {
+    if (
+      data &&
+      data.addTest &&
+      setup.handleStep &&
+      setup.handleTest &&
+      data.addTest.data
+    ) {
+      setup.handleStep(SetupStep.Question);
+      setup.handleTest(data.addTest.data._id);
+    }
+  }, [data, setup]);
 
   return (
     <Modal
@@ -38,6 +51,7 @@ const SetupQuiz = ({ open, handleClose }: SetupProps) => {
           className="primary"
           type="submit"
           handleClick={formik.handleSubmit}
+          disabled={loading}
         />
       }
       leftElement={<TitleInput formik={formik} error={errors.title} />}
