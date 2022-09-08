@@ -11,6 +11,7 @@ import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import LoadMoreButton from '@/components/Quiz/LoadMoreButton';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import { useRouter } from 'next/router';
 
 const QuestionAsked = ({ testId }: { testId: string }) => {
   const [page, setPage] = React.useState<number>(1);
@@ -21,6 +22,8 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
 
   const [getQuestions, { data, loading }] =
     useGetQuestionAssignedToTestLazyQuery();
+
+    const router = useRouter();
 
   const handleLoadMore = () => {
     setPage((item) => item + 1);
@@ -72,7 +75,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
                         title={item.title}
                         points={item.points}
                         type={item.type as string}
-                        handleView={() => ''}
+                        handleView={() => router.push(`/m/question/${item.slug}`)}
                       />
                     </Grid>
                   ))}

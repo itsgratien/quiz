@@ -4,8 +4,9 @@ import { Attendant } from '@/server/Models/AttendantModel';
 import { Test } from '@/server/Models/TestModel';
 import { pick } from 'lodash';
 import { TestQuestion, TestAttendant } from '../Models/TestModel';
-import { SubTest } from '@/generated/graphql';
 import { get } from 'lodash';
+import mongoose from 'mongoose';
+import { AttendantRefTest } from '@/server/Models/AttendantModel';
 
 export class FormatHelper {
   getQuestion(value: Question, showOwner?: boolean): Question {
@@ -49,7 +50,7 @@ export class FormatHelper {
     };
   }
 
-  getAttendant(value: Attendant): Attendant {
+  getAttendant(value: Attendant, refTest?: AttendantRefTest): Attendant {
     return {
       _id: value._id,
       names: value.names,
@@ -59,25 +60,18 @@ export class FormatHelper {
       updatedAt: value.updatedAt,
       testUri: value.testUri,
       testId: value.testId
-        ? typeof value.testId === 'object'
-          ? get(value.testId, '_id')
-          : value.testId
+        ? mongoose.Types.ObjectId.isValid(value.testId as string)
+          ? String(value.testId)
+          : get(value.testId, '_id')
         : undefined,
       status: value.status,
-      test:
-        value.testId && typeof value.testId === 'object'
-          ? this.getMinTestAttendant(value.testId as SubTest)
-          : undefined,
+      test: refTest && {
+        _id: refTest._id,
+        title: refTest.title,
+        status: refTest.status,
+      },
     };
   }
-
-  private getMinTestAttendant = (value: SubTest) => {
-    return {
-      _id: value._id,
-      title: value.title,
-      status: value.status,
-    };
-  };
 
   getTestQuestions(questions?: TestQuestion[]) {
     if (questions && questions.length > 0) {

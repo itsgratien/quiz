@@ -7,7 +7,7 @@ import {
   Args,
   Query,
 } from 'type-graphql';
-import { attendantModel } from '../Models/AttendantModel';
+import { attendantModel, AttendantRefTest } from '../Models/AttendantModel';
 import {
   errorResponse,
   generatePagination,
@@ -190,13 +190,19 @@ export class AttendantResolver extends AttendantHelper {
   ): Promise<attendantTg.GetAttendantByTestResponse> {
     try {
       const find = await attendantModel.findById(attendantId).populate({
-        path: 'testId',
         model: 'Test',
-        select: '_id status title',
+        path: 'testId',
+        select: '_id title status',
       });
 
+      let refTest: AttendantRefTest | undefined;
+
+      if (find && find.testId) {
+        refTest = find.testId as AttendantRefTest;
+      }
+
       return {
-        data: find ? format.getAttendant(find) : undefined,
+        data: find ? format.getAttendant(find, refTest) : undefined,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

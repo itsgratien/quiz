@@ -34,6 +34,8 @@ const CandidatePage: NextPage<{
     }
   }, [data]);
 
+  console.log('data', data);
+
   return (
     <>
       <Head>

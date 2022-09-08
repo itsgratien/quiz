@@ -8,7 +8,7 @@ import { Test } from './TestModel';
 import { AttendantStatus } from '@/generated/Enum';
 
 @ObjectType()
-class SubTest {
+export class AttendantRefTest {
   @Field()
   _id: string;
 
@@ -18,6 +18,7 @@ class SubTest {
   @Field()
   status: string;
 }
+
 @ObjectType()
 export class Attendant {
   @Field()
@@ -56,8 +57,8 @@ export class Attendant {
   @Field({ nullable: true })
   updatedAt?: string;
 
-  @Field(() => SubTest, { nullable: true })
-  test?: SubTest;
+  @Field(() => AttendantRefTest, { nullable: true })
+  test?: AttendantRefTest;
 }
 
 export const attendantModel = getModelForClass(Attendant, {
