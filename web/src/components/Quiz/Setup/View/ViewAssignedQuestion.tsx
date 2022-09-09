@@ -27,7 +27,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const [loadFull, setLoadFull] = React.useState<boolean>(true);
 
-  const limit = 3;
+  const limit = 30;
 
   const setup = useSetup();
 
@@ -35,7 +35,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const defaultTest = '631b28716943badaa27b576a';
 
-  const { items, handleLoadMore, loading, totalDoc, handleReload } =
+  const { items, handleLoadMore, loading, totalDoc } =
     useGetQuestionAssignedToTest({ testId: defaultTest, limit });
 
   const handleNext = () => {
@@ -54,7 +54,6 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     setQuestionId(undefined);
     if (load) {
       setLoadFull(true);
-      handleReload();
     }
   };
 

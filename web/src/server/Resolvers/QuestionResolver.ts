@@ -301,7 +301,8 @@ export class QuestionResolver {
       const find = await questionModel
         .find(filterQuery)
         .limit(pagination.limit)
-        .skip(pagination.offset);
+        .skip(pagination.offset)
+        .sort({ updatedAt: -1 });
 
       return {
         items: find.map((item) => format.getQuestion(item)),

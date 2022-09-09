@@ -17,8 +17,6 @@ const useGetQuestionAssignedToTest = ({
 
   const [loading, setLoading] = React.useState<boolean>(true);
 
-  const [reload, setReload] = React.useState<boolean>(false);
-
   const [getQuestion, { loading: loadingResponse, data, fetchMore }] =
     useGetQuestionAssignedToTestLazyQuery();
 

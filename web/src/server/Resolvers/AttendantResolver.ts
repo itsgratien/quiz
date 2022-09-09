@@ -155,7 +155,8 @@ export class AttendantResolver extends AttendantHelper {
       const find = await attendantModel
         .find(filterQuery)
         .limit(pagination.limit)
-        .skip(pagination.offset);
+        .skip(pagination.offset)
+        .sort({ updatedAt: -1 });
 
       const startedDoc = await attendantModel
         .find({ $and: [filterQuery, { status: AttendantStatus.Started }] })
