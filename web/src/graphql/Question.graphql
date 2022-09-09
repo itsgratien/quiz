@@ -68,5 +68,6 @@ query GetQuestion($id: String!) {
     data {
       ...Question
     }
+    error
   }
 }
