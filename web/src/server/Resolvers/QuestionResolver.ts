@@ -265,6 +265,15 @@ export class QuestionResolver {
         return errorResponse('Unable to assign question to a test');
       }
 
+      const link = await this.linkTestToQuestion(
+        findQuestion._id,
+        findTest._id
+      );
+
+      if (!link) {
+        return errorResponse('Unable to assign question to a test');
+      }
+
       return {
         message: 'Saved Successfully',
       };
@@ -297,7 +306,6 @@ export class QuestionResolver {
         items: find.map((item) => format.getQuestion(item)),
         totalPages: pagination.totalPages,
         totalDocs: pagination.totalDocs,
-        nextPage: pagination.nextPage,
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

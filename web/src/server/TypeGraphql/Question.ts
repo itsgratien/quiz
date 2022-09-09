@@ -102,9 +102,11 @@ export class EditQuestionStatusArgs {
 @ArgsType()
 export class AddQuestionToTestArgs {
   @Field()
+  @IsNotEmpty()
   test: string;
 
   @Field()
+  @IsNotEmpty()
   question: string;
 }
 

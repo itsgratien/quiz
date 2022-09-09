@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import type { NextPageContext, GetServerSidePropsContext } from 'next';
+import { GetQuestionAssignedToTestResponse } from '@/generated/graphql';
 
 const handleCookieFunc = (
   ctx?: NextPageContext | GetServerSidePropsContext
@@ -18,7 +19,32 @@ const handleCookieFunc = (
 const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
   new ApolloClient({
     uri: 'http://localhost:3000/api/graphql',
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            getQuestionAssignedToTest: {
+              keyArgs: false,
+              merge(
+                existing: GetQuestionAssignedToTestResponse,
+                incoming: GetQuestionAssignedToTestResponse
+              ) {
+                if (!existing) {
+                  return incoming;
+                }
+                return {
+                  ...incoming,
+                  items: existing.items && [
+                    ...existing.items,
+                    ...incoming.items,
+                  ],
+                };
+              },
+            },
+          },
+        },
+      },
+    }),
     credentials: 'include',
     headers: {
       cookie: handleCookieFunc(ctx),

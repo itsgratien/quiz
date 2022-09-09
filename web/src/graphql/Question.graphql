@@ -52,7 +52,13 @@ query GetQuestionAssignedToTest(
     }
     totalPages
     totalDocs
-    nextPage
+    error
+  }
+}
+
+mutation AddQuestionToTest($test: String!, $question: String!) {
+  addQuestionToTest(test: $test, question: $question) {
+    message
     error
   }
 }

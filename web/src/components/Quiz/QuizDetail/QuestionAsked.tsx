@@ -2,58 +2,19 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import classname from 'classnames';
 import style from './QuizDetail.module.scss';
-import {
-  useGetQuestionAssignedToTestLazyQuery,
-  Question,
-} from '@/generated/graphql';
 import SectionTitle from '@/components/Quiz/SectionTitle';
 import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import LoadMoreButton from '@/components/Quiz/LoadMoreButton';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import { useRouter } from 'next/router';
+import useGetQuestionAssignedToTest from '@/hooks/useGetQuestionAssignedToTest';
 
 const QuestionAsked = ({ testId }: { testId: string }) => {
-  const [page, setPage] = React.useState<number>(1);
-
-  const [items, setItems] = React.useState<Question[]>();
-
-  const [totalDocs, setTotalDocs] = React.useState<number>();
-
-  const [getQuestions, { data, loading }] =
-    useGetQuestionAssignedToTestLazyQuery();
-
   const router = useRouter();
 
-  const handleLoadMore = () => {
-    setPage((item) => item + 1);
-  };
-
-  React.useEffect(() => {
-    if (testId) {
-      getQuestions({ variables: { testId, page, limit: 15 } });
-    }
-  }, [testId, page, getQuestions]);
-
-  React.useEffect(() => {
-    if (
-      data &&
-      data.getQuestionAssignedToTest &&
-      data.getQuestionAssignedToTest.items
-    ) {
-      setItems((item) => {
-        if (item) {
-          if (data.getQuestionAssignedToTest.nextPage === page) {
-            return item;
-          }
-          return [...item, ...data.getQuestionAssignedToTest.items];
-        }
-        return data.getQuestionAssignedToTest.items;
-      });
-
-      setTotalDocs(data.getQuestionAssignedToTest.totalDocs || undefined);
-    }
-  }, [data, page]);
+  const { loading, items, handleLoadMore, totalDoc } =
+    useGetQuestionAssignedToTest({ testId, limit: 15 });
 
   return (
     <div className={classname('relative', style.section)}>
@@ -83,7 +44,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
                   ))}
                 </Grid>
               </div>
-              {totalDocs && totalDocs > items.length && (
+              {totalDoc && totalDoc > items.length && (
                 <LoadMoreButton
                   marginTop="49px"
                   className={style.sectionTitle}

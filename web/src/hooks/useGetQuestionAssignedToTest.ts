@@ -1,0 +1,64 @@
+import React from 'react';
+import { useGetQuestionAssignedToTestLazyQuery } from '@/generated/graphql';
+import { Question } from '@/server/Models/QuestionModel';
+
+const useGetQuestionAssignedToTest = ({
+  testId,
+  limit,
+}: {
+  testId?: string;
+  limit: number;
+}) => {
+  const [page, setPage] = React.useState<number>(1);
+
+  const [items, setItems] = React.useState<Question[]>();
+
+  const [totalDoc, setTotalDoc] = React.useState<number>();
+
+  const [loading, setLoading] = React.useState<boolean>(true);
+
+  const [getQuestion, { loading: loadingResponse, data, fetchMore }] =
+    useGetQuestionAssignedToTestLazyQuery();
+
+  const handleLoadMore = async () => {
+    setLoading(true);
+    await fetchMore({ variables: { page: page + 1, testId, limit } });
+  };
+
+  React.useEffect(() => {
+    if (testId) {
+      getQuestion({
+        variables: { page, testId, limit: limit },
+      });
+    }
+    // eslint-disable-next-line
+  }, [testId, getQuestion]);
+
+  React.useEffect(() => {
+    if (
+      data &&
+      data.getQuestionAssignedToTest &&
+      data.getQuestionAssignedToTest.items
+    ) {
+      console.log('page', data.getQuestionAssignedToTest.items);
+      setItems(data.getQuestionAssignedToTest.items as Question[]);
+    }
+    if (data && data.getQuestionAssignedToTest.totalDocs) {
+      setTotalDoc(data.getQuestionAssignedToTest.totalDocs);
+    }
+  }, [data]);
+
+  React.useEffect(() => {
+    setLoading(loadingResponse);
+  }, [loadingResponse]);
+
+  return {
+    loading,
+    totalDoc,
+    items,
+    handleLoadMore,
+    error: data?.getQuestionAssignedToTest.error,
+  };
+};
+
+export default useGetQuestionAssignedToTest;
