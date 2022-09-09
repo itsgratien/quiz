@@ -158,15 +158,15 @@ export class AttendantResolver extends AttendantHelper {
         .skip(pagination.offset);
 
       const startedDoc = await attendantModel
-        .find({ status: AttendantStatus.Started })
+        .find({ $and: [filterQuery, { status: AttendantStatus.Started }] })
         .count();
 
       const inProgressDoc = await attendantModel
-        .find({ status: AttendantStatus.InProgress })
+        .find({ $and: [filterQuery, { status: AttendantStatus.InProgress }] })
         .count();
 
       const completedDoc = await attendantModel
-        .find({ status: AttendantStatus.Completed })
+        .find({ $and: [filterQuery, { status: AttendantStatus.Completed }] })
         .count();
 
       return {
