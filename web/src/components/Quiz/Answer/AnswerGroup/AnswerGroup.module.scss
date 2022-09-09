@@ -11,9 +11,9 @@
 }
 .answerItem {
   background: rgba(0, 0, 0, 0.12);
-  height: 50px;
+  min-height: 50px;
   margin-top: 18px;
-  padding: 0 23px;
+  padding: 5px 23px;
   .value {
     color: rgba(0, 0, 0, 0.5);
   }

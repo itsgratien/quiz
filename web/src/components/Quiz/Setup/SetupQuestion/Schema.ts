@@ -6,7 +6,6 @@ export const SetupQuestionSchema = object().shape({
   points: number()
     .required(requiredMsg)
     .positive('This field must be a positive number'),
-  choiceType: string().required(requiredMsg),
   choiceNumber: string().required(requiredMsg),
   choices: array()
     .of(string().required(requiredMsg))

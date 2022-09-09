@@ -62,3 +62,11 @@ mutation AddQuestionToTest($test: String!, $question: String!) {
     error
   }
 }
+
+query GetQuestion($id: String!) {
+  getQuestion(id: $id) {
+    data {
+      ...Question
+    }
+  }
+}

@@ -29,7 +29,7 @@ const Setup = (props: SetupProps) => {
             case SetupStep.Attendant:
               return <ViewInvitedCandidate {...props} />;
             default:
-              return <SetupQuiz {...props} />;
+              return <ViewAssignedQuestion {...props} />;
           }
         }}
       </SetupContext.Consumer>

@@ -5,14 +5,20 @@ import SectionTitle from '@/components/Quiz/SectionTitle';
 import QuestionMock from '@/mocks/Question';
 import AnswerItem from '@/components/Quiz/Answer/AnswerGroup/AnswerItem';
 
-const DetailChoice = ({ titleMarginLeft }: { titleMarginLeft?: string }) => {
+const DetailChoice = ({
+  titleMarginLeft,
+  choices,
+}: {
+  titleMarginLeft?: string;
+  choices?: string[];
+}) => {
   return (
     <div className={classname(style.detailChoice, 'w-full')}>
       <div style={{ marginLeft: titleMarginLeft || '25%' }}>
         <SectionTitle
           title="Choices"
           iconName="academicons:open-data"
-          total="5 choices"
+          total={choices && `${choices.length} choices`}
           iconColor="#001AFF"
           totalMarginLeft="35"
           totalMarginTop="-5px"
@@ -20,9 +26,9 @@ const DetailChoice = ({ titleMarginLeft }: { titleMarginLeft?: string }) => {
         />
       </div>
       <div className="w-full">
-        {QuestionMock.getAll[0].choices.length > 0 && (
+        {choices && choices.length > 0 && (
           <div className={classname('flex items-center flex-wrap')}>
-            {QuestionMock.getAll[0].choices.map((item, itemKey) => (
+            {choices.map((item, itemKey) => (
               <div
                 key={itemKey}
                 style={{

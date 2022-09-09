@@ -2,9 +2,8 @@ import React from 'react';
 import classname from 'classnames';
 import style from './QuestionDetail.module.scss';
 import SectionTitle from '@/components/Quiz/SectionTitle';
-import QuestionMock from '@/mocks/Question';
 
-const Description = () => {
+const Description = ({ value }: { value?: string }) => {
   return (
     <div className={classname('w-full', style.description)}>
       <SectionTitle
@@ -18,7 +17,7 @@ const Description = () => {
           style.descriptionTextArea
         )}
       >
-        {QuestionMock.getAll[0].description}
+        {value || ''}
       </div>
     </div>
   );

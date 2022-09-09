@@ -8,22 +8,34 @@ import { InputField } from '../InputField';
 import ChoiceType from './ChoiceType';
 import { Formik, FormikProps } from 'formik';
 import { SetupQuestionSchema } from './Schema';
-import { ChoiceTypeEnum } from '@/generated/Enum';
 import InputError from '../InputError';
 import ChoiceInputGroup from './ChoiceInputGroup';
 import ChoiceOption from './ChoiceOption';
 import DescriptionField from './DescriptionField';
+import { useSetupMcQuestionMutation } from '@/generated/graphql';
+import LeftTitle from '@/components/Quiz/Setup/LeftTitle';
 
 export const SetupQuestion = ({
   open,
   handleClose,
+  testId,
 }: {
   open: boolean;
-  handleClose?: () => void;
+  handleClose?: (load?: boolean) => void;
+  testId?: string;
 }) => {
-  const onChangeChoiceType = (formik: FormikProps<any>, value: string) => {
-    formik.setFieldValue('choiceType', value, false);
-  };
+  const [registerQuestion, { data, loading }] = useSetupMcQuestionMutation();
+
+  React.useEffect(() => {
+    if (
+      data &&
+      data.setupMultipleChoiceQuestion &&
+      data.setupMultipleChoiceQuestion.message
+    ) {
+      handleClose(true);
+    }
+  }, [data, handleClose]);
+  console.log('data', data);
 
   return (
     <Formik
@@ -38,8 +50,16 @@ export const SetupQuestion = ({
       }}
       validationSchema={SetupQuestionSchema}
       validateOnChange={false}
-      onSubmit={(values, _actions) => {
-        // values
+      onSubmit={async (values, _actions) => {
+        await registerQuestion({
+          variables: {
+            ...values,
+            testId,
+            assignToTest: testId ? true : false,
+            solutions: values.answers,
+            points: Number(values.points),
+          },
+        });
       }}
     >
       {(formik) => {
@@ -54,15 +74,10 @@ export const SetupQuestion = ({
                 className="primary"
                 handleClick={formik.handleSubmit}
                 type="submit"
+                disabled={loading}
               />
             }
-            leftElement={
-              <div>
-                <span className="font-bold text-14 tex-black">
-                  Setup Question
-                </span>
-              </div>
-            }
+            leftElement={<LeftTitle title="Setup Question" />}
           >
             <div
               className={classname(
@@ -100,21 +115,6 @@ export const SetupQuestion = ({
                       error={errors.points}
                       type="number"
                     />
-                  </div>
-                  <div className={classname(style.inputGroup)}>
-                    <div className={classname('flex items-center')}>
-                      <ChoiceType
-                        label={ChoiceTypeEnum.MultipleChoice}
-                        value={values.choiceType}
-                        onChange={(value) => onChangeChoiceType(formik, value)}
-                      />
-                      <ChoiceType
-                        label={ChoiceTypeEnum.SingleChoice}
-                        value={values.choiceType}
-                        onChange={(value) => onChangeChoiceType(formik, value)}
-                      />
-                    </div>
-                    <InputError error={errors.choiceType} />
                   </div>
                   <ChoiceInputGroup
                     formik={formik}

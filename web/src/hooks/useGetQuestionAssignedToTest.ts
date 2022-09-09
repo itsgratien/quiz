@@ -22,7 +22,9 @@ const useGetQuestionAssignedToTest = ({
 
   const handleLoadMore = async () => {
     setLoading(true);
-    await fetchMore({ variables: { page: page + 1, testId, limit } });
+    const newPage = page + 1;
+    setPage(newPage);
+    await fetchMore({ variables: { page: newPage, testId, limit } });
   };
 
   React.useEffect(() => {
@@ -40,7 +42,7 @@ const useGetQuestionAssignedToTest = ({
       data.getQuestionAssignedToTest &&
       data.getQuestionAssignedToTest.items
     ) {
-      console.log('page', data.getQuestionAssignedToTest.items);
+      setLoading(false);
       setItems(data.getQuestionAssignedToTest.items as Question[]);
     }
     if (data && data.getQuestionAssignedToTest.totalDocs) {
@@ -49,7 +51,9 @@ const useGetQuestionAssignedToTest = ({
   }, [data]);
 
   React.useEffect(() => {
-    setLoading(loadingResponse);
+    if (loadingResponse) {
+      setLoading(loadingResponse);
+    }
   }, [loadingResponse]);
 
   return {

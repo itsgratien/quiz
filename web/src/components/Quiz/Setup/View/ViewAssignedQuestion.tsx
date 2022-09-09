@@ -24,6 +24,8 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const [viewQ, setViewQ] = React.useState<boolean>(false);
 
+  const [questionId, setQuestionId] = React.useState<string>();
+
   const [loadFull, setLoadFull] = React.useState<boolean>(true);
 
   const limit = 15;
@@ -32,8 +34,10 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const { testId } = setup;
 
+  const defaultTest = '631b28716943badaa27b576a';
+
   const { items, handleLoadMore, loading, totalDoc } =
-    useGetQuestionAssignedToTest({ testId, limit });
+    useGetQuestionAssignedToTest({ testId: defaultTest, limit });
 
   const handleNext = () => {
     if (setup.handleStep) {
@@ -46,7 +50,18 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     handleLoadMore();
   };
 
-  console.log('items', items);
+  const handleCloseSetup = (load?: boolean) => {
+    setOpenQ(false);
+    setQuestionId(undefined);
+    if (load) {
+      handleLoad();
+    }
+  };
+
+  const handleViewQuestion = (id: string) => {
+    setViewQ(true);
+    setQuestionId(id);
+  };
 
   return (
     <Modal
@@ -58,10 +73,18 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
       leftElement={<LeftTitle title="Javascript Quiz" />}
     >
       {openQ && (
-        <SetupQuestion open={openQ} handleClose={() => setOpenQ(false)} />
+        <SetupQuestion
+          open={openQ}
+          handleClose={handleCloseSetup}
+          testId={defaultTest}
+        />
       )}
-      {viewQ && (
-        <QuestionDetail open={viewQ} handleClose={() => setViewQ(false)} />
+      {viewQ && questionId && (
+        <QuestionDetail
+          open={viewQ}
+          handleClose={() => setViewQ(false)}
+          questionId={questionId}
+        />
       )}
       <div className={classname(style.setup, style.viewAssignedQuestion)}>
         {loading && loadFull ? (
@@ -86,7 +109,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
                           <Grid item xs={4} key={item._id}>
                             <QuestionItem
                               {...item}
-                              handleView={() => setViewQ(true)}
+                              handleView={() => handleViewQuestion(item._id)}
                             />
                           </Grid>
                         ))}

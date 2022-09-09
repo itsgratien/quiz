@@ -501,6 +501,13 @@ export type AddQuestionToTestMutationVariables = Exact<{
 
 export type AddQuestionToTestMutation = { __typename?: 'Mutation', addQuestionToTest: { __typename?: 'AddQuestionToTestResponse', message?: string | null, error?: string | null } };
 
+export type GetQuestionQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetQuestionQuery = { __typename?: 'Query', getQuestion: { __typename?: 'GetQuestionResponse', data?: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } | null } };
+
 export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug?: string | null, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null };
 
 export type SetupTestMutationVariables = Exact<{
@@ -910,6 +917,43 @@ export function useAddQuestionToTestMutation(baseOptions?: Apollo.MutationHookOp
 export type AddQuestionToTestMutationHookResult = ReturnType<typeof useAddQuestionToTestMutation>;
 export type AddQuestionToTestMutationResult = Apollo.MutationResult<AddQuestionToTestMutation>;
 export type AddQuestionToTestMutationOptions = Apollo.BaseMutationOptions<AddQuestionToTestMutation, AddQuestionToTestMutationVariables>;
+export const GetQuestionDocument = gql`
+    query GetQuestion($id: String!) {
+  getQuestion(id: $id) {
+    data {
+      ...Question
+    }
+  }
+}
+    ${QuestionFragmentDoc}`;
+
+/**
+ * __useGetQuestionQuery__
+ *
+ * To run a query within a React component, call `useGetQuestionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetQuestionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetQuestionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetQuestionQuery(baseOptions: Apollo.QueryHookOptions<GetQuestionQuery, GetQuestionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetQuestionQuery, GetQuestionQueryVariables>(GetQuestionDocument, options);
+      }
+export function useGetQuestionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetQuestionQuery, GetQuestionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetQuestionQuery, GetQuestionQueryVariables>(GetQuestionDocument, options);
+        }
+export type GetQuestionQueryHookResult = ReturnType<typeof useGetQuestionQuery>;
+export type GetQuestionLazyQueryHookResult = ReturnType<typeof useGetQuestionLazyQuery>;
+export type GetQuestionQueryResult = Apollo.QueryResult<GetQuestionQuery, GetQuestionQueryVariables>;
 export const SetupTestDocument = gql`
     mutation SetupTest($title: String!, $startDate: String!, $endDate: String!, $description: String, $subject: String!) {
   addTest(
