@@ -17,6 +17,8 @@ const useGetQuestionAssignedToTest = ({
 
   const [loading, setLoading] = React.useState<boolean>(true);
 
+  const [reload, setReload] = React.useState<boolean>(false);
+
   const [getQuestion, { loading: loadingResponse, data, fetchMore }] =
     useGetQuestionAssignedToTestLazyQuery();
 
@@ -26,6 +28,8 @@ const useGetQuestionAssignedToTest = ({
     setPage(newPage);
     await fetchMore({ variables: { page: newPage, testId, limit } });
   };
+
+  const handleReload = () => {};
 
   React.useEffect(() => {
     if (testId) {
@@ -62,6 +66,7 @@ const useGetQuestionAssignedToTest = ({
     items,
     handleLoadMore,
     error: data?.getQuestionAssignedToTest.error,
+    handleReload,
   };
 };
 

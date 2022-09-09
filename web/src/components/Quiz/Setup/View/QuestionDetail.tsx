@@ -6,10 +6,9 @@ import LeftTitle from '../LeftTitle';
 import Heading from '@/components/Quiz/QuestionDetail/Heading';
 import DetailChoice from '@/components/Quiz/QuestionDetail/DetailChoice';
 import Description from '@/components/Quiz/QuestionDetail/Description';
-import { useGetQuestionQuery } from '@/generated/graphql';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
-import { toast } from 'react-hot-toast';
+import useGetQuestion from '@/hooks/useGetQuestion';
 
 const QuestionDetail = ({
   open,
@@ -20,15 +19,7 @@ const QuestionDetail = ({
   handleClose: () => void;
   questionId: string;
 }) => {
-  const { data, loading } = useGetQuestionQuery({
-    variables: { id: questionId },
-  });
-
-  React.useEffect(() => {
-    if (data && data.getQuestion && data.getQuestion.error) {
-      toast.error(data.getQuestion.error);
-    }
-  }, [data]);
+  const { data, error, loading } = useGetQuestion({ questionId });
 
   return (
     <Modal
@@ -37,28 +28,19 @@ const QuestionDetail = ({
       leftElement={<LeftTitle title="Question" />}
     >
       <div className={classname(style.setup, style.questionDetail)}>
-        {!loading && data && data.getQuestion && data.getQuestion.data && (
+        {!loading && data && (
           <>
-            <Heading
-              title={data.getQuestion.data.title}
-              status={data.getQuestion.data.status ?? undefined}
-            />
+            <Heading title={data.title} status={data.status ?? undefined} />
             <div className={classname(style.detailChoice)}>
-              <DetailChoice
-                choices={data.getQuestion.data.choices ?? undefined}
-              />
+              <DetailChoice choices={data.choices ?? undefined} />
             </div>
             <div className={classname(style.description)}>
-              <Description
-                value={data.getQuestion.data.description ?? undefined}
-              />
+              <Description value={data.description ?? undefined} />
             </div>
           </>
         )}
         {loading && !data && <LoadingSpinner justify="center" />}
-        {data && data.getQuestion.error && (
-          <NotFound message={data.getQuestion.error} />
-        )}
+        {data && error && <NotFound message={error} />}
       </div>
     </Modal>
   );

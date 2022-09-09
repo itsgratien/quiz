@@ -5,7 +5,6 @@ import Modal from '../ModalContainer';
 import Button from '../Button';
 import SectionTitle from '../../SectionTitle';
 import NotFound from './NotFound';
-import QuestionMock from '@/mocks/Question';
 import AddNewButton from './AddNewButton';
 import QuestionItem from '@/components/Quiz/QuestionItem/QuestionItem';
 import Grid from '@mui/material/Grid';
@@ -28,7 +27,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const [loadFull, setLoadFull] = React.useState<boolean>(true);
 
-  const limit = 15;
+  const limit = 3;
 
   const setup = useSetup();
 
@@ -36,7 +35,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const defaultTest = '631b28716943badaa27b576a';
 
-  const { items, handleLoadMore, loading, totalDoc } =
+  const { items, handleLoadMore, loading, totalDoc, handleReload } =
     useGetQuestionAssignedToTest({ testId: defaultTest, limit });
 
   const handleNext = () => {
@@ -54,7 +53,8 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     setOpenQ(false);
     setQuestionId(undefined);
     if (load) {
-      handleLoad();
+      setLoadFull(true);
+      handleReload();
     }
   };
 
@@ -145,4 +145,5 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     </Modal>
   );
 };
+
 export default ViewAssignedQuestion;

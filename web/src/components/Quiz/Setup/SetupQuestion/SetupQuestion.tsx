@@ -5,8 +5,7 @@ import Modal from '../ModalContainer';
 import Button from '../Button';
 import SectionTitle from '../../SectionTitle';
 import { InputField } from '../InputField';
-import ChoiceType from './ChoiceType';
-import { Formik, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { SetupQuestionSchema } from './Schema';
 import InputError from '../InputError';
 import ChoiceInputGroup from './ChoiceInputGroup';
@@ -30,12 +29,12 @@ export const SetupQuestion = ({
     if (
       data &&
       data.setupMultipleChoiceQuestion &&
-      data.setupMultipleChoiceQuestion.message
+      data.setupMultipleChoiceQuestion.message &&
+      handleClose
     ) {
       handleClose(true);
     }
   }, [data, handleClose]);
-  console.log('data', data);
 
   return (
     <Formik
@@ -67,7 +66,7 @@ export const SetupQuestion = ({
         return (
           <Modal
             open={open}
-            handleClose={handleClose}
+            handleClose={() => handleClose && handleClose(true)}
             nextButton={
               <Button
                 name="Save & Close"
