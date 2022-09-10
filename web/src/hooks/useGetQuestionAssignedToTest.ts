@@ -11,19 +11,15 @@ const useGetQuestionAssignedToTest = ({
 }) => {
   const [page, setPage] = React.useState<number>(1);
 
-  const [items, setItems] = React.useState<Question[]>();
-
-  const [totalDoc, setTotalDoc] = React.useState<number>();
-
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const [getQuestion, { loading: loadingResponse, data, fetchMore, refetch }] =
     useGetQuestionAssignedToTestLazyQuery();
 
   const handleLoadMore = async () => {
-    setLoading(true);
     const newPage = page + 1;
     setPage(newPage);
+    setLoading(true);
     await fetchMore({ variables: { page: newPage, testId, limit } });
   };
 
@@ -31,6 +27,7 @@ const useGetQuestionAssignedToTest = ({
 
   React.useEffect(() => {
     if (testId) {
+      setLoading(true);
       getQuestion({
         variables: { page, testId, limit: limit },
       });
@@ -39,29 +36,19 @@ const useGetQuestionAssignedToTest = ({
   }, [testId, getQuestion]);
 
   React.useEffect(() => {
-    if (
-      data &&
-      data.getQuestionAssignedToTest &&
-      data.getQuestionAssignedToTest.items
-    ) {
+    if (data && data.getQuestionAssignedToTest) {
       setLoading(false);
-      setItems(data.getQuestionAssignedToTest.items as Question[]);
-    }
-    if (data && data.getQuestionAssignedToTest.totalDocs) {
-      setTotalDoc(data.getQuestionAssignedToTest.totalDocs);
     }
   }, [data]);
 
   React.useEffect(() => {
-    if (loadingResponse) {
-      setLoading(loadingResponse);
-    }
+    setLoading(loadingResponse);
   }, [loadingResponse]);
 
   return {
     loading,
-    totalDoc,
-    items,
+    totalDoc: data?.getQuestionAssignedToTest.totalDocs,
+    items: data?.getQuestionAssignedToTest.items as Question[],
     handleLoadMore,
     error: data?.getQuestionAssignedToTest.error,
     handleReload,
