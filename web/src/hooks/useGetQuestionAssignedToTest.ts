@@ -17,7 +17,7 @@ const useGetQuestionAssignedToTest = ({
 
   const [loading, setLoading] = React.useState<boolean>(true);
 
-  const [getQuestion, { loading: loadingResponse, data, fetchMore }] =
+  const [getQuestion, { loading: loadingResponse, data, fetchMore, refetch }] =
     useGetQuestionAssignedToTestLazyQuery();
 
   const handleLoadMore = async () => {
@@ -27,7 +27,7 @@ const useGetQuestionAssignedToTest = ({
     await fetchMore({ variables: { page: newPage, testId, limit } });
   };
 
-  const handleReload = () => {};
+  const handleReload = () => refetch();
 
   React.useEffect(() => {
     if (testId) {

@@ -26,7 +26,7 @@ const ModalContainer = ({
         className={classname(
           'relative outline-none focus:outline bg-white w-full h-screen'
         )}
-        style={{ overflowY: 'auto' }}
+        style={{ overflowY: 'auto', paddingBottom: '100px' }}
       >
         <div
           className={classname(

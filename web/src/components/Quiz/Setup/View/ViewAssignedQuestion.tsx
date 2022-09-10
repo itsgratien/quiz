@@ -35,7 +35,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const defaultTest = '631b28716943badaa27b576a';
 
-  const { items, handleLoadMore, loading, totalDoc } =
+  const { items, handleLoadMore, loading, totalDoc, handleReload } =
     useGetQuestionAssignedToTest({ testId: defaultTest, limit });
 
   const handleNext = () => {
@@ -54,6 +54,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     setQuestionId(undefined);
     if (load) {
       setLoadFull(true);
+      handleReload();
     }
   };
 

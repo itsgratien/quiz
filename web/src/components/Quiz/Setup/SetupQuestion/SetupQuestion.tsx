@@ -66,7 +66,7 @@ export const SetupQuestion = ({
         return (
           <Modal
             open={open}
-            handleClose={() => handleClose && handleClose(true)}
+            handleClose={handleClose}
             nextButton={
               <Button
                 name="Save & Close"
