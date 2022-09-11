@@ -33,7 +33,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const { testId } = setup;
 
-  const defaultTest = '631b28716943badaa27b576a';
+  const defaultTest = '63185fe75a6dbf9f4e18c0bd';
 
   const { items, handleLoadMore, loading, totalDoc, handleReload } =
     useGetQuestionAssignedToTest({ testId: defaultTest, limit });

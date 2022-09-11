@@ -53,6 +53,7 @@ query GetQuestionAssignedToTest(
     totalPages
     totalDocs
     error
+    testId
   }
 }
 

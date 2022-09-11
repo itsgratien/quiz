@@ -128,4 +128,7 @@ export class GetQuestionAssignedToTestResponse extends CustomResponse(
 ) {
   @Field(() => [Question])
   items?: Question[];
+
+  @Field({ nullable: true })
+  testId?: string;
 }

@@ -23,7 +23,12 @@ const useGetQuestionAssignedToTest = ({
     await fetchMore({ variables: { page: newPage, testId, limit } });
   };
 
-  const handleReload = () => refetch();
+  const handleReload = React.useCallback(async () => {
+    if (testId) {
+      setLoading(true);
+      await refetch({ variables: { page, testId, limit } });
+    }
+  }, [testId, refetch, page, limit]);
 
   React.useEffect(() => {
     if (testId) {
@@ -52,6 +57,7 @@ const useGetQuestionAssignedToTest = ({
     handleLoadMore,
     error: data?.getQuestionAssignedToTest.error,
     handleReload,
+    handleLoading: setLoading,
   };
 };
 

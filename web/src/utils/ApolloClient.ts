@@ -27,18 +27,32 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
               keyArgs: false,
               merge(
                 existing: GetQuestionAssignedToTestResponse,
-                incoming: GetQuestionAssignedToTestResponse
+                incoming: GetQuestionAssignedToTestResponse,
+                options: any
               ) {
-                if (!existing) {
-                  return incoming;
+                const { args } = options;
+                if (incoming.testId === args.testId) {
+                  if (!existing) {
+                    return incoming;
+                  }
+                  return {
+                    ...incoming,
+                    items: existing.items && [
+                      ...existing.items,
+                      ...incoming.items,
+                    ],
+                  };
                 }
-                return {
-                  ...incoming,
-                  items: existing.items && [
-                    ...existing.items,
-                    ...incoming.items,
-                  ],
-                };
+              },
+              read: (
+                existing: GetQuestionAssignedToTestResponse,
+                options: any
+              ) => {
+                const { args } = options;
+
+                if (existing && args.testId === existing.testId) {
+                  return existing;
+                }
               },
             },
           },

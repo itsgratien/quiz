@@ -177,6 +177,7 @@ export type GetQuestionAssignedToTestResponse = {
   message?: Maybe<Scalars['String']>;
   nextPage?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
+  testId: Scalars['String'];
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
 };
@@ -491,7 +492,7 @@ export type GetQuestionAssignedToTestQueryVariables = Exact<{
 }>;
 
 
-export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, error?: string | null, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
+export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, error?: string | null, testId: string, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
 
 export type AddQuestionToTestMutationVariables = Exact<{
   test: Scalars['String'];
@@ -849,6 +850,7 @@ export const GetQuestionAssignedToTestDocument = gql`
     totalPages
     totalDocs
     error
+    testId
   }
 }
     ${QuestionFragmentDoc}`;
