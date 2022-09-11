@@ -8,24 +8,28 @@ const useGetCandidateAssignedToTest = ({
   testId?: string;
   limit: number;
 }) => {
-  const [page, setPage] = React.useState<number>(1);
+  const defaultPage = 1;
+
+  const [page, setPage] = React.useState<number>(defaultPage);
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [getCandidate, { data, loading: loadingResponse, fetchMore, refetch }] =
     useGetAttendantByTestLazyQuery();
 
-  const handleLoadMore = () => {
+  const handleLoadMore = async () => {
     const newPage = page + 1;
     setPage(newPage);
     setLoading(true);
-    fetchMore({ variables: { page: newPage, limit, testId } });
+    await fetchMore({ variables: { page: newPage, limit, testId } });
   };
 
-  const handleReload = async () => {
-    setLoading(true);
-    await refetch();
-  };
+  const handleReload = React.useCallback(async () => {
+    if (testId) {
+      setLoading(true);
+      await refetch({ testId, limit, page: defaultPage });
+    }
+  }, [testId, limit, refetch]);
 
   React.useEffect(() => {
     if (testId) {
@@ -49,11 +53,12 @@ const useGetCandidateAssignedToTest = ({
     loading,
     items: data?.getAttendantByTest.items as Attendant[],
     totalDoc: data?.getAttendantByTest.totalDocs,
-    statistic: {
-      inProgress: data?.getAttendantByTest.inProgressDoc,
-      started: data?.getAttendantByTest.startedDoc,
-      completed: data?.getAttendantByTest.completedDoc,
-    },
+    statistic: data &&
+      data.getAttendantByTest && {
+        inProgress: data.getAttendantByTest.inProgressDoc,
+        started: data.getAttendantByTest.startedDoc,
+        completed: data.getAttendantByTest.completedDoc,
+      },
     handleLoadMore,
     handleReload,
     error: data?.getAttendantByTest.error,

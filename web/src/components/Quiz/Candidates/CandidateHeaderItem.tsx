@@ -7,7 +7,7 @@ const CandidateHeaderItem = ({
   number,
   status,
 }: {
-  number: number;
+  number?: number;
   status: string;
 }) => {
   const bgColor = useQuizStatusColor({ status });
@@ -25,7 +25,7 @@ const CandidateHeaderItem = ({
         className="font-bold text-14 capitalize ml-2"
         style={{ color: 'rgba(0, 0, 0, 0.56)' }}
       >
-        {number} {status}
+        {number || 0} {status}
       </div>
     </div>
   );

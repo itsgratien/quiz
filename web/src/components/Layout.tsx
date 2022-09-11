@@ -17,14 +17,14 @@ export const Layout = ({ children, goBack }: LayoutProps) => {
     <>
       {open && <Setup open={open} handleClose={() => setOpen(false)} />}
       <Header />
-      <main className="mb-5">
+      <main>
         {goBack && (
           <div className={style.back}>
             <GoBack handleClick={() => router.back()} />
           </div>
         )}
 
-        <> {children}</>
+        <div style={{ paddingBottom: '100px' }}> {children}</div>
         <div className={classname('fixed bottom-0', style.setup)}>
           <button
             type="button"

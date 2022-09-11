@@ -1,6 +1,9 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import type { NextPageContext, GetServerSidePropsContext } from 'next';
-import { GetQuestionAssignedToTestResponse } from '@/generated/graphql';
+import {
+  GetQuestionAssignedToTestResponse,
+  GetAttendantByTestResponse,
+} from '@/generated/graphql';
 
 const handleCookieFunc = (
   ctx?: NextPageContext | GetServerSidePropsContext
@@ -52,6 +55,22 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
 
                 if (existing && args.testId === existing.testId) {
                   return existing;
+                }
+              },
+            },
+            getAttendantByTest: {
+              keyArgs: false,
+              merge: (
+                existing: GetAttendantByTestResponse,
+                incoming: GetAttendantByTestResponse
+              ) => {
+                if (!existing) {
+                  return incoming;
+                } else {
+                  return {
+                    ...existing,
+                    items: [...existing.items, ...incoming.items],
+                  };
                 }
               },
             },
