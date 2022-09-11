@@ -21,7 +21,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
       <div className={classname(style.sectionTitle)}>
         <SectionTitle
           title="Question Asked"
-          total={items ? `${items.length} total results` : undefined}
+          total={totalDoc ? `${totalDoc} total results` : undefined}
         />
       </div>
       {items && (

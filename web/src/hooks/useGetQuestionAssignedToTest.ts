@@ -9,7 +9,9 @@ const useGetQuestionAssignedToTest = ({
   testId?: string;
   limit: number;
 }) => {
-  const [page, setPage] = React.useState<number>(1);
+  const defaultPage = 1;
+
+  const [page, setPage] = React.useState<number>(defaultPage);
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -26,9 +28,10 @@ const useGetQuestionAssignedToTest = ({
   const handleReload = React.useCallback(async () => {
     if (testId) {
       setLoading(true);
-      await refetch({ variables: { page, testId, limit } });
+      setPage(defaultPage);
+      await refetch({ page: defaultPage, testId, limit });
     }
-  }, [testId, refetch, page, limit]);
+  }, [testId, refetch, limit]);
 
   React.useEffect(() => {
     if (testId) {
