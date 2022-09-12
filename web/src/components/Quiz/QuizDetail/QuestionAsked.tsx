@@ -14,7 +14,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
   const router = useRouter();
 
   const { loading, items, handleLoadMore, totalDoc } =
-    useGetQuestionAssignedToTest({ testId, limit: 15 });
+    useGetQuestionAssignedToTest({ testId, limit: 9 });
 
   return (
     <div className={classname('relative', style.section)}>
@@ -62,7 +62,7 @@ const QuestionAsked = ({ testId }: { testId: string }) => {
         </>
       )}
       {loading && !items && (
-        <div className={style.sectionTitle}>
+        <div className={classname(style.sectionTitle, 'mt-5')}>
           <LoadingSpinner size={30} justify="start" />
         </div>
       )}

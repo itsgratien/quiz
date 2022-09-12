@@ -54,7 +54,6 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
                 ></div>
               )}
               <QuestionAsked testId={data._id} />
-              {data.attendants && <div className={style.hr}></div>}
               <InvitedCandidate testId={data._id} />
             </>
           ) : (

@@ -68,7 +68,7 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
                   return incoming;
                 } else {
                   return {
-                    ...existing,
+                    ...incoming,
                     items: [...existing.items, ...incoming.items],
                   };
                 }

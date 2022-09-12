@@ -6,7 +6,6 @@ import AddNewButton from './AddNewButton';
 import Modal from '../ModalContainer';
 import Button from '../Button';
 import SectionTitle from '@/components/Quiz/SectionTitle';
-import AttendantMock from '@/mocks/Candidate';
 import CandidateItem from '../../Candidates/CandidateItem';
 import Grid from '@mui/material/Grid';
 import Warning from '@/components/Shared/Alert/WarningAlertModal';
@@ -14,6 +13,10 @@ import NewCandidate from '../NewCandidate';
 import ImportCandidate from '../Import/ImportCandidate';
 import LeftTitle from '../LeftTitle';
 import { SetupProps } from '@/generated/Shared';
+import useGetCandidateAssignedToTest from '@/hooks/useGetCandidateAssignedToTest';
+import useSetup from '@/hooks/useSetup';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import LoadMoreButton from '../../LoadMoreButton';
 
 export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const [openC, setOpenC] = React.useState<boolean>(false);
@@ -23,6 +26,32 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const [setupCandidate, setSetupCandidate] = React.useState<boolean>(false);
 
   const [importCandidate, setImportCandidate] = React.useState<boolean>(false);
+
+  const [loadFull, setLoadFull] = React.useState<boolean>(true);
+
+  const setup = useSetup();
+
+  const { test } = setup;
+
+  const { items, loading, totalDoc, handleLoadMore, handleReload } =
+    useGetCandidateAssignedToTest({
+      testId: test?._id,
+      limit: 6,
+    });
+
+  const handleFetchMore = async () => {
+    setLoadFull(false);
+    await handleLoadMore();
+  };
+
+  const handleCloseModal = async (reload?: boolean) => {
+    setSetupCandidate(false);
+    setImportCandidate(false);
+    if (typeof reload === 'boolean' && reload) {
+      setLoadFull(true);
+      await handleReload();
+    }
+  };
 
   return (
     <Modal
@@ -53,15 +82,12 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
         />
       )}
       {setupCandidate && (
-        <NewCandidate
-          open={setupCandidate}
-          handleClose={() => setSetupCandidate(false)}
-        />
+        <NewCandidate open={setupCandidate} handleClose={handleCloseModal} />
       )}
       {importCandidate && (
         <ImportCandidate
           open={importCandidate}
-          handleClose={() => setImportCandidate(false)}
+          handleClose={handleCloseModal}
         />
       )}
       <div
@@ -71,31 +97,56 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
           style.viewAssignedQuestion
         )}
       >
-        <SectionTitle
-          title="Invite Candidates To Do The Quiz"
-          titleColor="fewBlack"
-          total="(Javascript programming quiz)"
-          textSize={14}
-          totalMarginLeft="0"
-          totalColor="fewBlack"
-        />
-        {AttendantMock.getAll.length > 0 ? (
-          <div className={classname(style.candidateItems, 'mt-10')}>
-            <Grid container spacing={4}>
-              {AttendantMock.getAll.map((item) => (
-                <Grid item xs={4} key={item._id}>
-                  <CandidateItem {...item} handleEdit={() => ''} />
-                </Grid>
-              ))}
-            </Grid>
-            <AddNewButton position="fixed" onClick={() => setWarning(true)} />
-          </div>
+        {loadFull && loading ? (
+          <LoadingSpinner />
         ) : (
-          <div className={classname(style.notFoundSec)}>
-            <NotFound message="There are No Candidates Invited click on the button below to add new" />
-            <div style={{ marginTop: '38px' }}>
-              <AddNewButton onClick={() => setOpenC(true)} />
-            </div>
+          <>
+            <SectionTitle
+              title="Invite Candidates To Do The Quiz"
+              titleColor="fewBlack"
+              total={test ? `(${test.title})` : ''}
+              textSize={14}
+              totalMarginLeft="0"
+              totalColor="fewBlack"
+            />
+            {items && (
+              <>
+                {items.length > 0 ? (
+                  <div className={classname(style.candidateItems, 'mt-10')}>
+                    <Grid container spacing={4}>
+                      {items.map((item) => (
+                        <Grid item xs={4} key={item._id}>
+                          <CandidateItem
+                            {...item}
+                            status={item.status ?? undefined}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <AddNewButton
+                      position="fixed"
+                      onClick={() => setWarning(true)}
+                    />
+                  </div>
+                ) : (
+                  <div className={classname(style.notFoundSec)}>
+                    <NotFound message="There are No Candidates Invited click on the button below to add new" />
+                    <div style={{ marginTop: '38px' }}>
+                      <AddNewButton onClick={() => setOpenC(true)} />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+        {items && totalDoc && totalDoc > items.length && (
+          <div className="mt-10">
+            <LoadMoreButton
+              handleClick={handleFetchMore}
+              align="center"
+              loading={loading}
+            />
           </div>
         )}
       </div>

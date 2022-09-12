@@ -8,20 +8,42 @@ import { SetupAttendantSchema } from './Schema';
 import { useFormik } from 'formik';
 import SectionTitle from '../SectionTitle';
 import LeftTitle from './LeftTitle';
+import useSetup from '@/hooks/useSetup';
+import { toast } from 'react-hot-toast';
+import useRegisterCandidate from '@/hooks/useRegisterCandidate';
 
 const NewCandidate = ({
   open,
   handleClose,
 }: {
   open: boolean;
-  handleClose: () => void;
+  handleClose: (reload?: boolean) => void;
 }) => {
+  const setup = useSetup();
+
+  const { test } = setup;
+
+  const [registerAttendant, { loading, items }] = useRegisterCandidate();
+
   const formik = useFormik({
     initialValues: { email: '', phoneNumber: '', names: '' },
     validationSchema: SetupAttendantSchema,
-    onSubmit: (value) => {},
+    onSubmit: async (value) => {
+      if (test) {
+        await registerAttendant({
+          testId: test._id,
+          args: [{ ...value, phoneNumber: String(value.phoneNumber) }],
+        });
+      }
+    },
   });
   const { values, errors } = formik;
+
+  React.useEffect(() => {
+    if (items) {
+      handleClose(true);
+    }
+  }, [items, handleClose]);
 
   return (
     <Modal
@@ -33,6 +55,7 @@ const NewCandidate = ({
           name="Save & Close"
           className="primary"
           handleClick={formik.handleSubmit}
+          loading={loading}
         />
       }
       leftElement={<LeftTitle title="New Candidate" />}

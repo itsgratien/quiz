@@ -41,10 +41,11 @@ mutation AddAttendant($testId: String!, $args: AddAttendantArgs!) {
 
 mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
   addMoreAttendant(testId: $testId, args: $args) {
-    data {
+    items {
       ...Attendant
     }
     error
+    message
   }
 }
 

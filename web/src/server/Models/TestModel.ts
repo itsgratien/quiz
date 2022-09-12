@@ -68,9 +68,9 @@ export class Test {
   @prop({ required: false })
   attendants?: TestAttendant[];
 
-  @Field({ nullable: true })
+  @Field()
   @prop({ required: false, unique: true })
-  slug?: string;
+  slug: string;
 
   @Field({ nullable: true })
   @prop()

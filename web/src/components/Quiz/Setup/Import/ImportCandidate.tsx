@@ -17,7 +17,7 @@ const ImportCandidate = ({
   handleClose,
 }: {
   open: boolean;
-  handleClose: () => void;
+  handleClose: (reload?: boolean) => void;
 }) => {
   const [showNextButton, setShowNextButton] = React.useState<boolean>(false);
 
@@ -81,7 +81,7 @@ const ImportCandidate = ({
             type="submit"
             name="Accept & Close"
             className="accept"
-            handleClick={() => ''}
+            handleClick={() => handleClose(true)}
           />
         ) : undefined
       }

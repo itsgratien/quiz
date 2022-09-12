@@ -31,12 +31,10 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const setup = useSetup();
 
-  const { testId } = setup;
-
-  const defaultTest = '631b28716943badaa27b576a';
+  const { test } = setup;
 
   const { items, handleLoadMore, loading, totalDoc, handleReload } =
-    useGetQuestionAssignedToTest({ testId: defaultTest, limit });
+    useGetQuestionAssignedToTest({ testId: test?._id, limit });
 
   const handleNext = () => {
     if (setup.handleStep) {
@@ -44,9 +42,9 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     }
   };
 
-  const handleLoad = () => {
+  const handleLoad = async () => {
     setLoadFull(false);
-    handleLoadMore();
+    await handleLoadMore();
   };
 
   const handleCloseSetup = (load?: boolean) => {
@@ -70,13 +68,13 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
       nextButton={
         <Button name="Next" className="next" handleClick={handleNext} />
       }
-      leftElement={<LeftTitle title="Javascript Quiz" />}
+      leftElement={<LeftTitle title={test && test.title} />}
     >
       {openQ && (
         <SetupQuestion
           open={openQ}
           handleClose={handleCloseSetup}
-          testId={defaultTest}
+          testId={test?._id}
         />
       )}
       {viewQ && questionId && (

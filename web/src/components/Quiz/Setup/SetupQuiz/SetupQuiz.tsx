@@ -5,7 +5,7 @@ import Modal from '../ModalContainer';
 import Button from '../Button';
 import { SetupQuizSchema } from '../Schema';
 import { useFormik } from 'formik';
-import { useSetupTestMutation } from '@/generated/graphql';
+import { useSetupTestMutation, Test } from '@/generated/graphql';
 import Form from './Form';
 import { SetupProps } from '@/generated/Shared';
 import TitleInput from './TitleInput';
@@ -37,7 +37,11 @@ const SetupQuiz = ({ open, handleClose }: SetupProps) => {
       data.addTest.data
     ) {
       setup.handleStep(SetupStep.Question);
-      setup.handleTest(data.addTest.data._id);
+      setup.handleTest({
+        _id: data.addTest.data._id,
+        title: data.addTest.data.title,
+        slug: data.addTest.data.slug,
+      });
     }
   }, [data, setup]);
 

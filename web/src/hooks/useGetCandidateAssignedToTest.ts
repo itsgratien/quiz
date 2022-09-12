@@ -27,6 +27,7 @@ const useGetCandidateAssignedToTest = ({
   const handleReload = React.useCallback(async () => {
     if (testId) {
       setLoading(true);
+      setPage(defaultPage);
       await refetch({ testId, limit, page: defaultPage });
     }
   }, [testId, limit, refetch]);
