@@ -9,7 +9,6 @@ import { useFormik } from 'formik';
 import SectionTitle from '../SectionTitle';
 import LeftTitle from './LeftTitle';
 import useSetup from '@/hooks/useSetup';
-import { toast } from 'react-hot-toast';
 import useRegisterCandidate from '@/hooks/useRegisterCandidate';
 
 const NewCandidate = ({

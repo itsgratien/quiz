@@ -6,7 +6,7 @@ import {
 import { toast } from 'react-hot-toast';
 
 const useRegisterCandidate = () => {
-  const [registerAttendant, { loading, data }] = useAddMoreAttendantMutation();
+  const [registerAttendant, { loading,  }] = useAddMoreAttendantMutation();
 
   const handleSubmit = async ({
     testId,
