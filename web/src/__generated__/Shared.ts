@@ -8,4 +8,5 @@ export interface LayoutProps {
 export interface SetupProps {
   open: boolean;
   handleClose?: () => void;
+  slug?: string;
 }

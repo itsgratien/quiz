@@ -6,6 +6,8 @@ import ViewInvitedCandidate from './View/ViewInvitedCandidate';
 import { SetupStep } from '@/generated/Enum';
 import { SetupProps } from '@/generated/Shared';
 import { TestInContext } from '@/generated/Quiz';
+import { useGetSingleTestLazyQuery } from '@/generated/graphql';
+import { toast } from 'react-hot-toast';
 
 const defaultTest = {
   _id: '63185fe75a6dbf9f4e18c0bd',
@@ -18,6 +20,8 @@ const Setup = (props: SetupProps) => {
 
   const [test, setTest] = React.useState<TestInContext>(defaultTest);
 
+  const [getSingleTest, { loading, data }] = useGetSingleTestLazyQuery();
+
   const handleStep = (value: SetupStep) => {
     setStep(value);
   };
@@ -25,6 +29,28 @@ const Setup = (props: SetupProps) => {
   const handleTest = (values: TestInContext) => {
     setTest(values);
   };
+
+  React.useEffect(() => {
+    if (props.slug) {
+      getSingleTest({ variables: { slug: props.slug } });
+    }
+  }, [props.slug]);
+
+  React.useEffect(() => {
+    if (data && data.getSingleTest) {
+      if (data.getSingleTest.data) {
+        const { data: dataResponse } = data.getSingleTest;
+        setTest({
+          _id: dataResponse._id,
+          title: dataResponse.title,
+          slug: dataResponse.slug,
+        });
+      }
+      if (data.getSingleTest.error) {
+        toast.error(data.getSingleTest.error);
+      }
+    }
+  }, [data]);
 
   return (
     <SetupContext.Provider value={{ step, handleStep, test, handleTest }}>
