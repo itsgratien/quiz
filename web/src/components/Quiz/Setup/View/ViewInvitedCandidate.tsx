@@ -17,6 +17,8 @@ import useGetCandidateAssignedToTest from '@/hooks/useGetCandidateAssignedToTest
 import useSetup from '@/hooks/useSetup';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import LoadMoreButton from '../../LoadMoreButton';
+import { toast } from 'react-hot-toast';
+import { usePubishTestMutation } from '@/generated/graphql';
 
 export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const [openC, setOpenC] = React.useState<boolean>(false);
@@ -39,6 +41,8 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
       limit: 15,
     });
 
+  const [publishTest, publishResponse] = usePublishTestMutation();
+
   const handleFetchMore = async () => {
     setLoadFull(false);
     await handleLoadMore();
@@ -53,9 +57,15 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
     }
   };
 
-  const handlePublish = () => {
-    alert('yes');
-  };
+  const handlePublish = React.useCallback(async () => {
+    if (test) {
+      if (items && items.length > 0) {
+        await pusblishTest({ variables: { testId: test._id } });
+      } else {
+        toast.error('Provide candidates');
+      }
+    }
+  }, [test]);
 
   return (
     <Modal
@@ -142,7 +152,7 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
                   <div className={classname(style.notFoundSec)}>
                     <NotFound message="There are No Candidates Invited click on the button below to add new" />
                     <div style={{ marginTop: '38px' }}>
-                      <AddNewButton onClick={() => setOpenC(true)} />
+                      <AddNewButton onClick={() => setWarning(true)} />
                     </div>
                   </div>
                 )}

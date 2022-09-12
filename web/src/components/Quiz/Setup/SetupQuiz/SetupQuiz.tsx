@@ -11,6 +11,7 @@ import { SetupProps } from '@/generated/Shared';
 import TitleInput from './TitleInput';
 import useSetup from '@/hooks/useSetup';
 import { SetupStep } from '@/generated/Enum';
+import { toast } from 'react-hot-toast';
 
 const SetupQuiz = ({ open, handleClose }: SetupProps) => {
   const [registerQuiz, { data, loading }] = useSetupTestMutation();
@@ -29,19 +30,18 @@ const SetupQuiz = ({ open, handleClose }: SetupProps) => {
   const { errors } = formik;
 
   React.useEffect(() => {
-    if (
-      data &&
-      data.addTest &&
-      setup.handleStep &&
-      setup.handleTest &&
-      data.addTest.data
-    ) {
-      setup.handleStep(SetupStep.Question);
-      setup.handleTest({
-        _id: data.addTest.data._id,
-        title: data.addTest.data.title,
-        slug: data.addTest.data.slug,
-      });
+    if (data && data.addTest && setup.handleStep && setup.handleTest) {
+      if (data.addTest.data) {
+        setup.handleStep(SetupStep.Question);
+        setup.handleTest({
+          _id: data.addTest.data._id,
+          title: data.addTest.data.title,
+          slug: data.addTest.data.slug,
+        });
+      }
+      if (data.addTest.error) {
+        toast.error(data.addTest.error);
+      }
     }
   }, [data, setup]);
 

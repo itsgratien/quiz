@@ -47,10 +47,10 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
     await handleLoadMore();
   };
 
-  const handleCloseSetup = (load?: boolean) => {
+  const handleCloseSetup = (reload?: boolean) => {
     setOpenQ(false);
     setQuestionId(undefined);
-    if (load) {
+    if (typeof reload === 'boolean' && reload) {
       setLoadFull(true);
       handleReload();
     }
