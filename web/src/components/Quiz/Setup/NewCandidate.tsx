@@ -22,7 +22,7 @@ const NewCandidate = ({
 
   const { test } = setup;
 
-  const [registerAttendant, { loading, items }] = useRegisterCandidate();
+  const [registerAttendant, { loading, data }] = useRegisterCandidate();
 
   const formik = useFormik({
     initialValues: { email: '', phoneNumber: '', names: '' },
@@ -39,10 +39,10 @@ const NewCandidate = ({
   const { values, errors } = formik;
 
   React.useEffect(() => {
-    if (items) {
+    if (data) {
       handleClose(true);
     }
-  }, [items, handleClose]);
+  }, [data, handleClose]);
 
   return (
     <Modal
@@ -54,7 +54,7 @@ const NewCandidate = ({
           name="Save & Close"
           className="primary"
           handleClick={formik.handleSubmit}
-          loading={loading}
+          disabled={loading}
         />
       }
       leftElement={<LeftTitle title="New Candidate" />}

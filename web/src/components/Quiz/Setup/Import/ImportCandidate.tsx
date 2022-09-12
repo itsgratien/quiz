@@ -11,6 +11,9 @@ import CandidateItem from '../../Candidates/CandidateItem';
 import { AttendantStatus } from '@/generated/Enum';
 import ImportButton from './ImportButton';
 import { toast } from 'react-hot-toast';
+import useRegisterCandidate from '@/hooks/useRegisterCandidate';
+import useSetup from '@/hooks/useSetup';
+import { AddAttendantArgs } from '@/generated/graphql';
 
 const ImportCandidate = ({
   open,
@@ -21,8 +24,12 @@ const ImportCandidate = ({
 }) => {
   const [showNextButton, setShowNextButton] = React.useState<boolean>(false);
 
-  const [items, setItems] =
-    React.useState<{ names: string; email: string; phoneNumber: string }[]>();
+  const [items, setItems] = React.useState<AddAttendantArgs[]>();
+
+  const [registerCandidate, { loading, data }] = useRegisterCandidate();
+
+  const setup = useSetup();
+  const { test } = setup;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -71,6 +78,24 @@ const ImportCandidate = ({
     }
   };
 
+  const handleSubmit = async () => {
+    if (test && items) {
+      await registerCandidate({
+        testId: test._id,
+        args: items.map((item) => ({
+          ...item,
+          phoneNumber: String(item.phoneNumber),
+        })),
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    if (data) {
+      handleClose(true);
+    }
+  }, [data, handleClose]);
+
   return (
     <Modal
       open={open}
@@ -81,7 +106,8 @@ const ImportCandidate = ({
             type="submit"
             name="Accept & Close"
             className="accept"
-            handleClick={() => handleClose(true)}
+            handleClick={handleSubmit}
+            disabled={loading}
           />
         ) : undefined
       }

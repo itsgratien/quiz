@@ -36,7 +36,7 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const { items, loading, totalDoc, handleLoadMore, handleReload } =
     useGetCandidateAssignedToTest({
       testId: test?._id,
-      limit: 6,
+      limit: 15,
     });
 
   const handleFetchMore = async () => {
@@ -53,12 +53,22 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
     }
   };
 
+  const handlePublish = () => {
+    alert('yes');
+  };
+
   return (
     <Modal
       open={open}
       handleClose={handleClose}
-      nextButton={<Button name="Next" className="next" />}
-      leftElement={<LeftTitle title="Javascript Quiz" />}
+      nextButton={
+        <Button
+          name="Publish"
+          className="primary"
+          handleClick={handlePublish}
+        />
+      }
+      leftElement={<LeftTitle title={test ? `${test.title}` : ''} />}
     >
       {warning && (
         <Warning
@@ -140,7 +150,7 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
             )}
           </>
         )}
-        {items && totalDoc && totalDoc > items.length && (
+        {items && totalDoc && totalDoc > items.length ? (
           <div className="mt-10">
             <LoadMoreButton
               handleClick={handleFetchMore}
@@ -148,6 +158,8 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
               loading={loading}
             />
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </Modal>

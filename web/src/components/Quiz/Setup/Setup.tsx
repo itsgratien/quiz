@@ -7,14 +7,16 @@ import { SetupStep } from '@/generated/Enum';
 import { SetupProps } from '@/generated/Shared';
 import { TestInContext } from '@/generated/Quiz';
 
+const defaultTest = {
+  _id: '63185fe75a6dbf9f4e18c0bd',
+  slug: 'fine-fine-school-vocabulary-1662541799354-451.57797224003497',
+  title: 'Fine Fine School Vocabulary',
+};
+
 const Setup = (props: SetupProps) => {
   const [step, setStep] = React.useState<SetupStep>(SetupStep.SetupQuiz);
 
-  const [test, setTest] = React.useState<TestInContext>({
-    _id: '63185fe75a6dbf9f4e18c0bd',
-    slug: 'fine-fine-school-vocabulary-1662541799354-451.57797224003497',
-    title: 'Fine Fine School Vocabulary',
-  });
+  const [test, setTest] = React.useState<TestInContext>(defaultTest);
 
   const handleStep = (value: SetupStep) => {
     setStep(value);
@@ -34,7 +36,7 @@ const Setup = (props: SetupProps) => {
             case SetupStep.Attendant:
               return <ViewInvitedCandidate {...props} />;
             default:
-              return <ViewInvitedCandidate {...props} />;
+              return <SetupQuiz {...props} />;
           }
         }}
       </SetupContext.Consumer>

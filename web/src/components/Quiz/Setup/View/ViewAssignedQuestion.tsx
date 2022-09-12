@@ -130,7 +130,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
             )}
           </>
         )}
-        {items && totalDoc && totalDoc > items.length && (
+        {items && totalDoc && totalDoc > items.length ? (
           <div className="mt-10">
             <LoadMoreButton
               handleClick={handleLoad}
@@ -138,6 +138,8 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
               loading={loading}
             />
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </Modal>
