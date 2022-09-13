@@ -5,9 +5,10 @@ import ViewAssignedQuestion from './View/ViewAssignedQuestion';
 import ViewInvitedCandidate from './View/ViewInvitedCandidate';
 import { SetupStep } from '@/generated/Enum';
 import { SetupProps } from '@/generated/Shared';
-import { TestInContext } from '@/generated/Quiz';
 import { useGetSingleTestLazyQuery } from '@/generated/graphql';
 import { toast } from 'react-hot-toast';
+import { Test } from '@/generated/graphql';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
 const defaultTest = {
   _id: '63185fe75a6dbf9f4e18c0bd',
@@ -18,15 +19,17 @@ const defaultTest = {
 const Setup = (props: SetupProps) => {
   const [step, setStep] = React.useState<SetupStep>(SetupStep.SetupQuiz);
 
-  const [test, setTest] = React.useState<TestInContext>(defaultTest);
+  const [test, setTest] = React.useState<Test>(defaultTest);
 
-  const [getSingleTest, { loading, data }] = useGetSingleTestLazyQuery();
+  const [getSingleTest, { loading, data }] = useGetSingleTestLazyQuery({
+    fetchPolicy: 'no-cache',
+  });
 
   const handleStep = (value: SetupStep) => {
     setStep(value);
   };
 
-  const handleTest = (values: TestInContext) => {
+  const handleTest = (values: Test) => {
     setTest(values);
   };
 
@@ -34,16 +37,19 @@ const Setup = (props: SetupProps) => {
     if (props.slug) {
       getSingleTest({ variables: { slug: props.slug } });
     }
-  }, [props.slug]);
+  }, [props.slug, getSingleTest]);
 
   React.useEffect(() => {
     if (data && data.getSingleTest) {
       if (data.getSingleTest.data) {
         const { data: dataResponse } = data.getSingleTest;
         setTest({
-          _id: dataResponse._id,
           title: dataResponse.title,
+          startDate: dataResponse.startDate,
+          endDate: dataResponse.endDate,
           slug: dataResponse.slug,
+          subject: dataResponse.subject,
+          _id: dataResponse._id,
         });
       }
       if (data.getSingleTest.error) {
@@ -62,7 +68,7 @@ const Setup = (props: SetupProps) => {
             case SetupStep.Attendant:
               return <ViewInvitedCandidate {...props} />;
             default:
-              return <SetupQuiz {...props} />;
+              return <SetupQuiz {...props} loading={loading} />;
           }
         }}
       </SetupContext.Consumer>

@@ -24,9 +24,3 @@ export interface QuizDetailPageProps {
   loading?: boolean;
   data?: Test;
 }
-
-export interface TestInContext {
-  _id: string;
-  slug: string;
-  title: string;
-}

@@ -13,17 +13,30 @@ import { QuizDetailPageProps } from '@/generated/Quiz';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import QuestionAsked from '@/components/Quiz/QuizDetail/QuestionAsked';
 import InvitedCandidate from '@/components/Quiz/QuizDetail/InvitedCandidate';
+import Setup from '@/components/Quiz/Setup/Setup';
 
 const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const handleEditClick = () => {
+    setOpen(!open);
+  };
   return (
     <>
       <Head>
         <title>Quiz</title>
       </Head>
-      <Layout goBack>
+      <Layout goBack edit={() => {}}>
         <div className={style.quiz}>
           {data ? (
             <>
+              {open && (
+                <Setup
+                  open={open}
+                  handleClose={handleEditClick}
+                  slug={data.slug}
+                />
+              )}
               <div className={classname('relative', style.quizDetail)}>
                 <div className="text-25">{data.title}</div>
                 <div className={style.status}>

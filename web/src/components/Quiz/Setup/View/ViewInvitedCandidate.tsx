@@ -18,7 +18,7 @@ import useSetup from '@/hooks/useSetup';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import LoadMoreButton from '../../LoadMoreButton';
 import { toast } from 'react-hot-toast';
-import { usePubishTestMutation } from '@/generated/graphql';
+import { usePublishTestMutation } from '@/generated/graphql';
 
 export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const [openC, setOpenC] = React.useState<boolean>(false);
@@ -60,12 +60,12 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   const handlePublish = React.useCallback(async () => {
     if (test) {
       if (items && items.length > 0) {
-        await pusblishTest({ variables: { testId: test._id } });
+        await publishTest({ variables: { testId: test._id } });
       } else {
         toast.error('Provide candidates');
       }
     }
-  }, [test]);
+  }, [test, publishTest, items]);
 
   return (
     <Modal

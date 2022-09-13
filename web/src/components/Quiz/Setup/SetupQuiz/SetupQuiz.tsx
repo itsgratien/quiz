@@ -12,22 +12,36 @@ import TitleInput from './TitleInput';
 import useSetup from '@/hooks/useSetup';
 import { SetupStep } from '@/generated/Enum';
 import { toast } from 'react-hot-toast';
+import { get } from 'lodash';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
-const SetupQuiz = ({ open, handleClose }: SetupProps) => {
+const SetupQuiz = ({
+  open,
+  handleClose,
+  slug,
+  loading: loadingProp,
+}: SetupProps) => {
   const [registerQuiz, { data, loading }] = useSetupTestMutation();
 
   const setup = useSetup();
 
+  const { test } = setup;
+
   const formik = useFormik({
     validationSchema: SetupQuizSchema,
-    initialValues: { title: '', startDate: '', endDate: '', subject: '' },
+    initialValues: {
+      title: get(test, 'title', ''),
+      startDate: get(test, 'startDate', ''),
+      endDate: get(test, 'endDate', ''),
+      subject: get(test, 'subject', ''),
+    },
     onSubmit: async (values) => {
       await registerQuiz({ variables: values });
     },
     validateOnChange: false,
   });
 
-  const { errors } = formik;
+  const { errors, values } = formik;
 
   React.useEffect(() => {
     if (data && data.addTest && setup.handleStep && setup.handleTest) {
@@ -67,7 +81,11 @@ const SetupQuiz = ({ open, handleClose }: SetupProps) => {
           style.setupQuiz
         )}
       >
-        <Form formik={formik} errors={errors} />
+        {loadingProp ? (
+          <LoadingSpinner />
+        ) : (
+          <Form formik={formik} errors={errors} />
+        )}
       </div>
     </Modal>
   );

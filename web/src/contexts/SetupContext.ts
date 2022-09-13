@@ -1,12 +1,12 @@
 import React from 'react';
 import { SetupStep } from '@/generated/Enum';
-import { TestInContext } from '@/generated/Quiz';
+import { Test } from '@/generated/graphql';
 
 export const SetupContext = React.createContext<{
   step: SetupStep;
   handleStep?: (step: SetupStep) => void;
-  test?: TestInContext;
-  handleTest?: (test: TestInContext) => void;
+  test?: Test;
+  handleTest?: (test: Test) => void;
 }>({
   step: SetupStep.SetupQuiz,
 });
