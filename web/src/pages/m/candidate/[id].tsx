@@ -56,7 +56,7 @@ const CandidatePage: NextPage<{
                     {data.names}
                   </div>
                   <Status
-                    status={data.status}
+                    status={String(data.status)}
                     size="12"
                     bold
                     className="mt-19"

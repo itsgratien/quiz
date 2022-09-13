@@ -14,6 +14,7 @@ import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import QuestionAsked from '@/components/Quiz/QuizDetail/QuestionAsked';
 import InvitedCandidate from '@/components/Quiz/QuizDetail/InvitedCandidate';
 import Setup from '@/components/Quiz/Setup/Setup';
+import SetupButtonContainer from '@/components/SetupButton/SetupButtonContainer';
 
 const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -26,7 +27,7 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
       <Head>
         <title>Quiz</title>
       </Head>
-      <Layout goBack edit={() => {}}>
+      <Layout goBack>
         <div className={style.quiz}>
           {data ? (
             <>
@@ -68,6 +69,12 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
               )}
               <QuestionAsked testId={data._id} />
               <InvitedCandidate testId={data._id} />
+              <SetupButtonContainer>
+                <SetupButtonContainer.EditButton
+                  handleClick={() => ''}
+                  icon="bx:dots-horizontal"
+                />
+              </SetupButtonContainer>
             </>
           ) : (
             <NotFound message="Quiz Not Found" alignItem="center" />

@@ -45,7 +45,7 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
       <Head>
         <title>Quizzes</title>
       </Head>
-      <Layout setup>
+      <Layout showSetupButton>
         <div className={style.quiz}>
           {me && (
             <div className={classname('relative', style.greeting)}>

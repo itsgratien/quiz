@@ -4,8 +4,7 @@ import { Test } from '@/generated/graphql';
 export interface LayoutProps {
   children: React.ReactNode;
   goBack?: boolean;
-  setup?: boolean;
-  edit?: () => void;
+  showSetupButton?: boolean;
 }
 
 export interface SetupProps {
