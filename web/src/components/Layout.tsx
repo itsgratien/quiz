@@ -28,7 +28,7 @@ export const Layout = ({ children, goBack, showSetupButton }: LayoutProps) => {
         <div style={{ paddingBottom: '100px' }}> {children}</div>
         {showSetupButton && (
           <SetupButtonContainer>
-            <SetupButtonContainer.Add handleClick={() => setOpen(true)} />
+            <SetupButtonContainer.AddButton handleClick={() => setOpen(true)} />
           </SetupButtonContainer>
         )}
       </main>

@@ -15,9 +15,12 @@ import QuestionAsked from '@/components/Quiz/QuizDetail/QuestionAsked';
 import InvitedCandidate from '@/components/Quiz/QuizDetail/InvitedCandidate';
 import Setup from '@/components/Quiz/Setup/Setup';
 import SetupButtonContainer from '@/components/SetupButton/SetupButtonContainer';
+import { Icon } from '@iconify/react';
 
 const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
   const [open, setOpen] = React.useState<boolean>(false);
+
+  const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
 
   const handleEditClick = () => {
     setOpen(!open);
@@ -71,9 +74,23 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
               <InvitedCandidate testId={data._id} />
               <SetupButtonContainer>
                 <SetupButtonContainer.EditButton
-                  handleClick={() => ''}
+                  handleClick={() => setToggleMenu(!toggleMenu)}
                   icon="bx:dots-horizontal"
                 />
+                {toggleMenu && (
+                  <SetupButtonContainer.Menu>
+                    <>
+                      <li className={classname('flex items-center')}>
+                        <Icon icon="iconoir:design-pencil" />
+                        <span>Edit</span>
+                      </li>
+                      <li className={classname('flex items-center')}>
+                        <Icon icon="ic:round-published-with-changes" />
+                        <span>Publish</span>
+                      </li>
+                    </>
+                  </SetupButtonContainer.Menu>
+                )}
               </SetupButtonContainer>
             </>
           ) : (
@@ -86,6 +103,7 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
     </>
   );
 };
+
 export default QuizDetailPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
