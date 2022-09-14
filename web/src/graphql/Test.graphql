@@ -66,5 +66,6 @@ query GetSingleTest($slug: String!) {
     data {
       ...Test
     }
+    error
   }
 }

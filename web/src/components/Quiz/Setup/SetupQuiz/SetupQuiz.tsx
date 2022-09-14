@@ -5,7 +5,7 @@ import Modal from '../ModalContainer';
 import Button from '../Button';
 import { SetupQuizSchema } from '../Schema';
 import { useFormik } from 'formik';
-import { useSetupTestMutation, Test } from '@/generated/graphql';
+import { useSetupTestMutation } from '@/generated/graphql';
 import Form from './Form';
 import { SetupProps } from '@/generated/Shared';
 import TitleInput from './TitleInput';
@@ -51,6 +51,9 @@ const SetupQuiz = ({
           _id: data.addTest.data._id,
           title: data.addTest.data.title,
           slug: data.addTest.data.slug,
+          subject: data.addTest.data.subject,
+          startDate: data.addTest.data.startDate,
+          endDate: data.addTest.data.endDate
         });
       }
       if (data.addTest.error) {

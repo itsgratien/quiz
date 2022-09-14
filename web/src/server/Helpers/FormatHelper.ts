@@ -105,7 +105,6 @@ export class FormatHelper {
       status: values.status,
       startDate: values.startDate,
       endDate: values.endDate,
-      passMark: values.passMark,
       managerId: allowManagerInfo ? values.managerId : undefined,
       questions: this.getTestQuestions(values.questions),
       attendants: this.getTestCandidates(values.attendants),

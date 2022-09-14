@@ -40,7 +40,7 @@ export class Test {
   @prop({ default: TestStatus.Draft, type: String })
   status?: TestStatus;
 
-  @Field()
+  @Field({ nullable: true })
   @prop({ type: String })
   passMark?: string;
 
