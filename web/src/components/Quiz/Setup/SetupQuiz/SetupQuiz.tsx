@@ -22,15 +22,18 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
 
   const { test, handleStep } = setup;
 
-  const handleSubmitFunc = React.useCallback(async(values: any)=> {
-    if(!test){
-      await registerQuiz({ variables: values });
-    }else{
-      if(handleStep){
-        handleStep(SetupStep.Question)
+  const handleSubmitFunc = React.useCallback(
+    async (values: any) => {
+      if (!test) {
+        await registerQuiz({ variables: values });
+      } else {
+        if (handleStep) {
+          handleStep(SetupStep.Question);
+        }
       }
-    }
-  }, [test, registerQuiz, handleStep])
+    },
+    [test, registerQuiz, handleStep]
+  );
 
   const formik = useFormik({
     validationSchema: SetupQuizSchema,

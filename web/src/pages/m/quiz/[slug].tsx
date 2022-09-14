@@ -16,15 +16,45 @@ import InvitedCandidate from '@/components/Quiz/QuizDetail/InvitedCandidate';
 import Setup from '@/components/Quiz/Setup/Setup';
 import SetupButtonContainer from '@/components/SetupButton/SetupButtonContainer';
 import { Icon } from '@iconify/react';
+import usePublishTest from '@/hooks/usePublishTest';
+import Warning from '@/components/Shared/Alert/WarningAlertModal';
 
 const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
   const [open, setOpen] = React.useState<boolean>(false);
 
+  const [warn, setWarn] = React.useState<boolean>(false);
+
   const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
+
+  const [showPublish, setShowPublish] = React.useState<boolean>(false);
+
+  const { handlePublish } = usePublishTest();
 
   const handleEditClick = () => {
     setOpen(!open);
   };
+
+  const handleWarning = () => {
+    setWarn(!warn);
+    setToggleMenu(false);
+  };
+
+  const handlePublishFunc = async () => {
+    await handlePublish(data?._id);
+    handleWarning();
+  };
+
+  React.useEffect(() => {
+    if (
+      data &&
+      data.attendants &&
+      data.questions &&
+      data.questions.length > 0 &&
+      data.attendants.length > 0
+    ) {
+      setShowPublish(true);
+    }
+  }, [data]);
 
   return (
     <>
@@ -32,6 +62,18 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
         <title>Quiz</title>
       </Head>
       <Layout goBack>
+        {warn && (
+          <Warning
+            message="Are you sure you want to publish this quiz ?"
+            handleClose={handleWarning}
+            open={warn}
+            enable={{
+              onClick: handlePublishFunc,
+              name: 'Yes',
+            }}
+            disable={{ onClick: handleWarning, name: 'No' }}
+          />
+        )}
         <div className={style.quiz}>
           {data ? (
             <>
@@ -88,10 +130,15 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
                         <Icon icon="iconoir:design-pencil" />
                         <span>Edit</span>
                       </li>
-                      <li className={classname('flex items-center')}>
-                        <Icon icon="ic:round-published-with-changes" />
-                        <span>Publish</span>
-                      </li>
+                      {showPublish && (
+                        <li
+                          className={classname('flex items-center')}
+                          onClick={handleWarning}
+                        >
+                          <Icon icon="ic:round-published-with-changes" />
+                          <span>Publish</span>
+                        </li>
+                      )}
                     </>
                   </SetupButtonContainer.Menu>
                 )}

@@ -18,11 +18,9 @@ import useSetup from '@/hooks/useSetup';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import LoadMoreButton from '../../LoadMoreButton';
 import { toast } from 'react-hot-toast';
-import { usePublishTestMutation } from '@/generated/graphql';
+import usePublishTest from '@/hooks/usePublishTest';
 
 export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
-  const [openC, setOpenC] = React.useState<boolean>(false);
-
   const [warning, setWarning] = React.useState<boolean>(false);
 
   const [setupCandidate, setSetupCandidate] = React.useState<boolean>(false);
@@ -35,13 +33,13 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
 
   const { test } = setup;
 
+  const { handlePublish, loading: loadingPublish } = usePublishTest();
+
   const { items, loading, totalDoc, handleLoadMore, handleReload } =
     useGetCandidateAssignedToTest({
       testId: test?._id,
       limit: 15,
     });
-
-  const [publishTest, publishResponse] = usePublishTestMutation();
 
   const handleFetchMore = async () => {
     setLoadFull(false);
@@ -57,15 +55,15 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
     }
   };
 
-  const handlePublish = React.useCallback(async () => {
+  const handlePublishFunc = React.useCallback(async () => {
     if (test) {
       if (items && items.length > 0) {
-        await publishTest({ variables: { testId: test._id } });
+        await handlePublish(test._id);
       } else {
         toast.error('Provide candidates');
       }
     }
-  }, [test, publishTest, items]);
+  }, [test, items, handlePublish]);
 
   return (
     <Modal
@@ -75,7 +73,8 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
         <Button
           name="Publish"
           className="primary"
-          handleClick={handlePublish}
+          handleClick={handlePublishFunc}
+          disabled={loadingPublish}
         />
       }
       leftElement={<LeftTitle title={test ? `${test.title}` : ''} />}
