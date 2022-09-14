@@ -25,6 +25,7 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
   const handleEditClick = () => {
     setOpen(!open);
   };
+
   return (
     <>
       <Head>
@@ -80,7 +81,10 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
                 {toggleMenu && (
                   <SetupButtonContainer.Menu>
                     <>
-                      <li className={classname('flex items-center')}>
+                      <li
+                        className={classname('flex items-center')}
+                        onClick={handleEditClick}
+                      >
                         <Icon icon="iconoir:design-pencil" />
                         <span>Edit</span>
                       </li>

@@ -5,7 +5,7 @@ import Modal from '../ModalContainer';
 import Button from '../Button';
 import { SetupQuizSchema } from '../Schema';
 import { useFormik } from 'formik';
-import { useSetupTestMutation } from '@/generated/graphql';
+import { useSetupTestMutation, Test } from '@/generated/graphql';
 import Form from './Form';
 import { SetupProps } from '@/generated/Shared';
 import TitleInput from './TitleInput';
@@ -15,46 +15,53 @@ import { toast } from 'react-hot-toast';
 import { get } from 'lodash';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
-const SetupQuiz = ({
-  open,
-  handleClose,
-  slug,
-  loading: loadingProp,
-}: SetupProps) => {
+const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
   const [registerQuiz, { data, loading }] = useSetupTestMutation();
 
   const setup = useSetup();
 
-  const { test } = setup;
+  const { test, handleStep } = setup;
+
+  const handleSubmitFunc = React.useCallback(async(values: any)=> {
+    if(!test){
+      await registerQuiz({ variables: values });
+    }else{
+      if(handleStep){
+        handleStep(SetupStep.Question)
+      }
+    }
+  }, [test, registerQuiz, handleStep])
 
   const formik = useFormik({
     validationSchema: SetupQuizSchema,
     initialValues: {
-      title: get(test, 'title', ''),
-      startDate: get(test, 'startDate', ''),
-      endDate: get(test, 'endDate', ''),
-      subject: get(test, 'subject', ''),
+      title: '',
+      startDate: '',
+      endDate: '',
+      subject: '',
     },
-    onSubmit: async (values) => {
-      await registerQuiz({ variables: values });
-    },
+    onSubmit: handleSubmitFunc,
     validateOnChange: false,
   });
 
-  const { errors, values } = formik;
+  const { errors, setValues } = formik;
+
+  React.useEffect(() => {
+    if (test) {
+      setValues({
+        title: get(test, 'title', ''),
+        startDate: get(test, 'startDate', ''),
+        endDate: get(test, 'endDate', ''),
+        subject: get(test, 'subject', ''),
+      });
+    }
+  }, [test, setValues]);
 
   React.useEffect(() => {
     if (data && data.addTest && setup.handleStep && setup.handleTest) {
       if (data.addTest.data) {
         setup.handleStep(SetupStep.Question);
-        setup.handleTest({
-          _id: data.addTest.data._id,
-          title: data.addTest.data.title,
-          slug: data.addTest.data.slug,
-          subject: data.addTest.data.subject,
-          startDate: data.addTest.data.startDate,
-          endDate: data.addTest.data.endDate
-        });
+        setup.handleTest(data.addTest.data as Test);
       }
       if (data.addTest.error) {
         toast.error(data.addTest.error);

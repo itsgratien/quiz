@@ -7,6 +7,7 @@ export const SetupContext = React.createContext<{
   handleStep?: (step: SetupStep) => void;
   test?: Test;
   handleTest?: (test: Test) => void;
+  loading?: boolean;
 }>({
   step: SetupStep.SetupQuiz,
 });
