@@ -174,7 +174,6 @@ export class AttendantResolver extends AttendantHelper {
         items: find.map((item) => format.getAttendant(item)),
         totalDocs: pagination.totalDocs,
         totalPages: pagination.totalPages,
-        nextPage: pagination.nextPage,
         inProgressDoc,
         startedDoc,
         completedDoc,

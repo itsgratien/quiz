@@ -18,6 +18,7 @@ import SetupButtonContainer from '@/components/SetupButton/SetupButtonContainer'
 import { Icon } from '@iconify/react';
 import usePublishTest from '@/hooks/usePublishTest';
 import Warning from '@/components/Shared/Alert/WarningAlertModal';
+import { TestStatus } from '@/generated/Enum';
 
 const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -27,6 +28,8 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
   const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
 
   const [showPublish, setShowPublish] = React.useState<boolean>(false);
+
+  const [showEdit, setShowEdit] = React.useState<boolean>(false);
 
   const { handlePublish } = usePublishTest();
 
@@ -53,6 +56,10 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
       data.attendants.length > 0
     ) {
       setShowPublish(true);
+    }
+
+    if (data && data.status === TestStatus.Draft) {
+      setShowEdit(true);
     }
   }, [data]);
 
@@ -123,13 +130,15 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
                 {toggleMenu && (
                   <SetupButtonContainer.Menu>
                     <>
-                      <li
-                        className={classname('flex items-center')}
-                        onClick={handleEditClick}
-                      >
-                        <Icon icon="iconoir:design-pencil" />
-                        <span>Edit</span>
-                      </li>
+                      {showEdit && (
+                        <li
+                          className={classname('flex items-center')}
+                          onClick={handleEditClick}
+                        >
+                          <Icon icon="iconoir:design-pencil" />
+                          <span>Edit</span>
+                        </li>
+                      )}
                       {showPublish && (
                         <li
                           className={classname('flex items-center')}
