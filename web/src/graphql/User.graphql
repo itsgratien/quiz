@@ -24,3 +24,10 @@ mutation Authenticate($idToken: String!) {
     message
   }
 }
+
+mutation Logout {
+  logout {
+    message
+    error
+  }
+}

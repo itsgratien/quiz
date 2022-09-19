@@ -5,6 +5,8 @@ import * as UserTg from '@/server/TypeGraphql/User';
 import * as UserType from '@/generated/User';
 import { firebaseAdmin } from '@/utils/FirebaseAdmin';
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import { errorResponse } from '../Helpers/SharedHelper';
+import { HttpCode } from '@/utils/HttpCode';
 
 @Resolver()
 export class UserResolver {
@@ -56,6 +58,22 @@ export class UserResolver {
       };
     } catch (error: any) {
       return new GraphQLYogaError('Unable to authenticate');
+    }
+  }
+
+  @Authorized()
+  @Mutation(() => UserTg.GetUserResponse)
+  async logout(@Ctx() ctx: UserType.ContextT): Promise<UserTg.GetUserResponse> {
+    try {
+      const { req } = ctx;
+
+      req.session.destroy();
+
+      return {
+        message: 'Logged Out Successfully',
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
     }
   }
 }

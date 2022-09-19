@@ -3,10 +3,12 @@ import classname from 'classnames';
 import style from './Alert.module.scss';
 import Modal from '@mui/material/Modal';
 import { Icon } from '@iconify/react';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface Enable {
   name: string;
   onClick?: () => void;
+  loading?: boolean;
 }
 
 const WarningAlertModal = ({
@@ -44,12 +46,17 @@ const WarningAlertModal = ({
               <button
                 type="button"
                 className={classname(
-                  'outline-none focus:outline-none text-14 bg-primary',
+                  'outline-none focus:outline-none text-14 bg-primary font-bold',
                   style.btn
                 )}
                 onClick={enable.onClick}
+                disabled={enable.loading}
               >
-                {enable.name}
+                {enable.loading ? (
+                  <LoadingSpinner size={30} />
+                ) : (
+                  <>{enable.name}</>
+                )}
               </button>
             )}
             <div style={{ margin: '0 30px' }} className="font-bold">
@@ -59,7 +66,7 @@ const WarningAlertModal = ({
               <button
                 type="button"
                 className={classname(
-                  'outline-none focus:outline-none text-14 bg-f1',
+                  'outline-none focus:outline-none text-14 bg-f1 font-bold',
                   style.btn
                 )}
                 onClick={disable.onClick}

@@ -4,8 +4,6 @@ import Header from '@/components/Shared/Header/Header';
 import GoBack from './Shared/GoBack';
 import { useRouter } from 'next/router';
 import style from './Style.module.scss';
-import classname from 'classnames';
-import { Icon } from '@iconify/react';
 import Setup from './Quiz/Setup/Setup';
 import SetupButtonContainer from './SetupButton/SetupButtonContainer';
 
