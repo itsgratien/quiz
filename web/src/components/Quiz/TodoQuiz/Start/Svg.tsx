@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './StartQuiz.module.scss';
+import style from './Start.module.scss';
 
 const Svg = () => {
   return (
