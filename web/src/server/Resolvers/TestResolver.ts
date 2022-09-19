@@ -7,6 +7,7 @@ import {
   Query,
   Authorized,
   Arg,
+  UseMiddleware,
 } from 'type-graphql';
 import * as TestTg from '@/server/TypeGraphql/Test';
 import * as UserType from '@/generated/User';
@@ -16,9 +17,14 @@ import format from '@/server/Helpers/FormatHelper';
 import { attendantModel } from '../Models/AttendantModel';
 import { TestStatus } from '@/generated/Enum';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
-import { generatePagination, generateSlug } from '../Helpers/SharedHelper';
+import {
+  generatePagination,
+  generateSlug,
+  decryptFunc,
+} from '../Helpers/SharedHelper';
 import { PaginationArgs } from '../TypeGraphql/Question';
 import { format as formatDate, compareDesc } from 'date-fns';
+import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
 
 @Resolver()
 export class TestResolver extends AttendantHelper {
@@ -173,6 +179,24 @@ export class TestResolver extends AttendantHelper {
 
       return {
         data: format.getTest(find) as Test,
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @UseMiddleware(verifyTestUri)
+  @Mutation(() => TestTg.VerifyTestUriResponse)
+  async verifyTestUri(
+    @Args() args: TestTg.VerifyTestUriArgs
+  ): Promise<TestTg.VerifyTestUriResponse> {
+    try {
+      const testId = decryptFunc(args.test);
+
+      const attendantId = decryptFunc(args.attendant);
+
+      return {
+        message: 'welcome',
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

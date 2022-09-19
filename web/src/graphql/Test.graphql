@@ -69,3 +69,10 @@ query GetSingleTest($slug: String!) {
     error
   }
 }
+
+mutation VerifyTestUri($test: String!, $attendant: String!) {
+  verifyTestUri(test: $test, attendant: $attendant) {
+    message
+    error
+  }
+}

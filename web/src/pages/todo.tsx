@@ -1,11 +1,12 @@
 import React from 'react';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import StartQuiz from '@/components/Quiz/TodoQuiz/Start/Start';
 import { TodoContext } from '@/contexts/TodoContext';
 import { AttendantStatus } from '@/generated/Enum';
 import Todo from '@/components/Quiz/TodoQuiz/CandidateQuiz/CandidateQuiz';
 
-const DoQuiz = () => {
+const TodoQuiz = () => {
   return (
     <>
       <Head>
@@ -27,4 +28,22 @@ const DoQuiz = () => {
   );
 };
 
-export default DoQuiz;
+export default TodoQuiz;
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { query } = context;
+
+  const notFoundRedirect = {
+    notFound: true,
+  };
+
+  if (query.test && query.attendant) {
+    console.log(query);
+    return {
+      props: {},
+    };
+  }
+  return notFoundRedirect;
+};

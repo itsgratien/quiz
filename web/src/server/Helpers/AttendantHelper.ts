@@ -65,6 +65,6 @@ export class AttendantHelper {
 
     const encryptAttendantId = crypto.encrypt(attendantId);
 
-    return `http://localhost:4000/assessment/?test=${encryptTestId}&attendant=${encryptAttendantId}`;
+    return `http://localhost:3000/assessment/?test=${encryptTestId}&attendant=${encryptAttendantId}`;
   };
 }

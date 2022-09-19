@@ -249,6 +249,7 @@ export type Mutation = {
   logout: GetUserResponse;
   publishTest: AddTestResponse;
   setupMultipleChoiceQuestion: AddQuestionResponse;
+  verifyTestUri: VerifyTestUriResponse;
 };
 
 
@@ -323,6 +324,12 @@ export type MutationSetupMultipleChoiceQuestionArgs = {
   solutions: Array<Scalars['String']>;
   testId?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
+};
+
+
+export type MutationVerifyTestUriArgs = {
+  attendant: Scalars['String'];
+  test: Scalars['String'];
 };
 
 export type Query = {
@@ -437,6 +444,18 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
+export type VerifyTestUriResponse = {
+  __typename?: 'VerifyTestUriResponse';
+  data?: Maybe<Test>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  totalDocs?: Maybe<Scalars['Float']>;
+  totalPages?: Maybe<Scalars['Float']>;
+};
+
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
 
 export type GetAttendantByTestQueryVariables = Exact<{
@@ -544,6 +563,14 @@ export type GetSingleTestQueryVariables = Exact<{
 
 
 export type GetSingleTestQuery = { __typename?: 'Query', getSingleTest: { __typename?: 'GetSingleTestResponse', error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
+
+export type VerifyTestUriMutationVariables = Exact<{
+  test: Scalars['String'];
+  attendant: Scalars['String'];
+}>;
+
+
+export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null } };
 
 export type UserFragment = { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null };
 
@@ -1124,6 +1151,41 @@ export function useGetSingleTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetSingleTestQueryHookResult = ReturnType<typeof useGetSingleTestQuery>;
 export type GetSingleTestLazyQueryHookResult = ReturnType<typeof useGetSingleTestLazyQuery>;
 export type GetSingleTestQueryResult = Apollo.QueryResult<GetSingleTestQuery, GetSingleTestQueryVariables>;
+export const VerifyTestUriDocument = gql`
+    mutation VerifyTestUri($test: String!, $attendant: String!) {
+  verifyTestUri(test: $test, attendant: $attendant) {
+    message
+    error
+  }
+}
+    `;
+export type VerifyTestUriMutationFn = Apollo.MutationFunction<VerifyTestUriMutation, VerifyTestUriMutationVariables>;
+
+/**
+ * __useVerifyTestUriMutation__
+ *
+ * To run a mutation, you first call `useVerifyTestUriMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyTestUriMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyTestUriMutation, { data, loading, error }] = useVerifyTestUriMutation({
+ *   variables: {
+ *      test: // value for 'test'
+ *      attendant: // value for 'attendant'
+ *   },
+ * });
+ */
+export function useVerifyTestUriMutation(baseOptions?: Apollo.MutationHookOptions<VerifyTestUriMutation, VerifyTestUriMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyTestUriMutation, VerifyTestUriMutationVariables>(VerifyTestUriDocument, options);
+      }
+export type VerifyTestUriMutationHookResult = ReturnType<typeof useVerifyTestUriMutation>;
+export type VerifyTestUriMutationResult = Apollo.MutationResult<VerifyTestUriMutation>;
+export type VerifyTestUriMutationOptions = Apollo.BaseMutationOptions<VerifyTestUriMutation, VerifyTestUriMutationVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   getUser {

@@ -1,7 +1,7 @@
 import { Field, ObjectType, ClassType, ArgsType } from 'type-graphql';
 import { Test } from '@/server/Models/TestModel';
 import { ErrorsT } from './User';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsEmpty, MinLength } from 'class-validator';
 
 export function CustomResponse<Data>(DataClass: ClassType<Data>) {
   @ObjectType({ isAbstract: true })
@@ -79,3 +79,17 @@ export class GetMyTestResponse extends CustomResponse(Test) {
 
 @ObjectType()
 export class GetSingleTestResponse extends CustomResponse(Test) {}
+
+@ArgsType()
+export class VerifyTestUriArgs {
+  @Field()
+  @IsNotEmpty()
+  test: string;
+
+  @Field()
+  @IsNotEmpty({ message: 'Attendant is required' })
+  attendant: string;
+}
+
+@ObjectType()
+export class VerifyTestUriResponse extends CustomResponse(Test) {}
