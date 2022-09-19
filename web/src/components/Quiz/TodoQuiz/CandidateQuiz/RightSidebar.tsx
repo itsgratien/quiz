@@ -3,6 +3,7 @@ import style from './CandidateQuiz.module.scss';
 import classname from 'classnames';
 import { Attendant } from '@/generated/graphql';
 import { Icon } from '@iconify/react';
+import { instructions } from '@/utils/Static';
 
 const RightSidebar = ({
   candidate,
@@ -38,6 +39,28 @@ const RightSidebar = ({
           >
             What caused UI to crash
           </span>
+        </div>
+        <div className={classname(style.choices, 'relative')}>
+          <ul>
+            {instructions.map((item, itemKey) => (
+              <li
+                className={classname(
+                  'relative flex',
+                  item.length <= 70 ? 'items-center' : 'items-start'
+                )}
+                key={itemKey}
+              >
+                <button
+                  type="button"
+                  className={classname(
+                    'outline-none focus:outline-none',
+                    style.btn
+                  )}
+                ></button>
+                <span className="text-14">{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

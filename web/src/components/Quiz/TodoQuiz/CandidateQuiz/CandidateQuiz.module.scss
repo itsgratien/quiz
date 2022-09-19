@@ -77,3 +77,20 @@
     padding-bottom: 80px;
   }
 }
+.choices {
+  margin-top: 20px;
+  padding: 70px;
+  padding-left: 100px;
+  li {
+    margin: 20px 0px;
+    .btn {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(217, 217, 217, 1);
+    }
+    span {
+      margin-left: 10px;
+      width: 500px;
+    }
+  }
+}
