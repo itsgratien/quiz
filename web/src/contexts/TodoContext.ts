@@ -1,7 +1,7 @@
 import React from 'react';
 import { AttendantStatus } from '@/generated/Enum';
 
-export const DoQuizContext = React.createContext<{
+export const TodoContext = React.createContext<{
   status?: AttendantStatus;
   loading?: boolean;
 }>({});
