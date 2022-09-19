@@ -13,7 +13,7 @@ const LeftSidebar = ({
 
   const handleActive = (value: string) => setActive(value);
   return (
-    <div className={classname('fixed top-0 bottom-0', style.leftSidebar)}>
+    <div className={classname('fixed top-0 bottom-0 z-50', style.leftSidebar)}>
       <div className={classname('font-bold text-black', style.testTitle)}>
         {title}
       </div>
