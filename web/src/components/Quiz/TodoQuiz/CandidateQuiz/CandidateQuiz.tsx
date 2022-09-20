@@ -9,7 +9,7 @@ const CandidateQuiz = () => {
     <div className={classname('bg-white w-full', style.candidateQuiz)}>
       <div className={classname('relative')}>
         <LeftSidebar />
-        <RightSidebar questionId="question" />
+        <RightSidebar />
       </div>
     </div>
   );

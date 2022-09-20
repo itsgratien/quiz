@@ -1,13 +1,17 @@
 export class AnswerHelper {
-  getMCQGrade = (answers: string[], userAnswers: string[]) => {
+  getMCQGrade = (solutions: string[], answers: string[], points?: number) => {
     const totalPercentage = 100;
 
     let grade = 0;
 
-    for (const a of userAnswers) {
-      if (answers.includes(a)) {
-        const calculate = totalPercentage / answers.length;
-        grade += calculate;
+    if (solutions.length < answers.length) {
+      grade = 0;
+    } else {
+      for (const a of answers) {
+        if (solutions.includes(a)) {
+          const calculate = totalPercentage / answers.length;
+          grade += calculate;
+        }
       }
     }
 

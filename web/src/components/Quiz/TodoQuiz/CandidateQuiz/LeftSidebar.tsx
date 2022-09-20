@@ -20,11 +20,18 @@ const LeftSidebar = () => {
     (value: string) => {
       if (toggleQuestionId) {
         toggleQuestionId(value);
-        setActive(value === questionId ? false : true);
+        setActive(true);
       }
     },
-    [questionId, toggleQuestionId]
+    [toggleQuestionId]
   );
+
+  const handleTitle = (value: string) => {
+    if (value.length > 105) {
+      return `${value.substring(0, 105)}...`;
+    }
+    return value;
+  };
 
   if (!test) {
     return null;
@@ -58,7 +65,7 @@ const LeftSidebar = () => {
                     >
                       <div className={classname(style.container, 'bg-white')}>
                         <div className={classname('text-black text-14')}>
-                          {item.title}
+                          {handleTitle(item.title)}
                         </div>
                         <div
                           className={classname(

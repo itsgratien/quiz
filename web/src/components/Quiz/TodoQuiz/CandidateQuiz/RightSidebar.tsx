@@ -2,13 +2,41 @@ import React from 'react';
 import style from './CandidateQuiz.module.scss';
 import classname from 'classnames';
 import { Icon } from '@iconify/react';
-import { instructions } from '@/utils/Static';
 import useTodo from '@/hooks/useTodo';
+import { useGetQuestionLazyQuery } from '@/generated/graphql';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import { toast } from 'react-hot-toast';
+import Empty from './Empty';
+import RightBottom from './RightBottom';
+import GetQuestion from './GetQuestion';
+import { Question } from '@/generated/graphql';
 
-const RightSidebar = ({}: { questionId: string }) => {
-  const [show, setShow] = React.useState<boolean>(false);
+const RightSidebar = () => {
+  const { attendant: candidate, questionId } = useTodo();
 
-  const { attendant: candidate } = useTodo();
+  const [getQuestionFunc, { data, loading, error }] = useGetQuestionLazyQuery({
+    fetchPolicy: 'no-cache',
+  });
+
+  React.useEffect(() => {
+    if (questionId) {
+      getQuestionFunc({ variables: { id: questionId } });
+    }
+  }, [getQuestionFunc, questionId]);
+
+  React.useEffect(() => {
+    if (data && data.getQuestion) {
+      if (data.getQuestion.error) {
+        toast.error(data.getQuestion.error);
+      }
+    }
+  }, [data]);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error('Something Went Wrong');
+    }
+  }, [error]);
 
   if (!candidate) {
     return null;
@@ -31,85 +59,25 @@ const RightSidebar = ({}: { questionId: string }) => {
           </div>
         </div>
       </div>
-      {show ? (
-        <>
-          <div className={classname(style.qDetail)}>
-            <div className={classname('flex flex-col', style.qHeading)}>
-              <span className="text-12" style={{ color: 'rgba(0, 0, 0, 0.5)' }}>
-                question
-              </span>
-              <span
-                className={classname('font-bold text-black mt-2')}
-                style={{ fontSize: '18px' }}
-              >
-                What caused UI to crash
-              </span>
-            </div>
-            <div className={classname(style.choices, 'relative')}>
-              <ul>
-                {instructions.map((item, itemKey) => (
-                  <li
-                    className={classname(
-                      'relative flex',
-                      item.length <= 70 ? 'items-center' : 'items-start'
-                    )}
-                    key={itemKey}
-                  >
-                    <button
-                      type="button"
-                      className={classname(
-                        'outline-none focus:outline-none',
-                        style.btn
-                      )}
-                    ></button>
-                    <span className="text-14">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div
-            className={classname(
-              'fixed bottom-0 bg-white right-0 left-0 bg-white',
-              style.footer
-            )}
-          >
-            <button
-              type="button"
-              className={classname(
-                'outline-none focus:outline-none uppercase text-14 text-white relative',
-                style.submitBtn
-              )}
-            >
-              SUBMIT ANSWER
-            </button>
-          </div>
-        </>
-      ) : (
+
+      {loading ? (
         <div
-          className={classname(
-            style.emptySpace,
-            'flex items-center justify-center flex-col'
-          )}
-          style={{ height: '60vh' }}
+          className="text-center flex items-center justify-center"
+          style={{ height: '70vh' }}
         >
-          <Icon
-            icon="majesticons:paper-fold-line"
-            fontSize={100}
-            color="rgba(0, 0, 0, 0.5)"
-          />
-          <div
-            className={classname('text-12')}
-            style={{
-              width: '281px',
-              marginTop: '28px',
-              color: 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            use the left side where there are a list of questions. click on one
-            if you would like to open it
-          </div>
+          <LoadingSpinner />
         </div>
+      ) : (
+        <>
+          {data && data.getQuestion && data.getQuestion.data ? (
+            <>
+              <GetQuestion question={data.getQuestion.data as Question} />
+              <RightBottom />
+            </>
+          ) : (
+            <Empty />
+          )}
+        </>
       )}
     </div>
   );

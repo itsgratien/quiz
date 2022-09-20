@@ -8,10 +8,11 @@ import { questionModel } from '@/server/Models/QuestionModel';
 import { AnswerHelper } from '@/server/Helpers/AnswerHelper';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { AttendantStatus } from '@/generated/Enum';
+import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
 
 @Resolver()
 export class AnswerResolver extends AnswerHelper {
-  @UseMiddleware(AnswerMiddleware.verifyArgs)
+  @UseMiddleware([verifyTestUri, AnswerMiddleware.verifyArgs])
   @Mutation(() => AnswerTg.AnswerResponse)
   async answerMcQuestion(
     @Args() args: AnswerTg.AnswerMcArgs

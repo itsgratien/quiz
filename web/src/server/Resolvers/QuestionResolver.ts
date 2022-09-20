@@ -109,9 +109,12 @@ export class QuestionResolver {
 
   @Query(() => questionTg.GetQuestionResponse)
   async getQuestion(
-    @Args() arg: questionTg.GetQuestionArgs
+    @Args() arg: questionTg.GetQuestionArgs,
+    @Ctx() ctx: UserType.ContextT
   ): Promise<questionTg.GetQuestionResponse> {
     try {
+      const { req } = ctx;
+
       const findBySlug = await questionModel.findOne({ slug: arg.id });
 
       let find = findBySlug;
@@ -125,7 +128,13 @@ export class QuestionResolver {
       }
 
       return {
-        data: format.getQuestion(find, false),
+        data: req.session.userId
+          ? format.getQuestion(find, false)
+          : {
+              ...format.getQuestion(find, false),
+              solutions: undefined,
+              points: 0,
+            },
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
