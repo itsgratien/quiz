@@ -8,16 +8,8 @@ const CandidateQuiz = () => {
   return (
     <div className={classname('bg-white w-full', style.candidateQuiz)}>
       <div className={classname('relative')}>
-        <LeftSidebar title="Test For Programming Language" questionId="" />
-        <RightSidebar
-          candidate={{
-            _id: 'none',
-            names: 'john doe',
-            email: 'johndoe@gmail.com',
-            phoneNumber: '+250786601005',
-          }}
-          questionId="question"
-        />
+        <LeftSidebar />
+        <RightSidebar questionId="question" />
       </div>
     </div>
   );

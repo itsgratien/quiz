@@ -1,17 +1,18 @@
 import React from 'react';
 import style from './CandidateQuiz.module.scss';
 import classname from 'classnames';
-import { Attendant } from '@/generated/graphql';
 import { Icon } from '@iconify/react';
 import { instructions } from '@/utils/Static';
+import useTodo from '@/hooks/useTodo';
 
-const RightSidebar = ({
-  candidate,
-}: {
-  candidate: Attendant;
-  questionId: string;
-}) => {
-  const [show, setShow] = React.useState<boolean>(true);
+const RightSidebar = ({}: { questionId: string }) => {
+  const [show, setShow] = React.useState<boolean>(false);
+
+  const { attendant: candidate } = useTodo();
+
+  if (!candidate) {
+    return null;
+  }
 
   return (
     <div className={classname(style.rightSidebar)}>

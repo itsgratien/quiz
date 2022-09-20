@@ -75,11 +75,11 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
     }
   }, [changeStatusResponse]);
 
-  React.useEffect(()=> {
-    if(changeStatusLoading || whoIsLoading){
-      setLoading(changeStatusLoading || whoIsLoading)
+  React.useEffect(() => {
+    if (changeStatusLoading || whoIsLoading) {
+      setLoading(changeStatusLoading || whoIsLoading);
     }
-  }, [changeStatusLoading, whoIsLoading])
+  }, [changeStatusLoading, whoIsLoading]);
 
   return (
     <>

@@ -1,21 +1,22 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './CandidateQuiz.module.scss';
+import useTodo from '@/hooks/useTodo';
 
-const LeftSidebar = ({
-  title,
-  questionId,
-}: {
-  title: string;
-  questionId: string;
-}) => {
+const LeftSidebar = () => {
   const [active, setActive] = React.useState<string>();
+
+  const { test } = useTodo();
+
+  if (!test) {
+    return null;
+  }
 
   const handleActive = (value: string) => setActive(value);
   return (
     <div className={classname('fixed top-0 bottom-0 z-50', style.leftSidebar)}>
       <div className={classname('font-bold text-black', style.testTitle)}>
-        {title}
+        {test.title}
       </div>
       <div className={classname(style.questions)}>
         <div className={classname('font-bold', style.qTitle)}>Questions</div>
