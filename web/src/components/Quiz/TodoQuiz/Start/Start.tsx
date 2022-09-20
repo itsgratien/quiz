@@ -5,9 +5,12 @@ import { Icon } from '@iconify/react';
 import Svg from './Svg';
 import Header from './Header';
 import { instructions } from '@/utils/Static';
+import useTodo from '@/hooks/useTodo';
 
 const Start = () => {
-  const [allow, setAllow] = React.useState<boolean>(true);
+  const todo = useTodo();
+
+  const { test, numberOfQuestions } = todo;
 
   return (
     <div className={classname('relative w-full', style.startQuiz)}>
@@ -15,19 +18,17 @@ const Start = () => {
       <div className={classname('absolute top-0 left-0 right-0', style.main)}>
         <Header />
         <div className={classname('relative mx-auto bg-white', style.details)}>
-          {allow ? (
+          {test ? (
             <>
-              <div
-                className={style.testName}
-              >{`Javascript for beginner's`}</div>
+              <div className={style.testName}>{test.title}</div>
               <div className={style.date}>
                 <span>Starting From</span>
                 <span className="font-bold ml-1">
-                  {new Date().toDateString()}
+                  {new Date(test.startDate).toDateString()}
                 </span>
                 <span className="ml-1">To</span>
                 <span className="font-bold ml-1">
-                  {new Date().toDateString()}
+                  {new Date(test.endDate).toDateString()}
                 </span>
               </div>
               <div className={classname(style.question)}>
@@ -38,7 +39,7 @@ const Start = () => {
                   )}
                   style={{ width: '80px', height: '80px', fontSize: '30px' }}
                 >
-                  50
+                  {numberOfQuestions}
                 </div>
                 <div className={style.line}></div>
                 <div

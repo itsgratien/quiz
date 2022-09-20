@@ -22,16 +22,10 @@ export const verifyTestUri: MiddlewareFn = async ({ args }, next) => {
     return errorResponse('Quiz Not Found');
   }
 
-  const compareStartDate = compareAsc(new Date(), new Date(findTest.startDate));
-
-  if (compareStartDate === 1) {
-    return errorResponse('Quiz Was Expired');
-  }
-
   const compareEndDate = compareAsc(new Date(), new Date(findTest.endDate));
 
   if (compareEndDate === 1) {
     return errorResponse('Quiz Was Expired');
   }
-  next();
+  return next();
 };

@@ -74,5 +74,13 @@ mutation VerifyTestUri($test: String!, $attendant: String!) {
   verifyTestUri(test: $test, attendant: $attendant) {
     message
     error
+    verified
+    attendant {
+      ...Attendant
+    }
+    test {
+      ...Test
+    }
+    numberOfQuestions
   }
 }

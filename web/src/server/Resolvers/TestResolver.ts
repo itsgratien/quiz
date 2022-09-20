@@ -25,6 +25,8 @@ import {
 import { PaginationArgs } from '../TypeGraphql/Question';
 import { format as formatDate, compareDesc } from 'date-fns';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
+import { questionModel } from '../Models/QuestionModel';
+import mongoose from 'mongoose';
 
 @Resolver()
 export class TestResolver extends AttendantHelper {
@@ -191,15 +193,40 @@ export class TestResolver extends AttendantHelper {
     @Args() args: TestTg.VerifyTestUriArgs
   ): Promise<TestTg.VerifyTestUriResponse> {
     try {
-      const testId = decryptFunc(args.test);
-
       const attendantId = decryptFunc(args.attendant);
 
+      const testId = decryptFunc(args.test);
+
+      const findAttendant = await attendantModel.findById(attendantId);
+
+      const findTest = await testModel.findById(testId);
+
+      const findLinkedQuestion = await questionModel
+        .find({
+          'tests.test': new mongoose.Types.ObjectId(testId),
+        })
+        .countDocuments();
+
+      if (findAttendant && findTest) {
+        return {
+          verified: true,
+          attendant: format.getAttendant(findAttendant),
+          test: {
+            ...format.getTest(findTest),
+            questions: undefined,
+            attendants: undefined,
+          },
+          numberOfQuestions: findLinkedQuestion,
+        };
+      }
       return {
-        message: 'welcome',
+        verified: false,
       };
     } catch (error) {
-      return errorResponse(undefined, HttpCode.ServerError);
+      return {
+        verified: false,
+        ...errorResponse(undefined, HttpCode.ServerError),
+      };
     }
   }
 }

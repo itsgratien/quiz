@@ -1,10 +1,17 @@
 import React from 'react';
 import { AttendantStatus } from '@/generated/Enum';
+import { Attendant, Test } from '@/generated/graphql';
 
 export const TodoContext = React.createContext<{
-  status?: AttendantStatus;
+  status?: AttendantStatus | string;
   loading?: boolean;
+  attendant?: Attendant;
+  test?: Test;
+  numberOfQuestions?: number;
+  error?: string;
 }>({});
+
+export default TodoContext;
 
 // steps to do quiz
 // - verify user

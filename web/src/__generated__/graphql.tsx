@@ -446,14 +446,18 @@ export type User = {
 
 export type VerifyTestUriResponse = {
   __typename?: 'VerifyTestUriResponse';
+  attendant: Attendant;
   data?: Maybe<Test>;
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
   nextPage?: Maybe<Scalars['Float']>;
+  numberOfQuestions: Scalars['Float'];
   status?: Maybe<Scalars['Float']>;
+  test: Test;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
+  verified: Scalars['Boolean'];
 };
 
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
@@ -570,7 +574,7 @@ export type VerifyTestUriMutationVariables = Exact<{
 }>;
 
 
-export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null } };
+export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null, verified: boolean, numberOfQuestions: number, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null }, test: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } } };
 
 export type UserFragment = { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null };
 
@@ -1156,9 +1160,18 @@ export const VerifyTestUriDocument = gql`
   verifyTestUri(test: $test, attendant: $attendant) {
     message
     error
+    verified
+    attendant {
+      ...Attendant
+    }
+    test {
+      ...Test
+    }
+    numberOfQuestions
   }
 }
-    `;
+    ${AttendantFragmentDoc}
+${TestFragmentDoc}`;
 export type VerifyTestUriMutationFn = Apollo.MutationFunction<VerifyTestUriMutation, VerifyTestUriMutationVariables>;
 
 /**
