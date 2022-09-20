@@ -7,16 +7,24 @@ import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import NotFound from '../../Setup/View/NotFound';
 
 const LeftSidebar = () => {
-  const [active, setActive] = React.useState<string>();
+  const [active, setActive] = React.useState<boolean>();
 
-  const { test } = useTodo();
+  const { test, toggleQuestionId, questionId } = useTodo();
 
   const { loading, items } = useGetQuestion({
     testId: test?._id,
     limit: 30,
   });
 
-  const handleActive = (value: string) => setActive(value);
+  const handleChangeQuestionId = React.useCallback(
+    (value: string) => {
+      if (toggleQuestionId) {
+        toggleQuestionId(value);
+        setActive(value === questionId ? false : true);
+      }
+    },
+    [questionId, toggleQuestionId]
+  );
 
   if (!test) {
     return null;
@@ -43,9 +51,9 @@ const LeftSidebar = () => {
                     <li
                       className={classname(
                         style.listItem,
-                        active === 'aban' && style.activeList
+                        active && questionId === item._id && style.activeList
                       )}
-                      onClick={() => handleActive('aban')}
+                      onClick={() => handleChangeQuestionId(item._id)}
                       key={item._id}
                     >
                       <div className={classname(style.container, 'bg-white')}>

@@ -10,6 +10,9 @@ export const TodoContext = React.createContext<{
   numberOfQuestions?: number;
   error?: string;
   changeStatus?: (value: string) => void;
+  authError?: string;
+  questionId?: string;
+  toggleQuestionId?: (value: string) => void;
 }>({});
 
 export default TodoContext;

@@ -4,8 +4,18 @@ import { testModel } from '@/server/Models/TestModel';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { compareAsc } from 'date-fns';
 import { decryptFunc } from '@/server/Helpers/SharedHelper';
+import { ContextT } from '@/generated/User';
 
-export const verifyTestUri: MiddlewareFn = async ({ args }, next) => {
+export const verifyTestUri: MiddlewareFn<ContextT> = async (
+  { args, context },
+  next
+) => {
+  const { req } = context;
+
+  if (req.session && req.session.userId) {
+    return errorResponse('You are not allowed to perform this action');
+  }
+
   if (!args.test || !args.attendant) {
     return errorResponse('Quiz Not Found');
   }

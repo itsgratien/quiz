@@ -26,6 +26,8 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
 
   const [loading, setLoading] = React.useState<boolean>(true);
 
+  const [questionId, setQuestionId] = React.useState<string>();
+
   const router = useRouter();
 
   const [whoIsDoingQuizFunc, { data, loading: whoIsLoading, refetch }] =
@@ -45,6 +47,10 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
         attendant: String(attendant),
       },
     });
+  };
+
+  const toggleQuestionId = (value: string) => {
+    setQuestionId(value);
   };
 
   React.useEffect(() => {
@@ -94,6 +100,8 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
           numberOfQuestions,
           loading,
           changeStatus: handleChangeStatus,
+          questionId,
+          toggleQuestionId,
         }}
       >
         <TodoContext.Consumer>
