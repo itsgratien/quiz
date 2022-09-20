@@ -57,3 +57,22 @@ query GetAttendantById($attendantId: String!) {
     error
   }
 }
+
+query WhoIsDoingQuiz($test: String!, $attendant: String!) {
+  whoIsDoingQuiz(test: $test, attendant: $attendant) {
+    error
+    attendant {
+      ...Attendant
+    }
+  }
+}
+
+mutation ChangeStatus($test: String!, $attendant: String!, $status: String!) {
+  changeStatus(test: $test, attendant: $attendant, status: $status) {
+    message
+    error
+    attendant {
+      ...Attendant
+    }
+  }
+}

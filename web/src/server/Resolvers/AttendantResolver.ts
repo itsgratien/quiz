@@ -6,9 +6,11 @@ import {
   Arg,
   Args,
   Query,
+  UseMiddleware,
 } from 'type-graphql';
 import { attendantModel, AttendantRefTest } from '../Models/AttendantModel';
 import {
+  decryptFunc,
   errorResponse,
   generatePagination,
 } from '@/server/Helpers/SharedHelper';
@@ -20,6 +22,7 @@ import { testModel } from '@/server/Models/TestModel';
 import { AttendantHelper } from '../Helpers/AttendantHelper';
 import { AssignAttendantToTestArgs } from '@/generated/Attendant';
 import { AttendantStatus } from '@/generated/Enum';
+import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
 
 @Resolver()
 export class AttendantResolver extends AttendantHelper {
@@ -204,6 +207,54 @@ export class AttendantResolver extends AttendantHelper {
       return {
         data: find ? format.getAttendant(find, refTest) : undefined,
       };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @UseMiddleware(verifyTestUri)
+  @Query(() => attendantTg.WhoIsDoingQuizResponse)
+  async whoIsDoingQuiz(
+    @Args() args: attendantTg.WhoIsDoingQuizArgs
+  ): Promise<attendantTg.WhoIsDoingQuizResponse> {
+    try {
+      const attendantId = decryptFunc(args.attendant);
+
+      const findAttendant = await attendantModel.findById(attendantId);
+
+      if (!findAttendant) {
+        return errorResponse('Attendant Not Found');
+      }
+      return {
+        attendant: format.getAttendant(findAttendant),
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @UseMiddleware(verifyTestUri)
+  @Mutation(() => attendantTg.WhoIsDoingQuizResponse)
+  async changeStatus(
+    @Args() args: attendantTg.ChangeStatusArgs
+  ): Promise<attendantTg.WhoIsDoingQuizResponse> {
+    try {
+      const attendantId = decryptFunc(args.attendant);
+
+      const updateStatus = await attendantModel.findOneAndUpdate(
+        { _id: attendantId },
+        { $set: { status: args.status } },
+        { returnOriginal: false }
+      );
+
+      if (updateStatus) {
+        return {
+          message: 'Updated Successfully',
+          attendant: format.getAttendant(updateStatus),
+        };
+      }
+
+      return errorResponse('Unable to continue this action');
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
     }

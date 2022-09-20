@@ -9,6 +9,7 @@ export const TodoContext = React.createContext<{
   test?: Test;
   numberOfQuestions?: number;
   error?: string;
+  changeStatus?: (value: string) => void;
 }>({});
 
 export default TodoContext;

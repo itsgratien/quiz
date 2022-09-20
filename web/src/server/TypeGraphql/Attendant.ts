@@ -1,8 +1,9 @@
 import { ObjectType, ArgsType, Field, InputType } from 'type-graphql';
 import { Attendant } from '../Models/AttendantModel';
-import { CustomResponse } from './Test';
+import { CustomResponse, VerifyTestUriArgs } from './Test';
 import { IsNotEmpty, IsEmail } from 'class-validator';
 import { PaginationArgs } from './Question';
+import { AttendantStatus } from '@/generated/Enum';
 
 @InputType()
 export class AddAttendantArgs {
@@ -48,4 +49,19 @@ export class GetAttendantByTestResponse extends CustomResponse(Attendant) {
 
   @Field({ nullable: true })
   inProgressDoc?: number;
+}
+
+@ObjectType()
+export class WhoIsDoingQuizResponse extends CustomResponse(Attendant) {
+  @Field(() => Attendant)
+  attendant?: Attendant;
+}
+
+@ArgsType()
+export class WhoIsDoingQuizArgs extends VerifyTestUriArgs {}
+
+@ArgsType()
+export class ChangeStatusArgs extends VerifyTestUriArgs {
+  @Field()
+  status?: string;
 }

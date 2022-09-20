@@ -245,6 +245,7 @@ export type Mutation = {
   answerMcQuestion: AnswerResponse;
   authenticate: AuthenticateResponse;
   changeQuestionStatus: AddQuestionResponse;
+  changeStatus: WhoIsDoingQuizResponse;
   editMcQuestion: AddQuestionResponse;
   logout: GetUserResponse;
   publishTest: AddTestResponse;
@@ -299,6 +300,13 @@ export type MutationChangeQuestionStatusArgs = {
 };
 
 
+export type MutationChangeStatusArgs = {
+  attendant: Scalars['String'];
+  status: Scalars['String'];
+  test: Scalars['String'];
+};
+
+
 export type MutationEditMcQuestionArgs = {
   assignToTest?: InputMaybe<Scalars['Boolean']>;
   choices: Array<Scalars['String']>;
@@ -342,6 +350,7 @@ export type Query = {
   getQuestions: GetQuestionsResponse;
   getSingleTest: GetSingleTestResponse;
   getUser: GetUserResponse;
+  whoIsDoingQuiz: WhoIsDoingQuizResponse;
 };
 
 
@@ -383,6 +392,12 @@ export type QueryGetQuestionsArgs = {
 
 export type QueryGetSingleTestArgs = {
   slug: Scalars['String'];
+};
+
+
+export type QueryWhoIsDoingQuizArgs = {
+  attendant: Scalars['String'];
+  test: Scalars['String'];
 };
 
 export type Question = {
@@ -460,6 +475,19 @@ export type VerifyTestUriResponse = {
   verified: Scalars['Boolean'];
 };
 
+export type WhoIsDoingQuizResponse = {
+  __typename?: 'WhoIsDoingQuizResponse';
+  attendant: Attendant;
+  data?: Maybe<Attendant>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  totalDocs?: Maybe<Scalars['Float']>;
+  totalPages?: Maybe<Scalars['Float']>;
+};
+
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
 
 export type GetAttendantByTestQueryVariables = Exact<{
@@ -493,6 +521,23 @@ export type GetAttendantByIdQueryVariables = Exact<{
 
 
 export type GetAttendantByIdQuery = { __typename?: 'Query', getAttendantById: { __typename?: 'GetAttendantByTestResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null } };
+
+export type WhoIsDoingQuizQueryVariables = Exact<{
+  test: Scalars['String'];
+  attendant: Scalars['String'];
+}>;
+
+
+export type WhoIsDoingQuizQuery = { __typename?: 'Query', whoIsDoingQuiz: { __typename?: 'WhoIsDoingQuizResponse', error?: string | null, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } };
+
+export type ChangeStatusMutationVariables = Exact<{
+  test: Scalars['String'];
+  attendant: Scalars['String'];
+  status: Scalars['String'];
+}>;
+
+
+export type ChangeStatusMutation = { __typename?: 'Mutation', changeStatus: { __typename?: 'WhoIsDoingQuizResponse', message?: string | null, error?: string | null, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } };
 
 export type QuestionFragment = { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null };
 
@@ -828,6 +873,84 @@ export function useGetAttendantByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetAttendantByIdQueryHookResult = ReturnType<typeof useGetAttendantByIdQuery>;
 export type GetAttendantByIdLazyQueryHookResult = ReturnType<typeof useGetAttendantByIdLazyQuery>;
 export type GetAttendantByIdQueryResult = Apollo.QueryResult<GetAttendantByIdQuery, GetAttendantByIdQueryVariables>;
+export const WhoIsDoingQuizDocument = gql`
+    query WhoIsDoingQuiz($test: String!, $attendant: String!) {
+  whoIsDoingQuiz(test: $test, attendant: $attendant) {
+    error
+    attendant {
+      ...Attendant
+    }
+  }
+}
+    ${AttendantFragmentDoc}`;
+
+/**
+ * __useWhoIsDoingQuizQuery__
+ *
+ * To run a query within a React component, call `useWhoIsDoingQuizQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWhoIsDoingQuizQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWhoIsDoingQuizQuery({
+ *   variables: {
+ *      test: // value for 'test'
+ *      attendant: // value for 'attendant'
+ *   },
+ * });
+ */
+export function useWhoIsDoingQuizQuery(baseOptions: Apollo.QueryHookOptions<WhoIsDoingQuizQuery, WhoIsDoingQuizQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WhoIsDoingQuizQuery, WhoIsDoingQuizQueryVariables>(WhoIsDoingQuizDocument, options);
+      }
+export function useWhoIsDoingQuizLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WhoIsDoingQuizQuery, WhoIsDoingQuizQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WhoIsDoingQuizQuery, WhoIsDoingQuizQueryVariables>(WhoIsDoingQuizDocument, options);
+        }
+export type WhoIsDoingQuizQueryHookResult = ReturnType<typeof useWhoIsDoingQuizQuery>;
+export type WhoIsDoingQuizLazyQueryHookResult = ReturnType<typeof useWhoIsDoingQuizLazyQuery>;
+export type WhoIsDoingQuizQueryResult = Apollo.QueryResult<WhoIsDoingQuizQuery, WhoIsDoingQuizQueryVariables>;
+export const ChangeStatusDocument = gql`
+    mutation ChangeStatus($test: String!, $attendant: String!, $status: String!) {
+  changeStatus(test: $test, attendant: $attendant, status: $status) {
+    message
+    error
+    attendant {
+      ...Attendant
+    }
+  }
+}
+    ${AttendantFragmentDoc}`;
+export type ChangeStatusMutationFn = Apollo.MutationFunction<ChangeStatusMutation, ChangeStatusMutationVariables>;
+
+/**
+ * __useChangeStatusMutation__
+ *
+ * To run a mutation, you first call `useChangeStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeStatusMutation, { data, loading, error }] = useChangeStatusMutation({
+ *   variables: {
+ *      test: // value for 'test'
+ *      attendant: // value for 'attendant'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useChangeStatusMutation(baseOptions?: Apollo.MutationHookOptions<ChangeStatusMutation, ChangeStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeStatusMutation, ChangeStatusMutationVariables>(ChangeStatusDocument, options);
+      }
+export type ChangeStatusMutationHookResult = ReturnType<typeof useChangeStatusMutation>;
+export type ChangeStatusMutationResult = Apollo.MutationResult<ChangeStatusMutation>;
+export type ChangeStatusMutationOptions = Apollo.BaseMutationOptions<ChangeStatusMutation, ChangeStatusMutationVariables>;
 export const SetupMcQuestionDocument = gql`
     mutation SetupMcQuestion($title: String!, $choices: [String!]!, $solutions: [String!]!, $description: String, $testId: String, $assignToTest: Boolean, $points: Float!) {
   setupMultipleChoiceQuestion(

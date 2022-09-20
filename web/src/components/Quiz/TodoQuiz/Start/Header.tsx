@@ -2,8 +2,13 @@ import React from 'react';
 import classname from 'classnames';
 import style from './Start.module.scss';
 import { Icon } from '@iconify/react';
+import { AttendantStatus } from '@/generated/Enum';
+import useTodo from '@/hooks/useTodo';
 
 const Header = () => {
+  const todo = useTodo();
+  const { changeStatus } = todo;
+
   return (
     <div
       className={classname(
@@ -18,6 +23,7 @@ const Header = () => {
           style.startButton,
           'flex items-center justify-center'
         )}
+        onClick={() => changeStatus && changeStatus(AttendantStatus.InProgress)}
       >
         <Icon
           icon="bi:play-circle-fill"
