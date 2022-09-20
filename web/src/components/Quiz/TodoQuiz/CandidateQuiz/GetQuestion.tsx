@@ -2,8 +2,28 @@ import React from 'react';
 import classname from 'classnames';
 import style from './CandidateQuiz.module.scss';
 import { Question } from '@/generated/graphql';
+import { Icon } from '@iconify/react';
 
-const GetQuestion = ({ question }: { question: Question }) => {
+const GetQuestion = ({
+  question,
+  answers,
+  handleAnswer,
+}: {
+  question: Question;
+  answers?: string[];
+  handleAnswer: (value: string) => void;
+}) => {
+  const handleSelectedChoice = (choice: string) => {
+    if (answers) {
+      const find = answers.find((item) => item === choice);
+
+      if (find) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <div className={classname(style.qDetail)}>
       <div className={classname('flex flex-col', style.qHeading)}>
@@ -28,14 +48,24 @@ const GetQuestion = ({ question }: { question: Question }) => {
                     item.length <= 70 ? 'items-center' : 'items-start'
                   )}
                   key={itemKey}
+                  onClick={() => handleAnswer(item)}
                 >
                   <button
                     type="button"
                     className={classname(
-                      'outline-none focus:outline-none',
-                      style.btn
+                      'outline-none focus:outline-none flex items-center justify-center',
+                      style.btn,
+                      handleSelectedChoice(item) && style.btnChecked
                     )}
-                  ></button>
+                  >
+                    {handleSelectedChoice(item) && (
+                      <Icon
+                        icon="bi:check-lg"
+                        fontSize={30}
+                        color="rgba(0, 0, 0, 0.5)"
+                      />
+                    )}
+                  </button>
                   <span className="text-14">{item}</span>
                 </li>
               ))}

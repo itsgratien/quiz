@@ -488,6 +488,16 @@ export type WhoIsDoingQuizResponse = {
   totalPages?: Maybe<Scalars['Float']>;
 };
 
+export type AnswerMcQuestionMutationVariables = Exact<{
+  test: Scalars['String'];
+  attendant: Scalars['String'];
+  question: Scalars['String'];
+  answers: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type AnswerMcQuestionMutation = { __typename?: 'Mutation', answerMcQuestion: { __typename?: 'AnswerResponse', error?: string | null, message?: string | null } };
+
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
 
 export type GetAttendantByTestQueryVariables = Exact<{
@@ -714,6 +724,48 @@ export const TestFragmentDoc = gql`
 }
     ${QuestionFragmentDoc}
 ${AttendantFragmentDoc}`;
+export const AnswerMcQuestionDocument = gql`
+    mutation AnswerMcQuestion($test: String!, $attendant: String!, $question: String!, $answers: [String!]!) {
+  answerMcQuestion(
+    test: $test
+    attendant: $attendant
+    question: $question
+    answers: $answers
+  ) {
+    error
+    message
+  }
+}
+    `;
+export type AnswerMcQuestionMutationFn = Apollo.MutationFunction<AnswerMcQuestionMutation, AnswerMcQuestionMutationVariables>;
+
+/**
+ * __useAnswerMcQuestionMutation__
+ *
+ * To run a mutation, you first call `useAnswerMcQuestionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAnswerMcQuestionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [answerMcQuestionMutation, { data, loading, error }] = useAnswerMcQuestionMutation({
+ *   variables: {
+ *      test: // value for 'test'
+ *      attendant: // value for 'attendant'
+ *      question: // value for 'question'
+ *      answers: // value for 'answers'
+ *   },
+ * });
+ */
+export function useAnswerMcQuestionMutation(baseOptions?: Apollo.MutationHookOptions<AnswerMcQuestionMutation, AnswerMcQuestionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AnswerMcQuestionMutation, AnswerMcQuestionMutationVariables>(AnswerMcQuestionDocument, options);
+      }
+export type AnswerMcQuestionMutationHookResult = ReturnType<typeof useAnswerMcQuestionMutation>;
+export type AnswerMcQuestionMutationResult = Apollo.MutationResult<AnswerMcQuestionMutation>;
+export type AnswerMcQuestionMutationOptions = Apollo.BaseMutationOptions<AnswerMcQuestionMutation, AnswerMcQuestionMutationVariables>;
 export const GetAttendantByTestDocument = gql`
     query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {
   getAttendantByTest(testId: $testId, page: $page, limit: $limit) {

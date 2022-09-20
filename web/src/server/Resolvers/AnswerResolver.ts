@@ -30,7 +30,8 @@ export class AnswerResolver extends AnswerHelper {
 
       const grade = this.getMCQGrade(
         getQuestion.solutions as string[],
-        args.answers
+        args.answers,
+        getQuestion.points
       );
 
       await answerModel.create({

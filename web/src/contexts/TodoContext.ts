@@ -13,6 +13,10 @@ export const TodoContext = React.createContext<{
   authError?: string;
   questionId?: string;
   toggleQuestionId?: (value: string) => void;
+  query?: {
+    test: string;
+    attendant: string;
+  };
 }>({});
 
 export default TodoContext;

@@ -33,6 +33,13 @@ const LeftSidebar = () => {
     return value;
   };
 
+  React.useEffect(() => {
+    if (items && items.length > 0 && toggleQuestionId && !questionId) {
+      toggleQuestionId(items[0]._id);
+      setActive(true);
+    }
+  }, [items, questionId, toggleQuestionId]);
+
   if (!test) {
     return null;
   }

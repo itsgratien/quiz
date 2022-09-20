@@ -102,6 +102,10 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
           changeStatus: handleChangeStatus,
           questionId,
           toggleQuestionId,
+          query: {
+            test: String(router.query.test),
+            attendant: String(router.query.attendant),
+          },
         }}
       >
         <TodoContext.Consumer>

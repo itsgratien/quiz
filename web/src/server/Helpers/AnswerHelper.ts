@@ -1,7 +1,5 @@
 export class AnswerHelper {
-  getMCQGrade = (solutions: string[], answers: string[], points?: number) => {
-    const totalPercentage = 100;
-
+  getMCQGrade = (solutions: string[], answers: string[], points: number) => {
     let grade = 0;
 
     if (solutions.length < answers.length) {
@@ -9,7 +7,7 @@ export class AnswerHelper {
     } else {
       for (const a of answers) {
         if (solutions.includes(a)) {
-          const calculate = totalPercentage / answers.length;
+          const calculate = points / answers.length;
           grade += calculate;
         }
       }
