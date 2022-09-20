@@ -6,7 +6,6 @@ import {
   Ctx,
   Authorized,
   UseMiddleware,
-  Arg,
 } from 'type-graphql';
 import {
   AddQuestionResponse,
@@ -283,15 +282,18 @@ export class QuestionResolver {
     }
   }
 
-  @Authorized()
   @Query(() => questionTg.GetQuestionAssignedToTestResponse)
   async getQuestionAssignedToTest(
-    @Args() args: questionTg.GetQuestionAssignedToTestArgs
+    @Args() args: questionTg.GetQuestionAssignedToTestArgs,
+    @Ctx() context: UserType.ContextT
   ): Promise<questionTg.GetQuestionAssignedToTestResponse> {
     try {
+      const { req } = context;
+
       const filterQuery = {
         'tests.test': new mongoose.Types.ObjectId(args.testId),
       };
+
       const pagination = await generatePagination(
         questionModel,
         args,
@@ -305,7 +307,17 @@ export class QuestionResolver {
         .sort({ updatedAt: -1 });
 
       return {
-        items: find.map((item) => format.getQuestion(item)),
+        items: find.map((item) => {
+          if (req.session && req.session.userId) {
+            return format.getQuestion(item);
+          } else {
+            return {
+              ...format.getQuestion(item),
+              solutions: undefined,
+              points: 0,
+            };
+          }
+        }),
         totalPages: pagination.totalPages,
         totalDocs: pagination.totalDocs,
         testId: args.testId,

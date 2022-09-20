@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGetQuestionAssignedToTestLazyQuery } from '@/generated/graphql';
 import { Question } from '@/server/Models/QuestionModel';
+import { toast } from 'react-hot-toast';
 
 const useGetQuestionAssignedToTest = ({
   testId,
@@ -15,8 +16,10 @@ const useGetQuestionAssignedToTest = ({
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const [getQuestion, { loading: loadingResponse, data, fetchMore, refetch }] =
-    useGetQuestionAssignedToTestLazyQuery();
+  const [
+    getQuestion,
+    { loading: loadingResponse, data, fetchMore, refetch, error },
+  ] = useGetQuestionAssignedToTestLazyQuery();
 
   const handleLoadMore = async () => {
     const newPage = page + 1;
@@ -46,12 +49,22 @@ const useGetQuestionAssignedToTest = ({
   React.useEffect(() => {
     if (data && data.getQuestionAssignedToTest) {
       setLoading(false);
+
+      if (data.getQuestionAssignedToTest.error) {
+        toast.error(data.getQuestionAssignedToTest.error);
+      }
     }
   }, [data]);
 
   React.useEffect(() => {
     setLoading(loadingResponse);
   }, [loadingResponse]);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error('Something Went Wrong');
+    }
+  }, [error]);
 
   return {
     loading,
