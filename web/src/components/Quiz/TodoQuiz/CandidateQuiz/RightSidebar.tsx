@@ -11,13 +11,20 @@ import RightBottom from './RightBottom';
 import GetQuestion from './GetQuestion';
 import { Question, useAnswerMcQuestionMutation } from '@/generated/graphql';
 import WarningModal from '@/components/Shared/Alert/WarningAlertModal';
+import useGetAnswer from '@/hooks/useGetAnswer';
 
 const RightSidebar = () => {
   const [answers, setAnswers] = React.useState<string[]>([]);
 
   const [warn, setWarn] = React.useState<boolean>(false);
 
-  const { attendant: candidate, questionId, query } = useTodo();
+  const { attendant: candidate, questionId, query, test } = useTodo();
+
+  const getAnswerResponse = useGetAnswer({
+    test: test?._id,
+    attendant: candidate?._id,
+    questionId,
+  });
 
   const [getQuestionFunc, { data, loading, error }] = useGetQuestionLazyQuery({
     fetchPolicy: 'no-cache',
@@ -92,6 +99,8 @@ const RightSidebar = () => {
     return null;
   }
 
+  console.log('get', getAnswerResponse);
+
   return (
     <div className={classname(style.rightSidebar)}>
       {warn && (
@@ -119,7 +128,7 @@ const RightSidebar = () => {
         </div>
       </div>
 
-      {loading ? (
+      {loading || getAnswerResponse.loading ? (
         <div
           className="text-center flex items-center justify-center"
           style={{ height: '70vh' }}
@@ -130,12 +139,26 @@ const RightSidebar = () => {
         <>
           {data && data.getQuestion && data.getQuestion.data ? (
             <>
-              <GetQuestion
-                question={data.getQuestion.data as Question}
-                answers={answers}
-                handleAnswer={handleAnswer}
-              />
-              <RightBottom handleSubmit={handleWarn} loading={answerLoading} />
+              {!getAnswerResponse.data && (
+                <>
+                  <GetQuestion
+                    question={data.getQuestion.data as Question}
+                    answers={answers}
+                    handleAnswer={handleAnswer}
+                  />
+                  <RightBottom
+                    handleSubmit={handleWarn}
+                    loading={answerLoading}
+                  />
+                </>
+              )}
+              {getAnswerResponse.data && (
+                <Empty
+                  iconName="akar-icons:circle-check-fill"
+                  message="You have already submitted the answer of 
+                this question"
+                />
+              )}
             </>
           ) : (
             <Empty />

@@ -3,7 +3,13 @@ import classname from 'classnames';
 import style from './CandidateQuiz.module.scss';
 import { Icon } from '@iconify/react';
 
-const Empty = () => {
+const Empty = ({
+  message,
+  iconName,
+}: {
+  message?: string;
+  iconName?: string;
+}) => {
   return (
     <div
       className={classname(
@@ -13,7 +19,7 @@ const Empty = () => {
       style={{ height: '60vh' }}
     >
       <Icon
-        icon="majesticons:paper-fold-line"
+        icon={iconName ? iconName : 'majesticons:paper-fold-line'}
         fontSize={100}
         color="rgba(0, 0, 0, 0.5)"
       />
@@ -25,8 +31,14 @@ const Empty = () => {
           color: 'rgba(0, 0, 0, 0.5)',
         }}
       >
-        use the left side where there are a list of questions. click on one if
-        you would like to open it
+        {message ? (
+          <>{message}</>
+        ) : (
+          <>
+            use the left side where there are a list of questions. click on one
+            if you would like to open it
+          </>
+        )}
       </div>
     </div>
   );
