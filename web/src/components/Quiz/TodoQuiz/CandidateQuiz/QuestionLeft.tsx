@@ -65,10 +65,26 @@ const QuestionLeft = ({
         >
           {handleTitle(question.title)}
         </div>
-        <div
-          className={classname(style.qType, 'flex items-center justify-center')}
-        >
-          {question.type}
+        <div className="flex items-center">
+          <div
+            className={classname(
+              style.qType,
+              'flex items-center justify-center'
+            )}
+          >
+            {question.type}
+          </div>
+          {data && (
+            <div
+              className={classname(
+                style.qType,
+                'flex items-center justify-center ml-3'
+              )}
+              style={{ background: '#ffec44' }}
+            >
+              Answered
+            </div>
+          )}
         </div>
         {data && (
           <div
@@ -79,7 +95,7 @@ const QuestionLeft = ({
           >
             <Icon
               icon="akar-icons:circle-check-fill"
-              color="rgb(179 179 179)"
+              color="#00EF8B"
               fontSize={35}
             />
           </div>
