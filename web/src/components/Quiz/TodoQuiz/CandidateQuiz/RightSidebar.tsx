@@ -26,6 +26,8 @@ const RightSidebar = () => {
     questionId,
   });
 
+  const { refetch } = getAnswerResponse;
+
   const [getQuestionFunc, { data, loading, error }] = useGetQuestionLazyQuery({
     fetchPolicy: 'no-cache',
   });
@@ -90,10 +92,11 @@ const RightSidebar = () => {
       }
       if (answerResponse.answerMcQuestion.message) {
         toast.success(answerResponse.answerMcQuestion.message);
+        refetch();
         setAnswers([]);
       }
     }
-  }, [answerResponse]);
+  }, [answerResponse, refetch]);
 
   if (!candidate) {
     return null;

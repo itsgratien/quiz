@@ -7,7 +7,7 @@ export class AnswerHelper {
     } else {
       for (const a of answers) {
         if (solutions.includes(a)) {
-          const calculate = points / answers.length;
+          const calculate = points / solutions.length;
           grade += calculate;
         }
       }

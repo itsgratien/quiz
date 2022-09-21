@@ -10,8 +10,9 @@ const useGetAnswer = ({
   questionId?: string;
   test?: string;
   attendant?: string;
-}): { data?: Answer; loading?: boolean } => {
-  const [getAnswerFunc, { data, loading, error }] = useGetAnswerLazyQuery();
+}) => {
+  const [getAnswerFunc, { data, loading, error, refetch }] =
+    useGetAnswerLazyQuery();
 
   React.useEffect(() => {
     if (questionId && test && attendant) {
@@ -29,6 +30,7 @@ const useGetAnswer = ({
     loading,
     data:
       (data && data.getAnswer && (data.getAnswer.data as Answer)) || undefined,
+    refetch,
   };
 };
 export default useGetAnswer;
