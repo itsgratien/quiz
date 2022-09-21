@@ -41,14 +41,23 @@ const QuizUri = ({ label, value }: { value: string; label?: string }) => {
           className={classname(
             'outline-none focus:outline-none border-none rounded-10 bg-black flex items-center justify-center'
           )}
-          style={{ width: '50px', height: '45px' }}
+          style={{ height: '45px', padding: '0 20px' }}
           onClick={handleCopy}
+          title={!copy ? 'Click to copy' : ''}
         >
           <Icon
-            icon="fluent:copy-24-regular"
-            fontSize={35}
-            color="rgba(255, 236, 68, 0.5)"
+            icon={
+              copy ? 'akar-icons:circle-check-fill' : 'fluent:copy-24-regular'
+            }
+            fontSize={20}
+            color={copy ? '#ffec44' : 'rgba(255, 236, 68, 0.5)'}
           />
+          <span
+            className="text-white text-14 ml-2 font-bold"
+            style={{ color: copy ? '#ffec44' : 'rgba(255, 236, 68, 0.5)' }}
+          >
+            Copy
+          </span>
         </button>
         {copy && (
           <div
