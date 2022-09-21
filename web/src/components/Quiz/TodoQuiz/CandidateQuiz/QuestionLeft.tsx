@@ -20,11 +20,12 @@ const QuestionLeft = ({
   active: boolean;
   setActive: (value: boolean) => void;
 }) => {
-  const { query } = useTodo();
+  const { test, attendant } = useTodo();
 
   const { data, loading } = useGetAnswer({
     questionId: question._id,
-    ...query,
+    test: test?._id,
+    attendant: attendant?._id,
   });
 
   const handleTitle = (value: string) => {

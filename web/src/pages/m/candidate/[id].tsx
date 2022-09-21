@@ -130,6 +130,7 @@ const CandidatePage: NextPage<{
                         key={item._id}
                         item={item as Question}
                         testId={data.test?._id}
+                        attendantId={data._id}
                       />
                     ))}
                   </>

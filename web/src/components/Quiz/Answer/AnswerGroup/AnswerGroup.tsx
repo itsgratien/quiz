@@ -7,7 +7,21 @@ import AnswerItem from './AnswerItem';
 import { Question } from '@/generated/graphql';
 import useGetAnswer from '@/hooks/useGetAnswer';
 
-const AnswerGroup = ({ item, testId }: { item: Question; testId?: string }) => {
+const AnswerGroup = ({
+  item,
+  testId,
+  attendantId,
+}: {
+  item: Question;
+  testId?: string;
+  attendantId?: string;
+}) => {
+  const { data } = useGetAnswer({
+    test: testId,
+    attendant: attendantId,
+    questionId: item._id,
+  });
+
   const makeFirstUppercaseFunc = (value: string) => {
     const getFirstChar = value.slice(0, 1).toUpperCase();
 
@@ -26,7 +40,10 @@ const AnswerGroup = ({ item, testId }: { item: Question; testId?: string }) => {
         style={{ marginTop: '39px', marginRight: '66px' }}
       >
         <span className={classname('font-bold text-12 text-black')}>
-          0 out of {item.points} points
+          {data && data.grade
+            ? `${data.grade} out of ${item.points}`
+            : `/ ${item.points}`}{' '}
+          points
         </span>
       </div>
       <div className={classname('text-14 font-bold text-black mt-5')}>
@@ -58,7 +75,7 @@ const AnswerGroup = ({ item, testId }: { item: Question; testId?: string }) => {
                 key={choice}
                 value={choice}
                 solutions={item.solutions as string[]}
-                answers={[]}
+                answers={data && data.answers}
               />
             ))}
         </div>

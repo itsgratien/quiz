@@ -1,4 +1,11 @@
-import { Resolver, Mutation, UseMiddleware, Args, Query } from 'type-graphql';
+import {
+  Resolver,
+  Mutation,
+  UseMiddleware,
+  Args,
+  Query,
+  Authorized,
+} from 'type-graphql';
 import { answerModel } from '@/server/Models/AnswerModel';
 import { errorResponse, decryptFunc } from '@/server/Helpers/SharedHelper';
 import { HttpCode } from '@/utils/HttpCode';
@@ -55,18 +62,17 @@ export class AnswerResolver extends AnswerHelper {
     }
   }
 
-  @UseMiddleware(verifyTestUri)
   @Query(() => AnswerTg.GetAnswerResponse)
   async getAnswer(
     @Args() args: AnswerTg.GetAnswerArgs
   ): Promise<AnswerTg.GetAnswerResponse> {
     try {
-      const testId = decryptFunc(args.test);
-
-      const attendant = decryptFunc(args.attendant);
-
       const findAnswer = await answerModel.findOne({
-        $and: [{ question: args.question }, { testId }, { attendant }],
+        $and: [
+          { question: args.question },
+          { testId: args.test },
+          { attendant: args.attendant },
+        ],
       });
 
       if (!findAnswer) {
