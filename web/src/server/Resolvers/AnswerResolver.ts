@@ -1,4 +1,4 @@
-import { Resolver, Mutation, UseMiddleware, Args } from 'type-graphql';
+import { Resolver, Mutation, UseMiddleware, Args, Query } from 'type-graphql';
 import { answerModel } from '@/server/Models/AnswerModel';
 import { errorResponse, decryptFunc } from '@/server/Helpers/SharedHelper';
 import { HttpCode } from '@/utils/HttpCode';
@@ -9,6 +9,7 @@ import { AnswerHelper } from '@/server/Helpers/AnswerHelper';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { AttendantStatus } from '@/generated/Enum';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
+import format from '@/server/Helpers/FormatHelper';
 
 @Resolver()
 export class AnswerResolver extends AnswerHelper {
@@ -37,7 +38,7 @@ export class AnswerResolver extends AnswerHelper {
       await answerModel.create({
         grade,
         question: getQuestion._id,
-        testId,
+        test: testId,
         attendant: attendantId,
         answers: args.answers,
       });
@@ -48,6 +49,32 @@ export class AnswerResolver extends AnswerHelper {
       );
       return {
         message: 'Saved Successfully',
+      };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
+
+  @UseMiddleware(verifyTestUri)
+  @Query(() => AnswerTg.GetAnswerResponse)
+  async getAnswer(
+    @Args() args: AnswerTg.GetAnswerArgs
+  ): Promise<AnswerTg.GetAnswerResponse> {
+    try {
+      const testId = decryptFunc(args.test);
+
+      const attendant = decryptFunc(args.attendant);
+
+      const findAnswer = await answerModel.findOne({
+        $and: [{ question: args.question }, { testId }, { attendant }],
+      });
+
+      if (!findAnswer) {
+        return errorResponse('Answer Not Found');
+      }
+
+      return {
+        data: format.getAnswer(findAnswer),
       };
     } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);

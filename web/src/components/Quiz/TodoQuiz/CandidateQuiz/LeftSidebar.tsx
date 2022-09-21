@@ -5,9 +5,11 @@ import useTodo from '@/hooks/useTodo';
 import useGetQuestion from '@/hooks/useGetQuestionAssignedToTest';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import NotFound from '../../Setup/View/NotFound';
+import QuestionLeft from './QuestionLeft';
+import { Question } from '@/generated/graphql';
 
 const LeftSidebar = () => {
-  const [active, setActive] = React.useState<boolean>();
+  const [active, setActive] = React.useState<boolean>(false);
 
   const { test, toggleQuestionId, questionId } = useTodo();
 
@@ -15,23 +17,6 @@ const LeftSidebar = () => {
     testId: test?._id,
     limit: 30,
   });
-
-  const handleChangeQuestionId = React.useCallback(
-    (value: string) => {
-      if (toggleQuestionId) {
-        toggleQuestionId(value);
-        setActive(true);
-      }
-    },
-    [toggleQuestionId]
-  );
-
-  const handleTitle = (value: string) => {
-    if (value.length > 105) {
-      return `${value.substring(0, 105)}...`;
-    }
-    return value;
-  };
 
   React.useEffect(() => {
     if (items && items.length > 0 && toggleQuestionId && !questionId) {
@@ -62,28 +47,14 @@ const LeftSidebar = () => {
               {items.length > 0 ? (
                 <ul>
                   {items.map((item) => (
-                    <li
-                      className={classname(
-                        style.listItem,
-                        active && questionId === item._id && style.activeList
-                      )}
-                      onClick={() => handleChangeQuestionId(item._id)}
+                    <QuestionLeft
+                      question={item as Question}
                       key={item._id}
-                    >
-                      <div className={classname(style.container, 'bg-white')}>
-                        <div className={classname('text-black text-14')}>
-                          {handleTitle(item.title)}
-                        </div>
-                        <div
-                          className={classname(
-                            style.qType,
-                            'flex items-center justify-center'
-                          )}
-                        >
-                          {item.type}
-                        </div>
-                      </div>
-                    </li>
+                      questionId={questionId}
+                      toggleQuestionId={toggleQuestionId}
+                      active={active}
+                      setActive={setActive}
+                    />
                   ))}
                 </ul>
               ) : (

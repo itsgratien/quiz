@@ -87,10 +87,13 @@ export type Answer = {
   _id: Scalars['String'];
   answers: Array<Scalars['String']>;
   attendant: Attendant;
+  attendantId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   grade: Scalars['String'];
   question: Question;
-  testId: Test;
+  questionId?: Maybe<Scalars['String']>;
+  test: Test;
+  testId?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
   video?: Maybe<Scalars['String']>;
 };
@@ -137,6 +140,18 @@ export type ErrorsT = {
   __typename?: 'ErrorsT';
   field: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type GetAnswerResponse = {
+  __typename?: 'GetAnswerResponse';
+  data?: Maybe<Answer>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  totalDocs?: Maybe<Scalars['Float']>;
+  totalPages?: Maybe<Scalars['Float']>;
 };
 
 export type GetAttendantByTestResponse = {
@@ -342,6 +357,7 @@ export type MutationVerifyTestUriArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAnswer: GetAnswerResponse;
   getAttendantById: GetAttendantByTestResponse;
   getAttendantByTest: GetAttendantByTestResponse;
   getMyTests: GetMyTestResponse;
@@ -351,6 +367,13 @@ export type Query = {
   getSingleTest: GetSingleTestResponse;
   getUser: GetUserResponse;
   whoIsDoingQuiz: WhoIsDoingQuizResponse;
+};
+
+
+export type QueryGetAnswerArgs = {
+  attendant: Scalars['String'];
+  question: Scalars['String'];
+  test: Scalars['String'];
 };
 
 
@@ -488,6 +511,8 @@ export type WhoIsDoingQuizResponse = {
   totalPages?: Maybe<Scalars['Float']>;
 };
 
+export type AnswerFragment = { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null }, question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } };
+
 export type AnswerMcQuestionMutationVariables = Exact<{
   test: Scalars['String'];
   attendant: Scalars['String'];
@@ -497,6 +522,15 @@ export type AnswerMcQuestionMutationVariables = Exact<{
 
 
 export type AnswerMcQuestionMutation = { __typename?: 'Mutation', answerMcQuestion: { __typename?: 'AnswerResponse', error?: string | null, message?: string | null } };
+
+export type GetAnswerQueryVariables = Exact<{
+  test: Scalars['String'];
+  attendant: Scalars['String'];
+  question: Scalars['String'];
+}>;
+
+
+export type GetAnswerQuery = { __typename?: 'Query', getAnswer: { __typename?: 'GetAnswerResponse', error?: string | null, data?: { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null }, question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } | null } };
 
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
 
@@ -724,6 +758,30 @@ export const TestFragmentDoc = gql`
 }
     ${QuestionFragmentDoc}
 ${AttendantFragmentDoc}`;
+export const AnswerFragmentDoc = gql`
+    fragment Answer on Answer {
+  _id
+  answers
+  createdAt
+  updatedAt
+  test {
+    ...Test
+  }
+  question {
+    ...Question
+  }
+  attendant {
+    ...Attendant
+  }
+  grade
+  video
+  questionId
+  attendantId
+  testId
+}
+    ${TestFragmentDoc}
+${QuestionFragmentDoc}
+${AttendantFragmentDoc}`;
 export const AnswerMcQuestionDocument = gql`
     mutation AnswerMcQuestion($test: String!, $attendant: String!, $question: String!, $answers: [String!]!) {
   answerMcQuestion(
@@ -766,6 +824,46 @@ export function useAnswerMcQuestionMutation(baseOptions?: Apollo.MutationHookOpt
 export type AnswerMcQuestionMutationHookResult = ReturnType<typeof useAnswerMcQuestionMutation>;
 export type AnswerMcQuestionMutationResult = Apollo.MutationResult<AnswerMcQuestionMutation>;
 export type AnswerMcQuestionMutationOptions = Apollo.BaseMutationOptions<AnswerMcQuestionMutation, AnswerMcQuestionMutationVariables>;
+export const GetAnswerDocument = gql`
+    query GetAnswer($test: String!, $attendant: String!, $question: String!) {
+  getAnswer(test: $test, attendant: $attendant, question: $question) {
+    data {
+      ...Answer
+    }
+    error
+  }
+}
+    ${AnswerFragmentDoc}`;
+
+/**
+ * __useGetAnswerQuery__
+ *
+ * To run a query within a React component, call `useGetAnswerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAnswerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAnswerQuery({
+ *   variables: {
+ *      test: // value for 'test'
+ *      attendant: // value for 'attendant'
+ *      question: // value for 'question'
+ *   },
+ * });
+ */
+export function useGetAnswerQuery(baseOptions: Apollo.QueryHookOptions<GetAnswerQuery, GetAnswerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAnswerQuery, GetAnswerQueryVariables>(GetAnswerDocument, options);
+      }
+export function useGetAnswerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAnswerQuery, GetAnswerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAnswerQuery, GetAnswerQueryVariables>(GetAnswerDocument, options);
+        }
+export type GetAnswerQueryHookResult = ReturnType<typeof useGetAnswerQuery>;
+export type GetAnswerLazyQueryHookResult = ReturnType<typeof useGetAnswerLazyQuery>;
+export type GetAnswerQueryResult = Apollo.QueryResult<GetAnswerQuery, GetAnswerQueryVariables>;
 export const GetAttendantByTestDocument = gql`
     query GetAttendantByTest($testId: String!, $page: Float!, $limit: Float) {
   getAttendantByTest(testId: $testId, page: $page, limit: $limit) {

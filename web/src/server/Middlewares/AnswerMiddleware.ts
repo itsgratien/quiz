@@ -48,7 +48,7 @@ export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
     const checkDuplicateAnswer = await answerModel.findOne({
       $and: [
         { question: checkQuestion._id },
-        { testId },
+        { test: testId },
         { attendant: attendantId },
       ],
     });

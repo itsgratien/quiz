@@ -26,7 +26,7 @@ const GetQuestion = ({
 
   return (
     <div className={classname(style.qDetail)}>
-      <div className={classname('flex flex-col', style.qHeading)}>
+      <div className={classname('flex flex-col relative', style.qHeading)}>
         <span className="text-12" style={{ color: 'rgba(0, 0, 0, 0.5)' }}>
           question
         </span>
@@ -36,6 +36,16 @@ const GetQuestion = ({
         >
           {question.title}
         </span>
+        <div
+          className={classname('absolute right-0 top-0 text-12 font-bold')}
+          style={{
+            marginRight: '47px',
+            marginTop: '25px',
+            color: 'rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          / {question.points} points
+        </div>
       </div>
       {question.choices && (
         <div className={classname(style.choices, 'relative')}>

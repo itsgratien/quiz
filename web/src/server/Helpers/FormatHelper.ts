@@ -7,6 +7,7 @@ import { TestQuestion, TestAttendant } from '../Models/TestModel';
 import { get } from 'lodash';
 import mongoose from 'mongoose';
 import { AttendantRefTest } from '@/server/Models/AttendantModel';
+import { Answer } from '@/server/Models/AnswerModel';
 
 export class FormatHelper {
   getQuestion(value: Question, showOwner?: boolean): Question {
@@ -110,6 +111,30 @@ export class FormatHelper {
       attendants: this.getTestCandidates(values.attendants),
       slug: values.slug,
     };
+  }
+
+  getAnswer(value: Answer): Answer {
+    return {
+      _id: value._id,
+      test: value.test,
+      attendant: value.attendant,
+      question: value.question,
+      createdAt: value.createdAt,
+      updatedAt: value.updatedAt,
+      answers: value.answers,
+      grade: value.grade,
+      questionId: this.generateId(value.question),
+      attendantId: this.generateId(value.attendant),
+      testId: this.generateId(value.test),
+    };
+  }
+
+  private generateId(value: any) {
+    if (new mongoose.Types.ObjectId(value)) {
+      return String(value);
+    }
+
+    return value;
   }
 }
 export default new FormatHelper();

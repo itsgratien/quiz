@@ -14,13 +14,22 @@ export class Answer {
   @prop({ ref: () => Question })
   question: typegoose.Ref<Question | string>;
 
+  @Field({ nullable: true })
+  questionId?: string;
+
   @Field(() => Attendant || String)
   @prop({ ref: () => Attendant })
   attendant: typegoose.Ref<Attendant | string>;
 
+  @Field({ nullable: true })
+  attendantId?: string;
+
   @Field(() => Test || String)
   @prop({ ref: () => Test })
-  testId: typegoose.Ref<Test | string>;
+  test: typegoose.Ref<Test | string>;
+
+  @Field({ nullable: true })
+  testId?: string;
 
   @Field(() => [String])
   @prop()

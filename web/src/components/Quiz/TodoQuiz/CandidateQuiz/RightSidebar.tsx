@@ -58,6 +58,7 @@ const RightSidebar = () => {
   React.useEffect(() => {
     if (questionId) {
       getQuestionFunc({ variables: { id: questionId } });
+      setAnswers([]);
     }
   }, [getQuestionFunc, questionId]);
 
@@ -79,6 +80,10 @@ const RightSidebar = () => {
     if (answerResponse && answerResponse.answerMcQuestion) {
       if (answerResponse.answerMcQuestion.error) {
         toast.error(answerResponse.answerMcQuestion.error);
+      }
+      if (answerResponse.answerMcQuestion.message) {
+        toast.success(answerResponse.answerMcQuestion.message);
+        setAnswers([]);
       }
     }
   }, [answerResponse]);

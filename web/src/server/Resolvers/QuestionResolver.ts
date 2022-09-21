@@ -133,7 +133,6 @@ export class QuestionResolver {
           : {
               ...format.getQuestion(find, false),
               solutions: undefined,
-              points: 0,
             },
       };
     } catch (error) {
@@ -323,7 +322,6 @@ export class QuestionResolver {
             return {
               ...format.getQuestion(item),
               solutions: undefined,
-              points: 0,
             };
           }
         }),

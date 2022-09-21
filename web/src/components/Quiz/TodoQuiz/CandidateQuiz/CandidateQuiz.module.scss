@@ -23,45 +23,46 @@
     }
     .listOfQuestions {
       margin-top: 37px;
-      .listItem {
-        padding: 37px 0 37px 60px;
-        cursor: pointer;
-        margin: 4px 0;
-        position: relative;
-        .container {
-          padding: 21px 0px 21px 45px;
-          border-top-left-radius: 20px;
-          border-bottom-left-radius: 20px;
-          .qType {
-            width: 130px;
-            margin-left: 10px;
-            height: 30px;
-            font-size: 12px;
-            border-radius: 20px;
-            background: rgba(0, 0, 0, 0.11);
-            margin-top: 10px;
-          }
-        }
-      }
-      .activeList,
-      .listItem {
-        &::after {
-          content: '';
-          transform: matrix(1, -0.02, -0.02, -1, 0, 0);
-          background: #f1f1f1;
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: -10;
-        }
-      }
-      .activeList::after {
-        border-left: 11px solid $yellow;
-      }
     }
   }
+}
+
+.listItem {
+  padding: 37px 0 37px 60px;
+  cursor: pointer;
+  margin: 4px 0;
+  position: relative;
+  .container {
+    padding: 21px 0px 21px 45px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    .qType {
+      width: 130px;
+      margin-left: 10px;
+      height: 30px;
+      font-size: 12px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.11);
+      margin-top: 10px;
+    }
+  }
+}
+.activeList,
+.listItem {
+  &::after {
+    content: '';
+    transform: matrix(1, -0.02, -0.02, -1, 0, 0);
+    background: #f1f1f1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -10;
+  }
+}
+.activeList::after {
+  border-left: 11px solid $yellow;
 }
 
 .rightSidebar {
