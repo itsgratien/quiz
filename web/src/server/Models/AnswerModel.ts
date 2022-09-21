@@ -12,21 +12,21 @@ export class Answer {
 
   @Field(() => Question || String)
   @prop({ ref: () => Question })
-  question: typegoose.Ref<Question | string>;
+  question?: typegoose.Ref<Question | string>;
 
   @Field({ nullable: true })
   questionId?: string;
 
-  @Field(() => Attendant || String)
+  @Field(() => Attendant)
   @prop({ ref: () => Attendant })
-  attendant: typegoose.Ref<Attendant | string>;
+  attendant?: typegoose.Ref<Attendant | string>;
 
   @Field({ nullable: true })
   attendantId?: string;
 
-  @Field(() => Test || String)
+  @Field(() => Test)
   @prop({ ref: () => Test })
-  test: typegoose.Ref<Test | string>;
+  test?: typegoose.Ref<Test | string>;
 
   @Field({ nullable: true })
   testId?: string;

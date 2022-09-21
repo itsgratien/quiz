@@ -511,7 +511,7 @@ export type WhoIsDoingQuizResponse = {
   totalPages?: Maybe<Scalars['Float']>;
 };
 
-export type AnswerFragment = { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null }, question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } };
+export type AnswerFragment = { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', status?: string | null }, question: { __typename?: 'Question', status?: string | null }, attendant: { __typename?: 'Attendant', testUri?: string | null } };
 
 export type AnswerMcQuestionMutationVariables = Exact<{
   test: Scalars['String'];
@@ -530,7 +530,7 @@ export type GetAnswerQueryVariables = Exact<{
 }>;
 
 
-export type GetAnswerQuery = { __typename?: 'Query', getAnswer: { __typename?: 'GetAnswerResponse', error?: string | null, data?: { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null }, question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } | null } };
+export type GetAnswerQuery = { __typename?: 'Query', getAnswer: { __typename?: 'GetAnswerResponse', error?: string | null, data?: { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', status?: string | null }, question: { __typename?: 'Question', status?: string | null }, attendant: { __typename?: 'Attendant', testUri?: string | null } } | null } };
 
 export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
 
@@ -684,6 +684,28 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'GetUserResponse', message?: string | null, error?: string | null } };
 
+export const AnswerFragmentDoc = gql`
+    fragment Answer on Answer {
+  _id
+  answers
+  createdAt
+  updatedAt
+  test {
+    status
+  }
+  question {
+    status
+  }
+  attendant {
+    testUri
+  }
+  grade
+  video
+  questionId
+  attendantId
+  testId
+}
+    `;
 export const UserFragmentDoc = gql`
     fragment User on User {
   _id
@@ -757,30 +779,6 @@ export const TestFragmentDoc = gql`
   }
 }
     ${QuestionFragmentDoc}
-${AttendantFragmentDoc}`;
-export const AnswerFragmentDoc = gql`
-    fragment Answer on Answer {
-  _id
-  answers
-  createdAt
-  updatedAt
-  test {
-    ...Test
-  }
-  question {
-    ...Question
-  }
-  attendant {
-    ...Attendant
-  }
-  grade
-  video
-  questionId
-  attendantId
-  testId
-}
-    ${TestFragmentDoc}
-${QuestionFragmentDoc}
 ${AttendantFragmentDoc}`;
 export const AnswerMcQuestionDocument = gql`
     mutation AnswerMcQuestion($test: String!, $attendant: String!, $question: String!, $answers: [String!]!) {

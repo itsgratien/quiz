@@ -15,7 +15,7 @@ const LeftSidebar = () => {
 
   const { loading, items } = useGetQuestion({
     testId: test?._id,
-    limit: 30,
+    limit: 100,
   });
 
   React.useEffect(() => {

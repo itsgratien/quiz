@@ -27,3 +27,9 @@ export class GetAnswerArgs extends VerifyTestUriArgs {
 
 @ObjectType()
 export class GetAnswerResponse extends CustomResponse(Answer) {}
+
+@ObjectType()
+export class GetAnswersResponse extends CustomResponse(Answer) {
+  @Field(() => [Answer])
+  items?: Answer[];
+}

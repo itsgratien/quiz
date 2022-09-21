@@ -29,7 +29,6 @@
 
 .listItem {
   padding: 37px 0 37px 60px;
-  cursor: pointer;
   margin: 4px 0;
   position: relative;
   .container {
@@ -45,10 +44,18 @@
       background: rgba(0, 0, 0, 0.11);
       margin-top: 10px;
     }
+    .isAnswered {
+      width: 60px;
+      height: 60px;
+      right: 10px;
+      border-radius: 100%;
+      margin-top: -10px;
+    }
   }
 }
 .activeList,
-.listItem {
+.listItem,
+.answeredList {
   &::after {
     content: '';
     transform: matrix(1, -0.02, -0.02, -1, 0, 0);
@@ -63,6 +70,18 @@
 }
 .activeList::after {
   border-left: 11px solid $yellow;
+}
+.answeredList {
+  .container::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 100;
+    bottom: 0;
+  }
 }
 
 .rightSidebar {

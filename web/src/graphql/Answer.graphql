@@ -4,13 +4,13 @@ fragment Answer on Answer {
   createdAt
   updatedAt
   test {
-    ...Test
+    status
   }
   question {
-    ...Question
+    status
   }
   attendant {
-    ...Attendant
+    testUri
   }
   grade
   video
