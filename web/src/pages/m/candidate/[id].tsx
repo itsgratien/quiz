@@ -11,16 +11,17 @@ import CandidateLabel from '@/components/Quiz/Candidates/SingleCandidate/Candida
 import QuizUri from '@/components/Quiz/Candidates/SingleCandidate/QuizUri';
 import SectionTitle from '@/components/Quiz/SectionTitle';
 import AnswerGroup from '@/components/Quiz/Answer/AnswerGroup/AnswerGroup';
-import AnswerMock from '@/mocks/Answer';
 import apollo from '@/utils/ApolloClient';
 import {
   GetAttendantByIdDocument,
   GetAttendantByIdQuery,
   GetAttendantByIdQueryVariables,
   Attendant,
+  Question,
 } from '@/generated/graphql';
 import { TestStatus } from '@/generated/Enum';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
+import useGetQuestion from '@/hooks/useGetQuestionAssignedToTest';
 
 const CandidatePage: NextPage<{
   data?: Attendant;
@@ -28,18 +29,21 @@ const CandidatePage: NextPage<{
 }> = ({ data }) => {
   const [showResult, setShowResult] = React.useState<boolean>(false);
 
+  const { items, loading } = useGetQuestion({
+    testId: data?.test?._id,
+    limit: 100,
+  });
+
   React.useEffect(() => {
     if (data && data.test) {
       setShowResult(data.test.status === TestStatus.Published);
     }
   }, [data]);
 
-  console.log('data', data);
-
   return (
     <>
       <Head>
-        <title>Candidate | {data ? data.names : ''}</title>
+        <title>{`Candidate | ${data && data.names}`}</title>
       </Head>
       <Layout goBack>
         {data && (
@@ -52,7 +56,7 @@ const CandidatePage: NextPage<{
                 )}
               >
                 <div style={{ marginTop: '53px', marginLeft: '15%' }}>
-                  <div className={classname('font-bold text-25')}>
+                  <div className={classname('font-bold text-25 capitalize')}>
                     {data.names}
                   </div>
                   <Status
@@ -119,10 +123,14 @@ const CandidatePage: NextPage<{
                 </div>
               </div>
               <div>
-                {showResult ? (
+                {items && items.length > 0 ? (
                   <>
-                    {AnswerMock.getAll.map((item) => (
-                      <AnswerGroup key={item._id} item={item} />
+                    {items.map((item) => (
+                      <AnswerGroup
+                        key={item._id}
+                        item={item as Question}
+                        testId={data.test?._id}
+                      />
                     ))}
                   </>
                 ) : (

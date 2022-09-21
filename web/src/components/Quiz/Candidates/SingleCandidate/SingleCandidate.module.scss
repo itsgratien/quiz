@@ -18,10 +18,29 @@
     background: none;
     padding-left: 35px;
     color: rgba(0, 0, 0, 0.41);
+    width: 80%;
   }
   .input {
     border: 1px solid rgba(0, 0, 0, 0.08);
     height: 55px;
     padding: 0 8px;
+  }
+  .copied {
+    margin-right: -85px;
+    color: $yellow;
+    background: black;
+    border-radius: 20px;
+    padding: 0 15px;
+    animation: copiedAnimation 0.2s ease-in-out;
+    z-index: -10;
+
+    @keyframes copiedAnimation {
+      from {
+        margin-right: 0;
+      }
+      to {
+        margin-right: -80px;
+      }
+    }
   }
 }
