@@ -6,6 +6,7 @@ import SectionTitle from '../../SectionTitle';
 import AnswerItem from './AnswerItem';
 import { Question } from '@/generated/graphql';
 import useGetAnswer from '@/hooks/useGetAnswer';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
 const AnswerGroup = ({
   item,
@@ -16,7 +17,7 @@ const AnswerGroup = ({
   testId?: string;
   attendantId?: string;
 }) => {
-  const { data } = useGetAnswer({
+  const { data, loading } = useGetAnswer({
     test: testId,
     attendant: attendantId,
     questionId: item._id,
@@ -39,12 +40,15 @@ const AnswerGroup = ({
         className={classname('absolute top-0 right-0')}
         style={{ marginTop: '39px', marginRight: '66px' }}
       >
-        <span className={classname('font-bold text-12 text-black')}>
-          {data && data.grade
-            ? `${data.grade} out of ${item.points}`
-            : `/ ${item.points}`}{' '}
-          points
-        </span>
+        {loading && <LoadingSpinner size={30} />}
+        {!loading && data && data.grade && (
+          <span className={classname('font-bold text-12 text-black')}>
+            {data && data.grade
+              ? `${data.grade} out of ${item.points}`
+              : `/ ${item.points}`}{' '}
+            points
+          </span>
+        )}
       </div>
       <div className={classname('text-14 font-bold text-black mt-5')}>
         {makeFirstUppercaseFunc(item.title)}
