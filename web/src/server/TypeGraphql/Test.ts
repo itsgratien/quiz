@@ -94,15 +94,15 @@ export class VerifyTestUriArgs {
 
 @ObjectType()
 export class VerifyTestUriResponse extends CustomResponse(Test) {
-  @Field()
-  verified: boolean;
+  @Field({ nullable: true, defaultValue: false })
+  verified?: boolean;
 
-  @Field(() => Attendant)
+  @Field(() => Attendant, { nullable: true })
   attendant?: Attendant;
 
-  @Field(() => Test)
+  @Field(() => Test, { nullable: true })
   test?: Test;
 
-  @Field()
+  @Field({ nullable: true })
   numberOfQuestions?: number;
 }

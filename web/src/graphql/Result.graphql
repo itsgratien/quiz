@@ -1,0 +1,6 @@
+query GetOverralGrade($test: String!, $attendant: String!) {
+  getOverralGrade(test: $test, attendant: $attendant) {
+    error
+    overralgrade
+  }
+}

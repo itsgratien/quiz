@@ -21,8 +21,11 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   numberOfQuestions,
   attendant,
   test,
+  error,
 }) => {
-  const [status, setStatus] = React.useState<string>(String(attendant.status));
+  const [status, setStatus] = React.useState<string>(
+    String(attendant && attendant.status)
+  );
 
   const [loading, setLoading] = React.useState<boolean>(true);
 
@@ -90,14 +93,14 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   return (
     <>
       <Head>
-        <title>{`Quiz | ${test.title || ''}`}</title>
+        <title>{`Quiz | ${test ? test.title : ''}`}</title>
       </Head>
       <TodoContext.Provider
         value={{
           status,
-          attendant,
-          test,
-          numberOfQuestions,
+          attendant: attendant ?? undefined,
+          test: test ?? undefined,
+          numberOfQuestions: numberOfQuestions ?? undefined,
           loading,
           changeStatus: handleChangeStatus,
           questionId,
@@ -106,6 +109,7 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
             test: String(router.query.test),
             attendant: String(router.query.attendant),
           },
+          error: error ?? undefined,
         }}
       >
         <TodoContext.Consumer>
@@ -154,6 +158,7 @@ export const getServerSideProps = async (
 
       if (
         find.data &&
+        find.data.verifyTestUri &&
         find.data.verifyTestUri &&
         find.data.verifyTestUri.verified
       ) {

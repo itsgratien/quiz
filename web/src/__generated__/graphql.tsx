@@ -110,6 +110,11 @@ export type AnswerResponse = {
   totalPages?: Maybe<Scalars['Float']>;
 };
 
+export type AnsweredQuestions = {
+  __typename?: 'AnsweredQuestions';
+  answer: Answer;
+};
+
 export type Attendant = {
   __typename?: 'Attendant';
   _id: Scalars['String'];
@@ -178,6 +183,19 @@ export type GetMyTestResponse = {
   items?: Maybe<Array<Test>>;
   message?: Maybe<Scalars['String']>;
   nextPage?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  totalDocs?: Maybe<Scalars['Float']>;
+  totalPages?: Maybe<Scalars['Float']>;
+};
+
+export type GetOverralGradeResponse = {
+  __typename?: 'GetOverralGradeResponse';
+  data?: Maybe<Result>;
+  error?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<ErrorsT>>;
+  message?: Maybe<Scalars['String']>;
+  nextPage?: Maybe<Scalars['Float']>;
+  overralgrade?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['Float']>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
@@ -361,6 +379,7 @@ export type Query = {
   getAttendantById: GetAttendantByTestResponse;
   getAttendantByTest: GetAttendantByTestResponse;
   getMyTests: GetMyTestResponse;
+  getOverralGrade: GetOverralGradeResponse;
   getQuestion: GetQuestionResponse;
   getQuestionAssignedToTest: GetQuestionAssignedToTestResponse;
   getQuestions: GetQuestionsResponse;
@@ -392,6 +411,12 @@ export type QueryGetAttendantByTestArgs = {
 export type QueryGetMyTestsArgs = {
   limit?: InputMaybe<Scalars['Float']>;
   page: Scalars['Float'];
+};
+
+
+export type QueryGetOverralGradeArgs = {
+  attendant: Scalars['String'];
+  test: Scalars['String'];
 };
 
 
@@ -440,6 +465,18 @@ export type Question = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type Result = {
+  __typename?: 'Result';
+  _id: Scalars['String'];
+  answers: Array<AnsweredQuestions>;
+  attendant: Attendant;
+  createdAt?: Maybe<Scalars['String']>;
+  overralgrade: Scalars['String'];
+  testId: Test;
+  updatedAt?: Maybe<Scalars['String']>;
+  video?: Maybe<Scalars['String']>;
+};
+
 export type Test = {
   __typename?: 'Test';
   _id: Scalars['String'];
@@ -484,18 +521,18 @@ export type User = {
 
 export type VerifyTestUriResponse = {
   __typename?: 'VerifyTestUriResponse';
-  attendant: Attendant;
+  attendant?: Maybe<Attendant>;
   data?: Maybe<Test>;
   error?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<ErrorsT>>;
   message?: Maybe<Scalars['String']>;
   nextPage?: Maybe<Scalars['Float']>;
-  numberOfQuestions: Scalars['Float'];
+  numberOfQuestions?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['Float']>;
-  test: Test;
+  test?: Maybe<Test>;
   totalDocs?: Maybe<Scalars['Float']>;
   totalPages?: Maybe<Scalars['Float']>;
-  verified: Scalars['Boolean'];
+  verified?: Maybe<Scalars['Boolean']>;
 };
 
 export type WhoIsDoingQuizResponse = {
@@ -622,6 +659,14 @@ export type GetQuestionQueryVariables = Exact<{
 
 export type GetQuestionQuery = { __typename?: 'Query', getQuestion: { __typename?: 'GetQuestionResponse', error?: string | null, data?: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } | null } };
 
+export type GetOverralGradeQueryVariables = Exact<{
+  test: Scalars['String'];
+  attendant: Scalars['String'];
+}>;
+
+
+export type GetOverralGradeQuery = { __typename?: 'Query', getOverralGrade: { __typename?: 'GetOverralGradeResponse', error?: string | null, overralgrade?: string | null } };
+
 export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null };
 
 export type SetupTestMutationVariables = Exact<{
@@ -663,7 +708,7 @@ export type VerifyTestUriMutationVariables = Exact<{
 }>;
 
 
-export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null, verified: boolean, numberOfQuestions: number, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null }, test: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } } };
+export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null, verified?: boolean | null, numberOfQuestions?: number | null, attendant?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null, test?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
 
 export type UserFragment = { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null };
 
@@ -1266,6 +1311,43 @@ export function useGetQuestionLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetQuestionQueryHookResult = ReturnType<typeof useGetQuestionQuery>;
 export type GetQuestionLazyQueryHookResult = ReturnType<typeof useGetQuestionLazyQuery>;
 export type GetQuestionQueryResult = Apollo.QueryResult<GetQuestionQuery, GetQuestionQueryVariables>;
+export const GetOverralGradeDocument = gql`
+    query GetOverralGrade($test: String!, $attendant: String!) {
+  getOverralGrade(test: $test, attendant: $attendant) {
+    error
+    overralgrade
+  }
+}
+    `;
+
+/**
+ * __useGetOverralGradeQuery__
+ *
+ * To run a query within a React component, call `useGetOverralGradeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOverralGradeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOverralGradeQuery({
+ *   variables: {
+ *      test: // value for 'test'
+ *      attendant: // value for 'attendant'
+ *   },
+ * });
+ */
+export function useGetOverralGradeQuery(baseOptions: Apollo.QueryHookOptions<GetOverralGradeQuery, GetOverralGradeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOverralGradeQuery, GetOverralGradeQueryVariables>(GetOverralGradeDocument, options);
+      }
+export function useGetOverralGradeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOverralGradeQuery, GetOverralGradeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOverralGradeQuery, GetOverralGradeQueryVariables>(GetOverralGradeDocument, options);
+        }
+export type GetOverralGradeQueryHookResult = ReturnType<typeof useGetOverralGradeQuery>;
+export type GetOverralGradeLazyQueryHookResult = ReturnType<typeof useGetOverralGradeLazyQuery>;
+export type GetOverralGradeQueryResult = Apollo.QueryResult<GetOverralGradeQuery, GetOverralGradeQueryVariables>;
 export const SetupTestDocument = gql`
     mutation SetupTest($title: String!, $startDate: String!, $endDate: String!, $description: String, $subject: String!) {
   addTest(

@@ -1,22 +1,17 @@
-import {
-  Resolver,
-  Mutation,
-  UseMiddleware,
-  Args,
-  Query,
-  Authorized,
-} from 'type-graphql';
+import { Resolver, Mutation, UseMiddleware, Args, Query } from 'type-graphql';
 import { answerModel } from '@/server/Models/AnswerModel';
+import { resultModel } from '@/server/Models/ResultModel';
+import { questionModel } from '@/server/Models/QuestionModel';
 import { errorResponse, decryptFunc } from '@/server/Helpers/SharedHelper';
 import { HttpCode } from '@/utils/HttpCode';
 import * as AnswerTg from '@/server/TypeGraphql/Answer';
 import * as AnswerMiddleware from '@/server/Middlewares/AnswerMiddleware';
-import { questionModel } from '@/server/Models/QuestionModel';
 import { AnswerHelper } from '@/server/Helpers/AnswerHelper';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { AttendantStatus } from '@/generated/Enum';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
 import format from '@/server/Helpers/FormatHelper';
+import mongoose from 'mongoose';
 
 @Resolver()
 export class AnswerResolver extends AnswerHelper {
@@ -42,6 +37,10 @@ export class AnswerResolver extends AnswerHelper {
         getQuestion.points
       );
 
+      const getQuestionLinkedToTest = await questionModel.find({
+        'tests.test': new mongoose.Types.ObjectId(testId),
+      });
+
       await answerModel.create({
         grade,
         question: getQuestion._id,
@@ -50,9 +49,47 @@ export class AnswerResolver extends AnswerHelper {
         answers: args.answers,
       });
 
+      const getAnswers = await answerModel.find({
+        $and: [{ test: testId }, { attendant: attendantId }],
+      });
+
+      const countAnsweredQuestion = getAnswers.length;
+
+      const countQuestionLinkedToTest = getQuestionLinkedToTest.length;
+
+      if (countQuestionLinkedToTest === countAnsweredQuestion) {
+        const totalGrade = getAnswers.reduce(
+          (prev, curr) => Number(prev) + Number(curr.grade),
+          0
+        );
+
+        const totalPoints = getQuestionLinkedToTest.reduce(
+          (prev, curr) => Number(prev) + Number(curr.points),
+          0
+        );
+
+        const overralGrade = (totalGrade * 100) / totalPoints;
+
+        await resultModel.create({
+          overralgrade: String(overralGrade),
+          answers: getAnswers.length
+            ? getAnswers.map((item) => ({ answer: item._id }))
+            : [],
+          attendant: attendantId,
+          testId,
+        });
+      }
+
       await attendantModel.updateOne(
         { _id: attendantId },
-        { $set: { status: AttendantStatus.InProgress } }
+        {
+          $set: {
+            status:
+              countQuestionLinkedToTest === countAnsweredQuestion
+                ? AttendantStatus.Completed
+                : AttendantStatus.InProgress,
+          },
+        }
       );
       return {
         message: 'Saved Successfully',

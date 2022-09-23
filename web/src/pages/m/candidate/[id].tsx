@@ -22,6 +22,8 @@ import {
 import { TestStatus } from '@/generated/Enum';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import useGetQuestion from '@/hooks/useGetQuestionAssignedToTest';
+import useGetOverralGrade from '@/hooks/useGetOverralGrade';
+import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 
 const CandidatePage: NextPage<{
   data?: Attendant;
@@ -32,6 +34,11 @@ const CandidatePage: NextPage<{
   const { items, loading } = useGetQuestion({
     testId: data?.test?._id,
     limit: 100,
+  });
+
+  const getOverralGradeResponse = useGetOverralGrade({
+    test: data?.test?._id,
+    attendant: data?._id,
   });
 
   React.useEffect(() => {
@@ -68,22 +75,35 @@ const CandidatePage: NextPage<{
                 </div>
                 {showResult && (
                   <div className={classname('absolute top-0 right-20 mt-30')}>
-                    <div className="flex items-center">
-                      <span
-                        className={classname('font-bold text-20 text-black')}
-                      >
-                        50%
-                      </span>
-                      <span
-                        className={classname('font-bold text-f1 text-15 ml-2')}
-                        style={{ color: 'rgba(0, 0, 0, 0.28)' }}
-                      >
-                        Overall grade
-                      </span>
-                    </div>
-                    <div className={classname('font-bold text-right text-14')}>
-                      {data.status}
-                    </div>
+                    {!getOverralGradeResponse.loading && (
+                      <>
+                        <div className="flex items-center">
+                          <span
+                            className={classname(
+                              'font-bold text-20 text-black'
+                            )}
+                          >
+                            {getOverralGradeResponse.data}%
+                          </span>
+                          <span
+                            className={classname(
+                              'font-bold text-f1 text-15 ml-2'
+                            )}
+                            style={{ color: 'rgba(0, 0, 0, 0.28)' }}
+                          >
+                            Overall grade
+                          </span>
+                        </div>
+                        <div
+                          className={classname('font-bold text-right text-14')}
+                        >
+                          {data.status}
+                        </div>
+                      </>
+                    )}
+                    {getOverralGradeResponse.loading && (
+                      <LoadingSpinner size={30} />
+                    )}
                   </div>
                 )}
                 <div style={{ marginLeft: '13%', marginTop: '27px' }}>
