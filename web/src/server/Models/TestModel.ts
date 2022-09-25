@@ -41,8 +41,8 @@ export class Test {
   status?: TestStatus;
 
   @Field({ nullable: true })
-  @prop({ type: String })
-  passMark?: string;
+  @prop({ type: Number, required: false })
+  passMark?: number;
 
   @Field()
   @prop({ type: String, required: true })

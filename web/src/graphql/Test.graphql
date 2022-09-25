@@ -9,6 +9,7 @@ fragment Test on Test {
   updatedAt
   slug
   status
+  passMark
   questions {
     question {
       ...Question
@@ -27,6 +28,7 @@ mutation SetupTest(
   $endDate: String!
   $description: String
   $subject: String!
+  $passMark: Float!
 ) {
   addTest(
     title: $title
@@ -34,6 +36,7 @@ mutation SetupTest(
     endDate: $endDate
     description: $description
     subject: $subject
+    passMark: $passMark
   ) {
     message
     error

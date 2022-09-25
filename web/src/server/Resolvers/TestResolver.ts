@@ -50,11 +50,12 @@ export class TestResolver extends AttendantHelper {
       }
 
       const add = await testModel.create({
-        ...args,
+        title: args.title,
         managerId: req.session.userId,
         slug: generateSlug(args.title),
         startDate,
         endDate,
+        passMark: Number(args.passMark.toFixed()),
       });
 
       return {

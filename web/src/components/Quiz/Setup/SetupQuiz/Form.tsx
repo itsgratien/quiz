@@ -12,6 +12,7 @@ interface Values {
   startDate?: string;
   endDate?: string;
   subject?: string;
+  passMark?: number;
 }
 
 const Form = ({
@@ -56,20 +57,38 @@ const Form = ({
           </div>
         </div>
       </div>
-      <div className={classname('mt-10')}>
-        <SectionTitle
-          title="subject"
-          iconName="mdi:air-humidifier"
-          textSize={12}
-        />
-        <div className={style.inputGroup} style={{ marginTop: '12px' }}>
-          <InputField
-            placeholder="subject"
-            value={values.subject}
-            onChange={formik.handleChange}
-            name="subject"
-            error={errors?.subject}
+      <div className={classname('mt-10 flex items-center')}>
+        <div className={classname('')}>
+          <SectionTitle
+            title="subject"
+            iconName="mdi:air-humidifier"
+            textSize={12}
           />
+          <div className={style.inputGroup} style={{ marginTop: '12px' }}>
+            <InputField
+              placeholder="subject"
+              value={values.subject}
+              onChange={formik.handleChange}
+              name="subject"
+              error={errors?.subject}
+            />
+          </div>
+        </div>
+        <div className={classname('ml-10')}>
+          <SectionTitle
+            title="pass mark (%100)"
+            iconName="ant-design:percentage-outlined"
+            textSize={12}
+          />
+          <div className={style.inputGroup} style={{ marginTop: '12px' }}>
+            <InputField
+              placeholder="pass mark"
+              value={values.passMark}
+              onChange={formik.handleChange}
+              name="passMark"
+              error={errors?.passMark}
+            />
+          </div>
         </div>
       </div>
     </div>

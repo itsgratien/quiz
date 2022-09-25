@@ -14,6 +14,7 @@ import { SetupStep } from '@/generated/Enum';
 import { toast } from 'react-hot-toast';
 import { get } from 'lodash';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import { format } from 'date-fns';
 
 const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
   const [registerQuiz, { data, loading }] = useSetupTestMutation();
@@ -21,6 +22,14 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
   const setup = useSetup();
 
   const { test, handleStep } = setup;
+
+  const handleFormatDate = (value?: string) => {
+    if (value) {
+      return format(new Date(value), 'yyyy-MM-dd');
+    } else {
+      return format(new Date(), 'yyyy-MM-dd');
+    }
+  };
 
   const handleSubmitFunc = React.useCallback(
     async (values: any) => {
@@ -39,9 +48,10 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
     validationSchema: SetupQuizSchema,
     initialValues: {
       title: '',
-      startDate: '',
+      startDate: handleFormatDate(),
       endDate: '',
       subject: '',
+      passMark: '',
     },
     onSubmit: handleSubmitFunc,
     validateOnChange: false,
@@ -53,9 +63,10 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
     if (test) {
       setValues({
         title: get(test, 'title', ''),
-        startDate: get(test, 'startDate', ''),
-        endDate: get(test, 'endDate', ''),
+        startDate: test.startDate ? handleFormatDate(test.startDate) : '',
+        endDate: test.endDate ? handleFormatDate(test.endDate) : '',
         subject: get(test, 'subject', ''),
+        passMark: get(test, 'passMark', ''),
       });
     }
   }, [test, setValues]);

@@ -1,7 +1,7 @@
 import { Field, ObjectType, ClassType, ArgsType } from 'type-graphql';
 import { Test } from '@/server/Models/TestModel';
 import { ErrorsT } from './User';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsNumber } from 'class-validator';
 import { Attendant } from '@/server/Models/AttendantModel';
 
 export function CustomResponse<Data>(DataClass: ClassType<Data>) {
@@ -41,19 +41,28 @@ export class AddTestResponse extends CustomResponse(Test) {}
 @ArgsType()
 export class AddTestArgs {
   @Field()
+  @IsNotEmpty()
   title: string;
 
   @Field({ nullable: true })
   description?: string;
 
   @Field()
+  @IsNotEmpty()
   subject: string;
 
   @Field()
+  @IsNotEmpty()
   startDate: string;
 
   @Field()
+  @IsNotEmpty()
   endDate: string;
+
+  @Field()
+  @IsNumber({ allowNaN: false, allowInfinity: false })
+  @IsPositive()
+  passMark: number;
 }
 
 @ArgsType()
