@@ -71,7 +71,7 @@ export class AnswerResolver extends AnswerHelper {
         const overralGrade = (totalGrade * 100) / totalPoints;
 
         await resultModel.create({
-          overralgrade: String(overralGrade),
+          overralgrade: overralGrade.toFixed(),
           answers: getAnswers.length
             ? getAnswers.map((item) => ({ answer: item._id }))
             : [],

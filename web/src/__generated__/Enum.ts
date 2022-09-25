@@ -32,3 +32,9 @@ export enum SetupStep {
   Question = 'Question',
   Attendant = 'Attendant',
 }
+
+export enum ResultStatus {
+  Failed = 'Failed',
+  Succeed = 'Succeed',
+  Terminated = 'Terminated',
+}

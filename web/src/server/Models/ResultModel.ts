@@ -7,6 +7,7 @@ import { ObjectType, Field } from 'type-graphql';
 import { Test } from './TestModel';
 import { Attendant } from './AttendantModel';
 import { Answer } from './AnswerModel';
+import { ResultStatus } from '@/generated/Enum';
 
 @ObjectType()
 class AnsweredQuestions {
@@ -35,6 +36,10 @@ export class Result {
   @Field(() => [AnsweredQuestions || String])
   @prop()
   answers: AnsweredQuestions[];
+
+  @Field(() => String, { nullable: true })
+  @prop({ required: false })
+  status?: ResultStatus;
 
   @Field({ nullable: true })
   @prop({ required: false })
