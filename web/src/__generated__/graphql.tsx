@@ -473,11 +473,18 @@ export type Result = {
   attendant: Attendant;
   createdAt?: Maybe<Scalars['String']>;
   overralgrade: Scalars['String'];
-  status?: Maybe<Scalars['String']>;
+  status?: Maybe<Status>;
   testId: Test;
   updatedAt?: Maybe<Scalars['String']>;
   video?: Maybe<Scalars['String']>;
 };
+
+/** Status */
+export enum Status {
+  Failed = 'Failed',
+  Succeed = 'Succeed',
+  Terminated = 'Terminated'
+}
 
 export type Test = {
   __typename?: 'Test';

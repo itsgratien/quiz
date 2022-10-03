@@ -3,11 +3,16 @@ import typegoose, {
   DocumentType,
   getModelForClass,
 } from '@typegoose/typegoose';
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, registerEnumType } from 'type-graphql';
 import { Test } from './TestModel';
 import { Attendant } from './AttendantModel';
 import { Answer } from './AnswerModel';
 import { ResultStatus } from '@/generated/Enum';
+
+registerEnumType(ResultStatus, {
+  description: 'Status',
+  name: 'Status',
+});
 
 @ObjectType()
 class AnsweredQuestions {
@@ -37,8 +42,8 @@ export class Result {
   @prop()
   answers: AnsweredQuestions[];
 
-  @Field(() => String, { nullable: true })
-  @prop({ required: false })
+  @Field((type) => ResultStatus, { nullable: true })
+  @prop({ required: false, type: String })
   status?: ResultStatus;
 
   @Field({ nullable: true })
