@@ -12,9 +12,9 @@ export const verifyTestUri: MiddlewareFn<ContextT> = async (
 ) => {
   const { req } = context;
 
-  // if (req.session && req.session.userId) {
-  //   return errorResponse('You are not allowed to perform this action');
-  // }
+  if (req.session && req.session.userId) {
+    return errorResponse('You are not allowed to perform this action');
+  }
 
   if (!args.test || !args.attendant) {
     return errorResponse('Quiz Not Found');
