@@ -11,7 +11,7 @@ const handleCookieFunc = (
   if (typeof window === 'undefined' && ctx) {
     const { req } = ctx;
 
-    if (req && req.headers && req.headers.cookie) {
+    if (req?.headers && req.headers.cookie) {
       return req.headers.cookie;
     }
   }
