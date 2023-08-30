@@ -14,22 +14,22 @@ const quiz = {
   getAll: [
     {
       _id: Math.random().toString(),
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       status: QuizStatus.Published,
     },
     {
       _id: Math.random().toString(),
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       status: QuizStatus.Draft,
     },
     {
       _id: Math.random().toString(),
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       status: QuizStatus.Published,
     },
     {
       _id: Math.random().toString(),
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       status: QuizStatus.Draft,
     },
   ],
