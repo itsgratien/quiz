@@ -24,7 +24,7 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   error,
 }) => {
   const [status, setStatus] = React.useState<string>(
-    String(attendant && attendant.status)
+    String(attendant && attendant.status),
   );
 
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -138,13 +138,14 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
 export default TodoQuiz;
 
 export const getServerSideProps = async (
-  context: GetServerSidePropsContext
+  context: GetServerSidePropsContext,
 ) => {
   const { query } = context;
 
   const notFoundRedirect = {
     notFound: true,
   };
+
   try {
     if (query.test && query.attendant) {
       const { test, attendant } = query as any;

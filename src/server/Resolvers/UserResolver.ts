@@ -13,7 +13,7 @@ export class UserResolver {
   @Authorized()
   @Query(() => UserTg.GetUserResponse)
   async getUser(
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<UserTg.GetUserResponse | null> {
     const { req } = ctx;
 
@@ -37,7 +37,7 @@ export class UserResolver {
   @Mutation(() => UserTg.AuthenticateResponse)
   async authenticate(
     @Args() args: UserTg.Authenticate,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<UserTg.AuthenticateResponse> {
     try {
       const { req } = ctx;

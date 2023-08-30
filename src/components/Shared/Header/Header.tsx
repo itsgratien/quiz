@@ -3,7 +3,6 @@ import { Icon } from '@iconify/react';
 import style from './Header.module.scss';
 import classname from 'classnames';
 import Search from './Search';
-import Notification from './Notification';
 import { useLogoutMutation } from '@/generated/graphql';
 import WarningModal from '@/components/Shared/Alert/WarningAlertModal';
 import { toast } from 'react-hot-toast';
@@ -50,7 +49,7 @@ const Header = () => {
       className={classname(
         'w-full flex justify-between top-0 bg-white z-50',
         style.header,
-        fixed ? 'fixed' : 'relative'
+        fixed ? 'fixed' : 'relative',
       )}
     >
       {warn && (
@@ -68,7 +67,6 @@ const Header = () => {
       </div>
       <Search />
       <div className={classname('flex justify-between')}>
-        <Notification />
         <div>
           <button
             type="button"

@@ -12,16 +12,15 @@ import {
 import * as TestTg from '@/server/TypeGraphql/Test';
 import * as UserType from '@/generated/User';
 import { HttpCode } from '@/utils/HttpCode';
-import { errorResponse } from '../Helpers/SharedHelper';
+import {
+  errorResponse,
+  generatePagination,
+  generateSlug,
+} from '../Helpers/SharedHelper';
 import format from '@/server/Helpers/FormatHelper';
 import { attendantModel } from '../Models/AttendantModel';
 import { TestStatus } from '@/generated/Enum';
-import { AttendantHelper } from '../Helpers/AttendantHelper';
-import {
-  generatePagination,
-  generateSlug,
-  decryptFunc,
-} from '../Helpers/SharedHelper';
+import { AttendantHelper, cryptr } from '../Helpers/AttendantHelper';
 import { PaginationArgs } from '../TypeGraphql/Question';
 import { format as formatDate, compareDesc } from 'date-fns';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
@@ -34,7 +33,7 @@ export class TestResolver extends AttendantHelper {
   @Mutation(() => TestTg.AddTestResponse)
   async addTest(
     @Args() args: TestTg.AddTestArgs,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<TestTg.AddTestResponse> {
     try {
       const { req } = ctx;
@@ -56,6 +55,7 @@ export class TestResolver extends AttendantHelper {
         startDate,
         endDate,
         passMark: Number(args.passMark.toFixed()),
+        subject: args.subject,
       });
 
       return {
@@ -71,7 +71,7 @@ export class TestResolver extends AttendantHelper {
   @Query(() => TestTg.GetMyTestResponse)
   async getMyTests(
     @Ctx() ctx: UserType.ContextT,
-    @Args() args: PaginationArgs
+    @Args() args: PaginationArgs,
   ): Promise<TestTg.GetMyTestResponse> {
     try {
       const { req } = ctx;
@@ -104,7 +104,7 @@ export class TestResolver extends AttendantHelper {
   @Mutation(() => TestTg.AddTestResponse)
   async publishTest(
     @Args() args: TestTg.PublishTestArgs,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<TestTg.AddTestResponse> {
     try {
       const { req } = ctx;
@@ -117,26 +117,26 @@ export class TestResolver extends AttendantHelper {
         return errorResponse('You are not allowed to perform this actions');
       }
 
-      if (checkTest.status === TestStatus.Published) {
-        return errorResponse('Already Published');
-      }
+      // if (checkTest.status === TestStatus.Published) {
+      //   return errorResponse('Already Published');
+      // }
 
       const updateR = await testModel.updateOne(
         { _id: checkTest._id },
-        { $set: { status: TestStatus.Published } }
+        { $set: { status: TestStatus.Published } },
       );
 
-      if (updateR.modifiedCount <= 0) {
-        return errorResponse('Unable To Publish Test');
-      }
+      // if (updateR.modifiedCount <= 0) {
+      //   return errorResponse('Unable To Publish Test');
+      // }
 
       const getAttendants = await attendantModel
         .find({
-          $and: [{ testId: checkTest._id }, { testUri: undefined }],
+          $and: [{ testId: checkTest._id }],
         })
         .select('_id');
 
-      if (getAttendants && getAttendants.length > 0) {
+      if (getAttendants.length > 0) {
         // generate unique test uri of each attendant
         for (const attendant of getAttendants) {
           await attendantModel.updateOne(
@@ -145,17 +145,17 @@ export class TestResolver extends AttendantHelper {
               $set: {
                 testUri: this.generateUniqueTestUri(
                   checkTest._id,
-                  attendant._id
+                  attendant._id,
                 ),
               },
-            }
+            },
           );
         }
       }
       return {
         message: 'Published Successfully',
       };
-    } catch (error: any) {
+    } catch (error) {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
@@ -164,7 +164,7 @@ export class TestResolver extends AttendantHelper {
   @Query(() => TestTg.GetSingleTestResponse)
   async getSingleTest(
     @Arg('slug') slug: string,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<TestTg.GetSingleTestResponse> {
     try {
       const { req } = ctx;
@@ -191,12 +191,12 @@ export class TestResolver extends AttendantHelper {
   @UseMiddleware(verifyTestUri)
   @Mutation(() => TestTg.VerifyTestUriResponse)
   async verifyTestUri(
-    @Args() args: TestTg.VerifyTestUriArgs
+    @Args() args: TestTg.VerifyTestUriArgs,
   ): Promise<TestTg.VerifyTestUriResponse> {
     try {
-      const attendantId = decryptFunc(args.attendant);
+      const attendantId = cryptr.decrypt(args.attendant);
 
-      const testId = decryptFunc(args.test);
+      const testId = cryptr.decrypt(args.test);
 
       const findAttendant = await attendantModel.findById(attendantId);
 

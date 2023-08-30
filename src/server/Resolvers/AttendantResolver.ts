@@ -10,7 +10,6 @@ import {
 } from 'type-graphql';
 import { attendantModel, AttendantRefTest } from '../Models/AttendantModel';
 import {
-  decryptFunc,
   errorResponse,
   generatePagination,
 } from '@/server/Helpers/SharedHelper';
@@ -19,7 +18,7 @@ import * as attendantTg from '../TypeGraphql/Attendant';
 import format from '../Helpers/FormatHelper';
 import { HttpCode } from '@/utils/HttpCode';
 import { testModel } from '@/server/Models/TestModel';
-import { AttendantHelper } from '../Helpers/AttendantHelper';
+import { AttendantHelper, cryptr } from '../Helpers/AttendantHelper';
 import { AssignAttendantToTestArgs } from '@/generated/Attendant';
 import { AttendantStatus } from '@/generated/Enum';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
@@ -32,7 +31,7 @@ export class AttendantResolver extends AttendantHelper {
     @Ctx() ctx: Usertype.ContextT,
     @Arg('args', () => attendantTg.AddAttendantArgs)
     args: attendantTg.AddAttendantArgs,
-    @Arg('testId') testId: string
+    @Arg('testId') testId: string,
   ): Promise<attendantTg.AddAttendantResponse> {
     try {
       const { req } = ctx;
@@ -70,7 +69,7 @@ export class AttendantResolver extends AttendantHelper {
     @Arg('args', (type) => [attendantTg.AddAttendantArgs])
     args: attendantTg.AddAttendantArgs[],
     @Arg('testId') testId: string,
-    @Ctx() ctx: Usertype.ContextT
+    @Ctx() ctx: Usertype.ContextT,
   ): Promise<attendantTg.AddMoreAttendantResponse> {
     try {
       const { req } = ctx;
@@ -87,7 +86,7 @@ export class AttendantResolver extends AttendantHelper {
 
       if (checkDuplicateEmail) {
         return errorResponse(
-          `The following emails are duplicate. ${checkDuplicateEmail}`
+          `The following emails are duplicate. ${checkDuplicateEmail}`,
         );
       }
 
@@ -97,7 +96,7 @@ export class AttendantResolver extends AttendantHelper {
 
       if (checkDuplicateEmailFromDb) {
         return errorResponse(
-          `Attendant With This Email(${checkDuplicateEmailFromDb.email}) Already Assigned To The Test.`
+          `Attendant With This Email(${checkDuplicateEmailFromDb.email}) Already Assigned To The Test.`,
         );
       }
 
@@ -109,7 +108,7 @@ export class AttendantResolver extends AttendantHelper {
 
       await this.assignAttendantsToTest(
         items.map((item) => ({ attendant: String(item._id) })),
-        testId
+        testId,
       );
 
       return {
@@ -123,7 +122,7 @@ export class AttendantResolver extends AttendantHelper {
 
   private assignAttendantsToTest = async (
     values: AssignAttendantToTestArgs[],
-    testId: string
+    testId: string,
   ) => {
     const findTest = await testModel.findById(testId);
 
@@ -132,7 +131,7 @@ export class AttendantResolver extends AttendantHelper {
 
       const change = await testModel.updateMany(
         { _id: testId },
-        { $set: { attendants: [...storedAttendants, ...values] } }
+        { $set: { attendants: [...storedAttendants, ...values] } },
       );
 
       if (change.modifiedCount !== 0) {
@@ -145,14 +144,14 @@ export class AttendantResolver extends AttendantHelper {
   @Authorized()
   @Query(() => attendantTg.GetAttendantByTestResponse)
   async getAttendantByTest(
-    @Args() args: attendantTg.GetAttendantByTestArgs
+    @Args() args: attendantTg.GetAttendantByTestArgs,
   ): Promise<attendantTg.GetAttendantByTestResponse> {
     try {
       const filterQuery = { testId: args.testId };
       const pagination = await generatePagination(
         attendantModel,
         args,
-        filterQuery
+        filterQuery,
       );
 
       const find = await attendantModel
@@ -189,7 +188,7 @@ export class AttendantResolver extends AttendantHelper {
   @Authorized()
   @Query(() => attendantTg.GetAttendantByTestResponse)
   async getAttendantById(
-    @Arg('attendantId') attendantId: string
+    @Arg('attendantId') attendantId: string,
   ): Promise<attendantTg.GetAttendantByTestResponse> {
     try {
       const find = await attendantModel.findById(attendantId).populate({
@@ -215,10 +214,10 @@ export class AttendantResolver extends AttendantHelper {
   @UseMiddleware(verifyTestUri)
   @Query(() => attendantTg.WhoIsDoingQuizResponse)
   async whoIsDoingQuiz(
-    @Args() args: attendantTg.WhoIsDoingQuizArgs
+    @Args() args: attendantTg.WhoIsDoingQuizArgs,
   ): Promise<attendantTg.WhoIsDoingQuizResponse> {
     try {
-      const attendantId = decryptFunc(args.attendant);
+      const attendantId = cryptr.decrypt(args.attendant);
 
       const findAttendant = await attendantModel.findById(attendantId);
 
@@ -236,15 +235,15 @@ export class AttendantResolver extends AttendantHelper {
   @UseMiddleware(verifyTestUri)
   @Mutation(() => attendantTg.WhoIsDoingQuizResponse)
   async changeStatus(
-    @Args() args: attendantTg.ChangeStatusArgs
+    @Args() args: attendantTg.ChangeStatusArgs,
   ): Promise<attendantTg.WhoIsDoingQuizResponse> {
     try {
-      const attendantId = decryptFunc(args.attendant);
+      const attendantId = cryptr.decrypt(args.attendant);
 
       const updateStatus = await attendantModel.findOneAndUpdate(
         { _id: attendantId },
         { $set: { status: args.status } },
-        { returnOriginal: false }
+        { returnOriginal: false },
       );
 
       if (updateStatus) {

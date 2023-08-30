@@ -33,15 +33,15 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
 
   const handleSubmitFunc = React.useCallback(
     async (values: any) => {
-      if (!test) {
-        await registerQuiz({ variables: values });
-      } else {
+      if (test) {
         if (handleStep) {
           handleStep(SetupStep.Question);
         }
+      } else {
+        await registerQuiz({ variables: values });
       }
     },
-    [test, registerQuiz, handleStep]
+    [test, registerQuiz, handleStep],
   );
 
   const formik = useFormik({
@@ -66,13 +66,13 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
         startDate: test.startDate ? handleFormatDate(test.startDate) : '',
         endDate: test.endDate ? handleFormatDate(test.endDate) : '',
         subject: get(test, 'subject', ''),
-        passMark: get(test, 'passMark', ''),
+        passMark: String(test?.passMark ?? ''),
       });
     }
   }, [test, setValues]);
 
   React.useEffect(() => {
-    if (data && data.addTest && setup.handleStep && setup.handleTest) {
+    if (data?.addTest && setup.handleStep && setup.handleTest) {
       if (data.addTest.data) {
         setup.handleStep(SetupStep.Question);
         setup.handleTest(data.addTest.data as Test);
@@ -102,7 +102,7 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
         className={classname(
           'relative flex flex-col items-center',
           style.setup,
-          style.setupQuiz
+          style.setupQuiz,
         )}
       >
         {loadingProp ? (

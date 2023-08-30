@@ -32,7 +32,7 @@ export class QuestionResolver {
   @Mutation(() => AddQuestionResponse)
   async setupMultipleChoiceQuestion(
     @Args() args: AddMcQuestionArgs,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<AddQuestionResponse> {
     try {
       const { req } = ctx;
@@ -81,7 +81,7 @@ export class QuestionResolver {
   @Query(() => questionTg.GetQuestionsResponse)
   async getQuestions(
     @Ctx() ctx: UserType.ContextT,
-    @Args() args: questionTg.GetQuestionsArgs
+    @Args() args: questionTg.GetQuestionsArgs,
   ): Promise<questionTg.GetQuestionsResponse> {
     try {
       const userId = ctx.req.session.userId;
@@ -110,7 +110,7 @@ export class QuestionResolver {
   @Query(() => questionTg.GetQuestionResponse)
   async getQuestion(
     @Args() arg: questionTg.GetQuestionArgs,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<questionTg.GetQuestionResponse> {
     try {
       const { req } = ctx;
@@ -145,14 +145,14 @@ export class QuestionResolver {
   @Mutation(() => AddQuestionResponse)
   async editMcQuestion(
     @Ctx() ctx: UserType.ContextT,
-    @Args() args: questionTg.EditMcQArgs
+    @Args() args: questionTg.EditMcQArgs,
   ): Promise<AddQuestionResponse> {
     try {
       const { userId: owner } = ctx.req.session;
 
       await questionModel.updateOne(
         { $and: [{ _id: args.id }, { owner }] },
-        { $set: { ...args } }
+        { $set: { ...args } },
       );
 
       return {
@@ -168,14 +168,14 @@ export class QuestionResolver {
   @Mutation(() => questionTg.AddQuestionResponse)
   async changeQuestionStatus(
     @Ctx() ctx: UserType.ContextT,
-    @Args() args: questionTg.EditQuestionStatusArgs
+    @Args() args: questionTg.EditQuestionStatusArgs,
   ): Promise<questionTg.AddQuestionResponse> {
     try {
       const { userId: owner } = ctx.req.session;
 
       await questionModel.updateOne(
         { $and: [{ _id: args.id }, { owner }] },
-        { $set: { status: args.status } }
+        { $set: { status: args.status } },
       );
 
       return {
@@ -188,7 +188,7 @@ export class QuestionResolver {
 
   private assignQuestionsToTheTest = async (
     questionId: string,
-    testId: string
+    testId: string,
   ) => {
     const findTest = await testModel.findById(testId);
 
@@ -203,7 +203,7 @@ export class QuestionResolver {
       if (!checkQuestion) {
         const update = await testModel.updateOne(
           { _id: testId },
-          { $push: { questions: { question: questionId } } }
+          { $push: { questions: { question: questionId } } },
         );
 
         if (update.modifiedCount > 0) {
@@ -228,7 +228,7 @@ export class QuestionResolver {
       if (isNotIncluded) {
         const updateQ = await questionModel.updateOne(
           { _id: questionId },
-          { $push: { tests: { test: testId } } }
+          { $push: { tests: { test: testId } } },
         );
 
         if (updateQ.modifiedCount > 0) {
@@ -243,7 +243,7 @@ export class QuestionResolver {
   @Mutation(() => questionTg.AddQuestionToTestResponse)
   async addQuestionToTest(
     @Args() args: questionTg.AddQuestionToTestArgs,
-    @Ctx() ctx: UserType.ContextT
+    @Ctx() ctx: UserType.ContextT,
   ): Promise<questionTg.AddQuestionToTestResponse> {
     try {
       const { question, test } = args;
@@ -266,7 +266,7 @@ export class QuestionResolver {
 
       const assign = await this.assignQuestionsToTheTest(
         findQuestion._id,
-        findTest._id
+        findTest._id,
       );
 
       if (!assign) {
@@ -275,7 +275,7 @@ export class QuestionResolver {
 
       const link = await this.linkTestToQuestion(
         findQuestion._id,
-        findTest._id
+        findTest._id,
       );
 
       if (!link) {
@@ -293,7 +293,7 @@ export class QuestionResolver {
   @Query(() => questionTg.GetQuestionAssignedToTestResponse)
   async getQuestionAssignedToTest(
     @Args() args: questionTg.GetQuestionAssignedToTestArgs,
-    @Ctx() context: UserType.ContextT
+    @Ctx() context: UserType.ContextT,
   ): Promise<questionTg.GetQuestionAssignedToTestResponse> {
     try {
       const { req } = context;
@@ -305,7 +305,7 @@ export class QuestionResolver {
       const pagination = await generatePagination(
         questionModel,
         args,
-        filterQuery
+        filterQuery,
       );
 
       const find = await questionModel

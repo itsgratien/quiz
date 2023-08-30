@@ -2,7 +2,7 @@ import { Resolver, Mutation, UseMiddleware, Args, Query } from 'type-graphql';
 import { answerModel } from '@/server/Models/AnswerModel';
 import { resultModel } from '@/server/Models/ResultModel';
 import { questionModel } from '@/server/Models/QuestionModel';
-import { errorResponse, decryptFunc } from '@/server/Helpers/SharedHelper';
+import { errorResponse } from '@/server/Helpers/SharedHelper';
 import { HttpCode } from '@/utils/HttpCode';
 import * as AnswerTg from '@/server/TypeGraphql/Answer';
 import * as AnswerMiddleware from '@/server/Middlewares/AnswerMiddleware';
@@ -12,20 +12,21 @@ import { AttendantStatus } from '@/generated/Enum';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
 import format from '@/server/Helpers/FormatHelper';
 import mongoose from 'mongoose';
+import { cryptr } from '@/server/Helpers/AttendantHelper';
 
 @Resolver()
 export class AnswerResolver extends AnswerHelper {
   @UseMiddleware([verifyTestUri, AnswerMiddleware.verifyArgs])
   @Mutation(() => AnswerTg.AnswerResponse)
   async answerMcQuestion(
-    @Args() args: AnswerTg.AnswerMcArgs
+    @Args() args: AnswerTg.AnswerMcArgs,
   ): Promise<AnswerTg.AnswerResponse> {
     try {
       const getQuestion = await questionModel.findById(args.question);
 
-      const testId = decryptFunc(args.test);
+      const testId = cryptr.decrypt(args.test);
 
-      const attendantId = decryptFunc(args.attendant);
+      const attendantId = cryptr.decrypt(args.attendant);
 
       if (!getQuestion) {
         return errorResponse('Question Not Found');
@@ -34,7 +35,7 @@ export class AnswerResolver extends AnswerHelper {
       const grade = this.getMCQGrade(
         getQuestion.solutions as string[],
         args.answers,
-        getQuestion.points
+        getQuestion.points,
       );
 
       const getQuestionLinkedToTest = await questionModel.find({
@@ -60,12 +61,12 @@ export class AnswerResolver extends AnswerHelper {
       if (countQuestionLinkedToTest === countAnsweredQuestion) {
         const totalGrade = getAnswers.reduce(
           (prev, curr) => Number(prev) + Number(curr.grade),
-          0
+          0,
         );
 
         const totalPoints = getQuestionLinkedToTest.reduce(
           (prev, curr) => Number(prev) + Number(curr.points),
-          0
+          0,
         );
 
         const overralGrade = (totalGrade * 100) / totalPoints;
@@ -89,7 +90,7 @@ export class AnswerResolver extends AnswerHelper {
                 ? AttendantStatus.Completed
                 : AttendantStatus.InProgress,
           },
-        }
+        },
       );
       return {
         message: 'Saved Successfully',
@@ -101,7 +102,7 @@ export class AnswerResolver extends AnswerHelper {
 
   @Query(() => AnswerTg.GetAnswerResponse)
   async getAnswer(
-    @Args() args: AnswerTg.GetAnswerArgs
+    @Args() args: AnswerTg.GetAnswerArgs,
   ): Promise<AnswerTg.GetAnswerResponse> {
     try {
       const findAnswer = await answerModel.findOne({

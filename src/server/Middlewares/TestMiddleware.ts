@@ -3,26 +3,26 @@ import { errorResponse } from '@/server/Helpers/SharedHelper';
 import { testModel } from '@/server/Models/TestModel';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { compareAsc } from 'date-fns';
-import { decryptFunc } from '@/server/Helpers/SharedHelper';
 import { ContextT } from '@/generated/User';
+import { cryptr } from '../Helpers/AttendantHelper';
 
 export const verifyTestUri: MiddlewareFn<ContextT> = async (
   { args, context },
-  next
+  next,
 ) => {
   const { req } = context;
 
-  if (req.session && req.session.userId) {
-    return errorResponse('You are not allowed to perform this action');
-  }
+  // if (req.session && req.session.userId) {
+  //   return errorResponse('You are not allowed to perform this action');
+  // }
 
   if (!args.test || !args.attendant) {
     return errorResponse('Quiz Not Found');
   }
 
-  const testId = decryptFunc(args.test);
+  const testId = cryptr.decrypt(args.test);
 
-  const attendantId = decryptFunc(args.attendant);
+  const attendantId = cryptr.decrypt(args.attendant);
 
   const findTest = await testModel.findById(testId);
 

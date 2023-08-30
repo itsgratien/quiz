@@ -5,17 +5,17 @@ import { testModel } from '@/server/Models/TestModel';
 import { questionModel } from '@/server/Models/QuestionModel';
 import { attendantModel } from '@/server/Models/AttendantModel';
 import { HttpCode } from '@/utils/HttpCode';
-import { decryptFunc } from '@/server/Helpers/SharedHelper';
+import { cryptr } from '@/server/Helpers/AttendantHelper';
 import { answerModel } from '@/server/Models/AnswerModel';
 
 export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
   { args },
-  next
+  next,
 ) => {
   try {
-    const testId = decryptFunc(args.test);
+    const testId = cryptr.decrypt(args.test);
 
-    const attendantId = decryptFunc(args.attendant);
+    const attendantId = cryptr.decrypt(args.attendant);
 
     const checkTest = await testModel.findById(testId);
 
@@ -26,7 +26,7 @@ export const verifyArgs: MiddlewareFn<UserType.ContextT> = async (
 
     const findTestQuestion =
       checkTest.questions?.find(
-        (item) => String(item.question) === args.question
+        (item) => String(item.question) === args.question,
       ) ?? undefined;
 
     if (!checkQuestion || !findTestQuestion) {
