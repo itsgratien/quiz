@@ -38,7 +38,9 @@ const SetupQuiz = ({ open, handleClose, loading: loadingProp }: SetupProps) => {
           handleStep(SetupStep.Question);
         }
       } else {
-        await registerQuiz({ variables: values });
+        await registerQuiz({
+          variables: { ...values, passMark: Number(values.passMark) },
+        });
       }
     },
     [test, registerQuiz, handleStep],
