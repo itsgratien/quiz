@@ -57,7 +57,7 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   };
 
   React.useEffect(() => {
-    if (router.query && router.query.test && router.query.attendant) {
+    if (router?.query.test && router?.query.attendant) {
       whoIsDoingQuizFunc({
         variables: {
           test: String(router.query.test),
@@ -68,7 +68,7 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   }, [whoIsDoingQuizFunc, router]);
 
   React.useEffect(() => {
-    if (data && data.whoIsDoingQuiz) {
+    if (data?.whoIsDoingQuiz) {
       setLoading(false);
       if (data.whoIsDoingQuiz.attendant) {
         setStatus(String(data.whoIsDoingQuiz.attendant.status));
@@ -77,7 +77,7 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   }, [data]);
 
   React.useEffect(() => {
-    if (changeStatusResponse && changeStatusResponse.changeStatus) {
+    if (changeStatusResponse?.changeStatus) {
       if (changeStatusResponse.changeStatus.attendant) {
         setStatus(String(changeStatusResponse.changeStatus.attendant.status));
       }
@@ -157,8 +157,7 @@ export const getServerSideProps = async (
       });
 
       if (
-        find.data &&
-        find.data.verifyTestUri &&
+        find.data?.verifyTestUri &&
         find.data.verifyTestUri &&
         find.data.verifyTestUri.verified
       ) {
