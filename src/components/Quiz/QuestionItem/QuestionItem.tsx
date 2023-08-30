@@ -5,7 +5,7 @@ import QuestionType from './QType';
 import ViewMoreButton from '../QuizItem/ViewMoreButton';
 import ViewMore from '../ViewMore';
 import RightButton from '@/components/Quiz/RightButtons';
-import EditButton from '../QuestionItem/EditButton';
+import EditButton from './EditButton';
 
 const QuestionItem = ({
   title,

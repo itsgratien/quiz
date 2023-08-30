@@ -28,8 +28,7 @@ const useGetAnswer = ({
 
   return {
     loading,
-    data:
-      (data && data.getAnswer && (data.getAnswer.data as Answer)) || undefined,
+    data: (data?.getAnswer && (data.getAnswer.data as Answer)) || undefined,
     refetch,
   };
 };
