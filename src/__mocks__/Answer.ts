@@ -10,25 +10,25 @@ const answer = {
         'On Deploying Application to AWS',
         'Testing User Interface Design',
       ],
-      grade: faker.random.numeric(),
+      grade: faker.number.int()
     },
     {
       _id: Math.random().toString(),
       question: question.getAll[1],
       answers: ['Tanzania Dodoma', 'Kibuye', 'Gisenyi'],
-      grade: faker.random.numeric(),
+      grade: faker.number.int(),
     },
     {
       _id: Math.random().toString(),
       question: question.getAll[2],
       answers: ['Tanzania', 'Kigali Rwanda'],
-      grade: faker.random.numeric(),
+      grade: faker.number.int(),
     },
     {
       _id: Math.random().toString(),
       question: question.getAll[3],
       answers: ['Gisenyi', 'Kigali', 'Tanzania'],
-      grade: faker.random.numeric(),
+      grade: faker.number.int(),
     },
   ],
 };
