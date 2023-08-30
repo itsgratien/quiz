@@ -1,6 +1,7 @@
 import Cryptr from 'cryptr';
 import { AddAttendantArgs } from '../TypeGraphql/Attendant';
 
+export const cryptr = new Cryptr(process.env.SECRET_KEY || '');
 export class AttendantHelper {
   sortAttendants = (items: AddAttendantArgs[]): AddAttendantArgs[] => {
     if (items.length <= 1) {
@@ -17,7 +18,7 @@ export class AttendantHelper {
 
   private mergeAttendants = (
     left: AddAttendantArgs[],
-    right: AddAttendantArgs[]
+    right: AddAttendantArgs[],
   ) => {
     const sort: AddAttendantArgs[] = [];
 
@@ -57,14 +58,10 @@ export class AttendantHelper {
   };
 
   generateUniqueTestUri = (testId: string, attendantId: string) => {
-    const secretKey = process.env.SECRET_KEY || '';
+    const encryptTestId = cryptr.encrypt(testId);
 
-    const crypto = new Cryptr(secretKey);
+    const encryptAttendantId = cryptr.encrypt(attendantId);
 
-    const encryptTestId = crypto.encrypt(testId);
-
-    const encryptAttendantId = crypto.encrypt(attendantId);
-
-    return `http://localhost:3000/assessment/?test=${encryptTestId}&attendant=${encryptAttendantId}`;
+    return `http://localhost:3000/todo/?test=${encryptTestId}&attendant=${encryptAttendantId}`;
   };
 }

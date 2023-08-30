@@ -42,7 +42,7 @@ const CandidatePage: NextPage<{
   });
 
   React.useEffect(() => {
-    if (data && data.test) {
+    if (data?.test) {
       setShowResult(data.test.status === TestStatus.Published);
     }
   }, [data]);
@@ -50,7 +50,7 @@ const CandidatePage: NextPage<{
   return (
     <>
       <Head>
-        <title>{`Candidate | ${data && data.names}`}</title>
+        <title>{`Candidate | ${data?.names}`}</title>
       </Head>
       <Layout goBack>
         {data && (
@@ -184,7 +184,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) =>
 
       const { getAttendantById } = res.data;
 
-      if (getAttendantById && getAttendantById.data) {
+      if (getAttendantById?.data) {
         return {
           props: {
             data: getAttendantById.data,

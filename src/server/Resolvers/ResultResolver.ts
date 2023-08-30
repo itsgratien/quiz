@@ -12,7 +12,7 @@ export class ResultResolver {
   @Authorized()
   @Query(() => GetOverralGradeResponse)
   async getOverralGrade(
-    @Args() args: GetOverralGradeArgs
+    @Args() args: GetOverralGradeArgs,
   ): Promise<GetOverralGradeResponse> {
     try {
       const find = await resultModel.findOne({

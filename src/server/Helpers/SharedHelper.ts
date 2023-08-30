@@ -1,17 +1,16 @@
 import slugify from 'slugify';
 import { PaginationArgs } from '@/server/TypeGraphql/Question';
-import cryptr from 'cryptr';
 
 export const generateSlug = (value: string) =>
   slugify(
     `${value}-${Date.now()}-${Math.random() * new Date().getFullYear()}`,
-    { replacement: '-', lower: true }
+    { replacement: '-', lower: true },
   );
 
 export const generatePagination = async (
   model: any,
   value: PaginationArgs,
-  filter?: { [key: string]: string } | any
+  filter?: { [key: string]: string } | any,
 ) => {
   const totalDocs = await model.find(filter || {}).countDocuments();
 
@@ -35,6 +34,3 @@ export const errorResponse = (error?: string, status?: number) => ({
   error: error || 'Internal Server Error',
   status,
 });
-
-export const decryptFunc = (value: string, secret?: string) =>
-  new cryptr(secret || process.env.SECRET_KEY || '').decrypt(value);
