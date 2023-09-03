@@ -3,11 +3,11 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import '@/utils/Firebase';
 import { Toaster } from 'react-hot-toast';
-import AuthProvider from '@/components/Auth/AuthProvider';
+import ApolloGraphQLProvider from '@/lib/ApolloGraphQLProvider';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <AuthProvider>
+    <ApolloGraphQLProvider>
       <Component {...pageProps} />
       <Toaster
         toastOptions={{
@@ -16,7 +16,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           success: { style: { background: '#B3FF77', color: 'black' } },
         }}
       />
-    </AuthProvider>
+    </ApolloGraphQLProvider>
   );
 };
 
