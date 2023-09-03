@@ -1,6 +1,4 @@
 'use client';
-import '@/utils/Firebase';
-import 'antd/dist/reset.css';
 import React from 'react';
 import { ConfigProvider } from 'antd';
 import AntdRegistry from './AntdRegistry';

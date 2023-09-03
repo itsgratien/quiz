@@ -1,22 +1,19 @@
 import 'src/styles/globals.css';
-import '@/utils/Firebase';
 import { Metadata } from 'next';
-import AntdProvider from '@/lib/AntdProvider';
-import ApolloGraphQLProvider from '@/lib/ApolloGraphQLProvider';
+import AppProvider from '@/lib/AppProvider';
 
 export const metadata: Metadata = {
   title: 'equiz',
-  description: 'Online test platform',
+  description: 'Online Testing Platform',
   authors: [{ name: 'Gratien Tuyishimire' }],
+  icons: '/logo.png',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <ApolloGraphQLProvider>
-          <AntdProvider>{children}</AntdProvider>
-        </ApolloGraphQLProvider>
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

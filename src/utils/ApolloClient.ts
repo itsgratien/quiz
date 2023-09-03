@@ -4,24 +4,39 @@ import {
   GetQuestionAssignedToTestResponse,
   GetAttendantByTestResponse,
 } from '@/generated/graphql';
+import type { NextRequest } from 'next/server';
 
 const handleCookieFunc = (
-  ctx?: NextPageContext | GetServerSidePropsContext
+  ctx?: NextPageContext | GetServerSidePropsContext | NextRequest,
+  use?: 'middleware',
 ) => {
-  if (typeof window === 'undefined' && ctx) {
-    const { req } = ctx;
+  if (!use && typeof window === 'undefined' && ctx) {
+    const { req } = ctx as NextPageContext | GetServerSidePropsContext;
 
     if (req?.headers && req.headers.cookie) {
       return req.headers.cookie;
     }
   }
 
+  if (use) {
+    const req = ctx as NextRequest;
+
+    if (req.headers) {
+      const cookie = req.headers.get('cookie');
+      return cookie || '';
+    }
+  }
+
   return '';
 };
 
-const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
-  new ApolloClient({
-    uri: 'http://localhost:3000/api/graphql',
+const client = (
+  ctx?: NextPageContext | GetServerSidePropsContext,
+  use?: 'middleware',
+) => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  return new ApolloClient({
+    uri: baseUrl + '/api/graphql',
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
@@ -31,7 +46,7 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
               merge(
                 existing: GetQuestionAssignedToTestResponse,
                 incoming: GetQuestionAssignedToTestResponse,
-                options: any
+                options: any,
               ) {
                 const { args } = options;
                 if (incoming.testId === args.testId) {
@@ -49,7 +64,7 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
               },
               read: (
                 existing: GetQuestionAssignedToTestResponse,
-                options: any
+                options: any,
               ) => {
                 const { args } = options;
 
@@ -62,7 +77,7 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
               keyArgs: false,
               merge: (
                 existing: GetAttendantByTestResponse,
-                incoming: GetAttendantByTestResponse
+                incoming: GetAttendantByTestResponse,
               ) => {
                 if (!existing) {
                   return incoming;
@@ -80,8 +95,9 @@ const client = (ctx?: NextPageContext | GetServerSidePropsContext) =>
     }),
     credentials: 'include',
     headers: {
-      cookie: handleCookieFunc(ctx),
+      cookie: handleCookieFunc(ctx, use),
     },
   });
+};
 
 export default client;
