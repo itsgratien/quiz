@@ -3,12 +3,9 @@ import apollo from './ApolloClient';
 import { GetUserDocument, GetUserQuery } from '@/generated/graphql';
 import { GetServerSidePropsContext } from 'next';
 
-export const isAuth = async (
-  req: NextRequest | GetServerSidePropsContext,
-  use?: 'middleware',
-) => {
+export const isAuth = async (headers?: Record<string, string>) => {
   try {
-    const find = await apollo(req, use).query<GetUserQuery>({
+    const find = await apollo(headers).query<GetUserQuery>({
       query: GetUserDocument,
     });
 

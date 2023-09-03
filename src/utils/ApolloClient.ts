@@ -30,10 +30,7 @@ const handleCookieFunc = (
   return '';
 };
 
-const client = (
-  ctx?: NextPageContext | GetServerSidePropsContext | NextRequest,
-  use?: 'middleware',
-) => {
+const client = (headers?: Record<string, string>, use?: 'middleware') => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   return new ApolloClient({
     uri: baseUrl + '/api/graphql',
@@ -94,9 +91,7 @@ const client = (
       },
     }),
     credentials: 'include',
-    headers: {
-      cookie: handleCookieFunc(ctx, use),
-    },
+    headers,
   });
 };
 

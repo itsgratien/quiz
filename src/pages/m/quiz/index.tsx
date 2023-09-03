@@ -7,7 +7,7 @@ import QuizItem from '@/components/Quiz/QuizItem/QuizItem';
 import { QuizPageProps } from '@/generated/Quiz';
 import { Icon } from '@iconify/react';
 import classname from 'classnames';
-import { useGetMyTestsLazyQuery, Test } from '@/generated/graphql';
+import { useGetMyTestsLazyQuery, Test, User } from '@/generated/graphql';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import { useRouter } from 'next/router';
@@ -93,9 +93,9 @@ export default Quiz;
 
 export const getServerSideProps: GetServerSideProps = async (
   ctx,
-): Promise<any> => {
+): Promise<{ props: { me?: User } }> => {
   try {
-    const user = await isAuth(ctx);
+    const user = await isAuth(ctx.req.headers as any);
 
     return {
       props: {

@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Icon } from '@iconify/react';
 import style from './Header.module.scss';
@@ -5,7 +6,7 @@ import classname from 'classnames';
 import { useLogoutMutation } from '@/generated/graphql';
 import WarningModal from '@/components/Shared/Alert/WarningAlertModal';
 import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const [fixed, setFixed] = React.useState<boolean>(false);

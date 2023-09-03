@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import classname from 'classnames';
 import style from './SetupButton.module.scss';

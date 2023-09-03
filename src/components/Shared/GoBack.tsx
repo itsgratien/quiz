@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import classname from 'classnames';
 import style from './Shared.module.scss';
@@ -9,7 +10,7 @@ const GoBack = ({ handleClick }: { handleClick: () => void }) => {
       type="button"
       className={classname(
         'outline-none focus:outline-none flex items-center bg-f1 rounded-10',
-        style.goBack
+        style.goBack,
       )}
       onClick={handleClick}
     >
