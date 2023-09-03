@@ -94,11 +94,6 @@ const CandidatePage: NextPage<{
                             Overall grade
                           </span>
                         </div>
-                        <div
-                          className={classname('font-bold text-right text-14')}
-                        >
-                          {data.status}
-                        </div>
                       </>
                     )}
                     {getOverralGradeResponse.loading && (
