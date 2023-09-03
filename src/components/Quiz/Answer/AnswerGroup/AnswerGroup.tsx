@@ -74,9 +74,9 @@ const AnswerGroup = ({
         <div className={classname('relative mt-5', style.answerItems)}>
           {item.choices &&
             item.solutions &&
-            item.choices.map((choice) => (
+            item.choices.map((choice, index) => (
               <AnswerItem
-                key={choice}
+                key={index}
                 value={choice}
                 solutions={item.solutions as string[]}
                 answers={data && data.answers}

@@ -2,7 +2,6 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import style from './Header.module.scss';
 import classname from 'classnames';
-import Search from './Search';
 import { useLogoutMutation } from '@/generated/graphql';
 import WarningModal from '@/components/Shared/Alert/WarningAlertModal';
 import { toast } from 'react-hot-toast';
@@ -65,7 +64,6 @@ const Header = () => {
         <Icon icon="bx:menu-alt-left" fontSize={24} />
         <span className="ml-1 font-bold">Menu</span>
       </div>
-      <Search />
       <div className={classname('flex justify-between')}>
         <div>
           <button
