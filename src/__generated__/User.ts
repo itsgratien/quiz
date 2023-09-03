@@ -7,13 +7,6 @@ export interface ContextT {
   res: NextApiResponse;
 }
 
-export interface LoginPropsT {
-  open: boolean;
-  handleClose: () => void;
-  handleSubmit: (values: LoginParamT) => void;
-  error?: string;
-}
-
 export interface InputPropsT {
   placeholder?: string;
   type: 'text' | 'password' | 'email' | 'number';
