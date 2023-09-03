@@ -59,7 +59,7 @@ const CandidatePage: NextPage<{
               <Svg />
               <div
                 className={classname(
-                  'absolute top-0 right-0 left-0 z-10 w-full'
+                  'absolute top-0 right-0 left-0 z-10 w-full',
                 )}
               >
                 <div style={{ marginTop: '53px', marginLeft: '15%' }}>
@@ -80,24 +80,19 @@ const CandidatePage: NextPage<{
                         <div className="flex items-center">
                           <span
                             className={classname(
-                              'font-bold text-20 text-black'
+                              'font-bold text-20 text-black',
                             )}
                           >
                             {getOverralGradeResponse.data}%
                           </span>
                           <span
                             className={classname(
-                              'font-bold text-f1 text-15 ml-2'
+                              'font-bold text-f1 text-15 ml-2',
                             )}
                             style={{ color: 'rgba(0, 0, 0, 0.28)' }}
                           >
                             Overall grade
                           </span>
-                        </div>
-                        <div
-                          className={classname('font-bold text-right text-14')}
-                        >
-                          {data.status}
                         </div>
                       </>
                     )}
@@ -135,7 +130,6 @@ const CandidatePage: NextPage<{
                   className="text-12"
                   style={{
                     color: 'rgba(0, 0, 0, 0.6)',
-                    width: '186px',
                     marginLeft: '32px',
                   }}
                 >

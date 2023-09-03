@@ -10,7 +10,7 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 import * as TestTg from '@/server/TypeGraphql/Test';
-import * as UserType from '@/generated/User';
+import type { ContextT } from '@/generated/User';
 import { HttpCode } from '@/utils/HttpCode';
 import {
   errorResponse,
@@ -33,7 +33,7 @@ export class TestResolver extends AttendantHelper {
   @Mutation(() => TestTg.AddTestResponse)
   async addTest(
     @Args() args: TestTg.AddTestArgs,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<TestTg.AddTestResponse> {
     try {
       const { req } = ctx;
@@ -70,7 +70,7 @@ export class TestResolver extends AttendantHelper {
   @Authorized()
   @Query(() => TestTg.GetMyTestResponse)
   async getMyTests(
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
     @Args() args: PaginationArgs,
   ): Promise<TestTg.GetMyTestResponse> {
     try {
@@ -104,7 +104,7 @@ export class TestResolver extends AttendantHelper {
   @Mutation(() => TestTg.AddTestResponse)
   async publishTest(
     @Args() args: TestTg.PublishTestArgs,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<TestTg.AddTestResponse> {
     try {
       const { req } = ctx;
@@ -164,7 +164,7 @@ export class TestResolver extends AttendantHelper {
   @Query(() => TestTg.GetSingleTestResponse)
   async getSingleTest(
     @Arg('slug') slug: string,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<TestTg.GetSingleTestResponse> {
     try {
       const { req } = ctx;
