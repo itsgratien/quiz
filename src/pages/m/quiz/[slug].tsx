@@ -1,6 +1,5 @@
 import React from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { withAuth } from '@/utils/WithAuth';
 import { Layout } from '@/components/Layout';
 import classname from 'classnames';
 import style from 'src/styles/Quiz.module.scss';
@@ -166,32 +165,31 @@ const QuizDetailPage: NextPage<QuizDetailPageProps> = ({ data }) => {
 
 export default QuizDetailPage;
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
-  withAuth(ctx, async () => {
-    try {
-      const { params }: any = ctx;
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  try {
+    const { params }: any = ctx;
 
-      const res = await apollo(ctx).query<GetSingleTestQuery>({
-        query: GetSingleTestDocument,
-        variables: { slug: params.slug },
-      });
+    const res = await apollo(ctx).query<GetSingleTestQuery>({
+      query: GetSingleTestDocument,
+      variables: { slug: params.slug },
+    });
 
-      const { getSingleTest } = res.data;
+    const { getSingleTest } = res.data;
 
-      if (getSingleTest && getSingleTest.data) {
-        return {
-          props: {
-            data: getSingleTest.data,
-          },
-        };
-      } else {
-        return {
-          notFound: true,
-        };
-      }
-    } catch (error) {
+    if (getSingleTest && getSingleTest.data) {
       return {
-        props: {},
+        props: {
+          data: getSingleTest.data,
+        },
+      };
+    } else {
+      return {
+        notFound: true,
       };
     }
-  });
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
+};

@@ -1,9 +1,8 @@
 import React from 'react';
-import { NextPage, GetServerSidePropsContext } from 'next';
+import { NextPage } from 'next';
 import Layout from '@/components/Layout';
 import classname from 'classnames';
 import style from 'src/styles/Quiz.module.scss';
-import { withAuth } from '@/utils/WithAuth';
 import Head from 'next/head';
 import Heading from '@/components/Quiz/QuestionDetail/Heading';
 import DetailChoice from '@/components/Quiz/QuestionDetail/DetailChoice';
@@ -36,10 +35,3 @@ const QuestionDetailPage: NextPage = () => {
   );
 };
 export default QuestionDetailPage;
-
-export const getServerSideProps = (ctx: GetServerSidePropsContext) =>
-  withAuth(ctx, () => {
-    return {
-      props: {},
-    };
-  });

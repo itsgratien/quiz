@@ -31,7 +31,7 @@ const handleCookieFunc = (
 };
 
 const client = (
-  ctx?: NextPageContext | GetServerSidePropsContext,
+  ctx?: NextPageContext | GetServerSidePropsContext | NextRequest,
   use?: 'middleware',
 ) => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

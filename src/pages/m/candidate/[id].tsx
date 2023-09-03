@@ -1,6 +1,5 @@
 import type { NextPage, GetServerSidePropsContext } from 'next';
 import * as React from 'react';
-import { withAuth } from '@/utils/WithAuth';
 import Layout from '@/components/Layout';
 import Head from 'next/head';
 import classname from 'classnames';
@@ -163,35 +162,36 @@ const CandidatePage: NextPage<{
 };
 export default CandidatePage;
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) =>
-  withAuth(context, async () => {
-    try {
-      const { id } = context.params as any;
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  try {
+    const { id } = context.params as any;
 
-      const res = await apollo(context).query<
-        GetAttendantByIdQuery,
-        GetAttendantByIdQueryVariables
-      >({
-        query: GetAttendantByIdDocument,
-        variables: { attendantId: id },
-      });
+    const res = await apollo(context).query<
+      GetAttendantByIdQuery,
+      GetAttendantByIdQueryVariables
+    >({
+      query: GetAttendantByIdDocument,
+      variables: { attendantId: id },
+    });
 
-      const { getAttendantById } = res.data;
+    const { getAttendantById } = res.data;
 
-      if (getAttendantById?.data) {
-        return {
-          props: {
-            data: getAttendantById.data,
-            error: getAttendantById.error,
-          },
-        };
-      }
+    if (getAttendantById?.data) {
       return {
-        notFound: true,
-      };
-    } catch (error) {
-      return {
-        props: {},
+        props: {
+          data: getAttendantById.data,
+          error: getAttendantById.error,
+        },
       };
     }
-  });
+    return {
+      notFound: true,
+    };
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
+};

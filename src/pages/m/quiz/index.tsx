@@ -1,10 +1,9 @@
 import React from 'react';
-import type { NextPage, GetServerSidePropsContext } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { Layout } from '@/components/Layout';
 import style from 'src/styles/Quiz.module.scss';
 import QuizItem from '@/components/Quiz/QuizItem/QuizItem';
-import { withAuth } from '@/utils/WithAuth';
 import { QuizPageProps } from '@/generated/Quiz';
 import { Icon } from '@iconify/react';
 import classname from 'classnames';
@@ -13,6 +12,7 @@ import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
+import { isAuth } from '@/utils/IsAuth';
 
 const Quiz: NextPage<QuizPageProps> = ({ me }) => {
   const [page, setPage] = React.useState<number>(1);
@@ -68,7 +68,7 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
                 <div
                   className={classname(
                     'relative flex items-center flex-wrap',
-                    style.items
+                    style.items,
                   )}
                 >
                   {items.length > 0 &&
@@ -91,11 +91,20 @@ const Quiz: NextPage<QuizPageProps> = ({ me }) => {
 
 export default Quiz;
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
-  withAuth(ctx, (user) => {
+export const getServerSideProps: GetServerSideProps = async (
+  ctx,
+): Promise<any> => {
+  try {
+    const user = await isAuth(ctx);
+
     return {
       props: {
         me: user,
       },
     };
-  });
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
+};
