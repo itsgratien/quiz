@@ -12,7 +12,7 @@ import {
   AddMcQuestionArgs,
 } from '@/server/TypeGraphql/Question';
 import { questionModel } from '@/server/Models/QuestionModel';
-import * as UserType from '@/generated/User';
+import type { ContextT } from '@/generated/User';
 import {
   generateSlug,
   generatePagination,
@@ -32,7 +32,7 @@ export class QuestionResolver {
   @Mutation(() => AddQuestionResponse)
   async setupMultipleChoiceQuestion(
     @Args() args: AddMcQuestionArgs,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<AddQuestionResponse> {
     try {
       const { req } = ctx;
@@ -80,7 +80,7 @@ export class QuestionResolver {
   @Authorized()
   @Query(() => questionTg.GetQuestionsResponse)
   async getQuestions(
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
     @Args() args: questionTg.GetQuestionsArgs,
   ): Promise<questionTg.GetQuestionsResponse> {
     try {
@@ -110,7 +110,7 @@ export class QuestionResolver {
   @Query(() => questionTg.GetQuestionResponse)
   async getQuestion(
     @Args() arg: questionTg.GetQuestionArgs,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<questionTg.GetQuestionResponse> {
     try {
       const { req } = ctx;
@@ -144,7 +144,7 @@ export class QuestionResolver {
   @UseMiddleware(questionMiddleware.verifyQuestionOwner)
   @Mutation(() => AddQuestionResponse)
   async editMcQuestion(
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
     @Args() args: questionTg.EditMcQArgs,
   ): Promise<AddQuestionResponse> {
     try {
@@ -167,7 +167,7 @@ export class QuestionResolver {
   @UseMiddleware(questionMiddleware.verifyQuestionOwner)
   @Mutation(() => questionTg.AddQuestionResponse)
   async changeQuestionStatus(
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
     @Args() args: questionTg.EditQuestionStatusArgs,
   ): Promise<questionTg.AddQuestionResponse> {
     try {
@@ -243,7 +243,7 @@ export class QuestionResolver {
   @Mutation(() => questionTg.AddQuestionToTestResponse)
   async addQuestionToTest(
     @Args() args: questionTg.AddQuestionToTestArgs,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<questionTg.AddQuestionToTestResponse> {
     try {
       const { question, test } = args;
@@ -293,7 +293,7 @@ export class QuestionResolver {
   @Query(() => questionTg.GetQuestionAssignedToTestResponse)
   async getQuestionAssignedToTest(
     @Args() args: questionTg.GetQuestionAssignedToTestArgs,
-    @Ctx() context: UserType.ContextT,
+    @Ctx() context: ContextT,
   ): Promise<questionTg.GetQuestionAssignedToTestResponse> {
     try {
       const { req } = context;

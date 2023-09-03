@@ -108,7 +108,7 @@ export class AnswerResolver extends AnswerHelper {
       const findAnswer = await answerModel.findOne({
         $and: [
           { question: args.question },
-          { testId: args.test },
+          { test: args.test },
           { attendant: args.attendant },
         ],
       });

@@ -13,7 +13,7 @@ import {
   errorResponse,
   generatePagination,
 } from '@/server/Helpers/SharedHelper';
-import * as Usertype from '@/generated/User';
+import type { ContextT } from '@/generated/User';
 import * as attendantTg from '../TypeGraphql/Attendant';
 import format from '../Helpers/FormatHelper';
 import { HttpCode } from '@/utils/HttpCode';
@@ -28,7 +28,7 @@ export class AttendantResolver extends AttendantHelper {
   @Authorized()
   @Mutation(() => attendantTg.AddAttendantResponse)
   async addAttendant(
-    @Ctx() ctx: Usertype.ContextT,
+    @Ctx() ctx: ContextT,
     @Arg('args', () => attendantTg.AddAttendantArgs)
     args: attendantTg.AddAttendantArgs,
     @Arg('testId') testId: string,
@@ -69,7 +69,7 @@ export class AttendantResolver extends AttendantHelper {
     @Arg('args', (type) => [attendantTg.AddAttendantArgs])
     args: attendantTg.AddAttendantArgs[],
     @Arg('testId') testId: string,
-    @Ctx() ctx: Usertype.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<attendantTg.AddMoreAttendantResponse> {
     try {
       const { req } = ctx;

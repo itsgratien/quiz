@@ -15,8 +15,9 @@ export class ResultResolver {
     @Args() args: GetOverralGradeArgs,
   ): Promise<GetOverralGradeResponse> {
     try {
+      console.log('args:', args);
       const find = await resultModel.findOne({
-        $and: [{ attendant: args.attendant }, { test: args.test }],
+        $and: [{ attendant: args.attendant }, { testId: args.test }],
       });
 
       if (!find) {

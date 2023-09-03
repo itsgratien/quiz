@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Resolver, Query, Ctx, Authorized, Mutation, Args } from 'type-graphql';
 import userModel from '@/server/Models/UserModel';
 import * as UserTg from '@/server/TypeGraphql/User';
-import * as UserType from '@/generated/User';
+import type { ContextT } from '@/generated/User';
 import { firebaseAdmin } from '@/utils/FirebaseAdmin';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import { errorResponse } from '../Helpers/SharedHelper';
@@ -12,9 +12,7 @@ import { HttpCode } from '@/utils/HttpCode';
 export class UserResolver {
   @Authorized()
   @Query(() => UserTg.GetUserResponse)
-  async getUser(
-    @Ctx() ctx: UserType.ContextT,
-  ): Promise<UserTg.GetUserResponse | null> {
+  async getUser(@Ctx() ctx: ContextT): Promise<UserTg.GetUserResponse | null> {
     const { req } = ctx;
 
     const find = await userModel.findById(req.session.userId);
@@ -37,7 +35,7 @@ export class UserResolver {
   @Mutation(() => UserTg.AuthenticateResponse)
   async authenticate(
     @Args() args: UserTg.Authenticate,
-    @Ctx() ctx: UserType.ContextT,
+    @Ctx() ctx: ContextT,
   ): Promise<UserTg.AuthenticateResponse> {
     try {
       const { req } = ctx;
@@ -63,7 +61,7 @@ export class UserResolver {
 
   @Authorized()
   @Mutation(() => UserTg.GetUserResponse)
-  async logout(@Ctx() ctx: UserType.ContextT): Promise<UserTg.GetUserResponse> {
+  async logout(@Ctx() ctx: ContextT): Promise<UserTg.GetUserResponse> {
     try {
       const { req } = ctx;
 

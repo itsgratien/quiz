@@ -1,5 +1,5 @@
-import { MiddlewareFn, AuthChecker } from 'type-graphql';
-import { ContextT } from '@/generated/User';
+import { AuthChecker } from 'type-graphql';
+import type { ContextT } from '@/generated/User';
 import userModel from '@/server/Models/UserModel';
 
 export const customAuthChecker: AuthChecker<ContextT> = async ({ context }) => {
