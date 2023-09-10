@@ -7,6 +7,7 @@ import Form from './Form';
 import useSetup from '@/hooks/useSetup';
 import { get } from 'lodash';
 import { format } from 'date-fns';
+import { Buttons } from '../Buttons';
 
 const SetupQuiz = () => {
   const [registerQuiz, { data, loading }] = useSetupTestMutation();
@@ -71,6 +72,7 @@ const SetupQuiz = () => {
   return (
     <div className={classname('relative')}>
       <Form formik={formik} errors={errors} values={formik.values} />
+      <Buttons />
     </div>
   );
 };

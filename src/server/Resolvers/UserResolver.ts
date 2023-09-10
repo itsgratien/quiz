@@ -39,6 +39,7 @@ export class UserResolver {
   ): Promise<UserTg.AuthenticateResponse> {
     try {
       const { req } = ctx;
+
       const { idToken } = args;
 
       const auth = await firebaseAdmin.auth().verifyIdToken(idToken);

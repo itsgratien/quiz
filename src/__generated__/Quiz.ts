@@ -15,7 +15,6 @@ export interface UseQuizStatusColorPropsT {
   status?: string;
 }
 
-// new
 export interface QuizPageProps {
   me: User;
 }
@@ -23,4 +22,24 @@ export interface QuizPageProps {
 export interface QuizDetailPageProps {
   loading?: boolean;
   data?: Test;
+}
+
+export interface QuestionContextValue {
+  openMcq?: boolean;
+  setOpenMcq?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface AddMcqValues {
+  title: string;
+  points: string;
+  choiceType: string;
+  choices: string[];
+  description: string;
+  choiceNumber: number;
+  answers: string[];
+}
+
+export interface AddMcqContextValue {
+  step?: number;
+  setStep?: React.Dispatch<React.SetStateAction<number>>;
 }

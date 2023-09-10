@@ -6,10 +6,3 @@ export interface LayoutProps {
   goBack?: boolean;
   showSetupButton?: boolean;
 }
-
-export interface SetupProps {
-  open: boolean;
-  handleClose?: () => void;
-  slug?: string;
-  loading?: boolean;
-}

@@ -21,7 +21,14 @@ export const Buttons = () => {
       >
         {step !== 2 ? 'Continue' : 'Submit'}
       </Button>
-      {step !== 0 ? <Button size="large">Back</Button> : <></>}
+      {step !== 0 && (
+        <Button
+          size="large"
+          className={cn('!text-black !text-14 font-bold ml-5')}
+        >
+          Back
+        </Button>
+      )}
     </div>
   );
 };

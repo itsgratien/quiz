@@ -2,15 +2,14 @@
 import React from 'react';
 import { SetupContext } from '@/contexts/SetupContext';
 import SetupQuiz from './SetupQuiz';
-import ViewAssignedQuestion from './View/ViewAssignedQuestion';
 import ViewInvitedCandidate from './View/ViewInvitedCandidate';
 import { useGetSingleTestLazyQuery, Test } from '@/generated/graphql';
 import { toast } from 'react-hot-toast';
 import Stepper from './Stepper';
 import { Modal } from 'antd';
 import cn from 'classnames';
-import styles from './Setup.module.scss';
-import { Buttons } from './Buttons';
+import Spinner from '@/components/Shared/LoadingSpinner';
+const Questions = React.lazy(() => import('./Questions'));
 
 interface SetupProps {
   open: boolean;
@@ -20,7 +19,7 @@ interface SetupProps {
 }
 
 const Setup = ({ open, slug, onClose }: SetupProps) => {
-  const [step, setStep] = React.useState<number>(0);
+  const [step, setStep] = React.useState<number>(1);
 
   const [test, setTest] = React.useState<Test>();
 
@@ -49,9 +48,28 @@ const Setup = ({ open, slug, onClose }: SetupProps) => {
     }
   }, [data]);
 
+  const manageStep = (currentStep: number) => {
+    switch (currentStep) {
+      case 0:
+        return <SetupQuiz />;
+
+      case 1:
+        return (
+          <React.Suspense fallback={<Spinner size={50} />}>
+            <Questions />
+          </React.Suspense>
+        );
+
+      case 2:
+        return <ViewInvitedCandidate />;
+      default:
+        return <SetupQuiz />;
+    }
+  };
+
   return (
     <Modal open={open} footer={false} width={800} onCancel={onClose}>
-      <div className={cn('relative p-12 py-20 pb-1')}>
+      <div className={cn('relative px-12 py-20 pb-0')}>
         <SetupContext.Provider
           value={{
             step,
@@ -64,10 +82,7 @@ const Setup = ({ open, slug, onClose }: SetupProps) => {
             {(value) => (
               <>
                 <Stepper />
-                <div className={cn('p-5')}>
-                  <SetupQuiz />
-                  <Buttons />
-                </div>
+                <div className={cn('px-5')}>{manageStep(value.step)}</div>
               </>
             )}
           </SetupContext.Consumer>

@@ -11,14 +11,13 @@ import Grid from '@mui/material/Grid';
 import SetupQuestion from '../SetupQuestion/SetupQuestion';
 import LeftTitle from '../LeftTitle';
 import QuestionDetail from './QuestionDetail';
-import { SetupProps } from '@/generated/Shared';
 import useSetup from '@/hooks/useSetup';
 import { SetupStep } from '@/generated/Enum';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
 import useGetQuestionAssignedToTest from '@/hooks/useGetQuestionAssignedToTest';
 import LoadMoreButton from '@/components/Quiz/LoadMoreButton';
 
-export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
+export const ViewAssignedQuestion = () => {
   const [openQ, setOpenQ] = React.useState<boolean>(false);
 
   const [viewQ, setViewQ] = React.useState<boolean>(false);
@@ -31,14 +30,14 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
 
   const setup = useSetup();
 
-  const { test } = setup;
+  const { test, setStep } = setup;
 
   const { items, handleLoadMore, loading, totalDoc, handleReload } =
     useGetQuestionAssignedToTest({ testId: test?._id, limit });
 
   const handleNext = () => {
-    if (setup.handleStep) {
-      setup.handleStep(SetupStep.Attendant);
+    if (setStep) {
+      setStep(2);
     }
   };
 
@@ -62,14 +61,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
   };
 
   return (
-    <Modal
-      open={open}
-      handleClose={handleClose}
-      nextButton={
-        <Button name="Next" className="next" handleClick={handleNext} />
-      }
-      leftElement={<LeftTitle title={test && test.title} />}
-    >
+    <>
       {openQ && (
         <SetupQuestion
           open={openQ}
@@ -89,14 +81,6 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
           <LoadingSpinner />
         ) : (
           <>
-            <SectionTitle
-              title="Add Questions To The Quiz"
-              titleColor="fewBlack"
-              total="(Javascript programming quiz)"
-              textSize={14}
-              totalMarginLeft="0"
-              totalColor="fewBlack"
-            />
             {items && (
               <>
                 {items.length > 0 ? (
@@ -142,7 +126,7 @@ export const ViewAssignedQuestion = ({ open, handleClose }: SetupProps) => {
           <></>
         )}
       </div>
-    </Modal>
+    </>
   );
 };
 

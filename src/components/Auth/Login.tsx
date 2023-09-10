@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { Button } from 'antd';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useAuthenticateMutation } from '@/generated/graphql';
 
 const Login = () => {
@@ -55,7 +55,7 @@ const Login = () => {
             onClick={onLoginWithGoogle}
             size="large"
             className={cn(
-              'border-none !flex items-center justify-center !text-black !font-bold',
+              'border-none !flex items-center justify-center !text-black !font-bold bg-primary',
               styles.loginBtn,
             )}
           >

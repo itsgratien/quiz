@@ -12,7 +12,6 @@ import Warning from '@/components/Shared/Alert/WarningAlertModal';
 import NewCandidate from '../NewCandidate';
 import ImportCandidate from '../Import/ImportCandidate';
 import LeftTitle from '../LeftTitle';
-import { SetupProps } from '@/generated/Shared';
 import useGetCandidateAssignedToTest from '@/hooks/useGetCandidateAssignedToTest';
 import useSetup from '@/hooks/useSetup';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
@@ -20,7 +19,7 @@ import LoadMoreButton from '../../LoadMoreButton';
 import { toast } from 'react-hot-toast';
 import usePublishTest from '@/hooks/usePublishTest';
 
-export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
+export const ViewInvitedCandidate = () => {
   const [warning, setWarning] = React.useState<boolean>(false);
 
   const [setupCandidate, setSetupCandidate] = React.useState<boolean>(false);
@@ -66,19 +65,7 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
   }, [test, items, handlePublish]);
 
   return (
-    <Modal
-      open={open}
-      handleClose={handleClose}
-      nextButton={
-        <Button
-          name="Publish"
-          className="primary"
-          handleClick={handlePublishFunc}
-          disabled={loadingPublish}
-        />
-      }
-      leftElement={<LeftTitle title={test ? `${test.title}` : ''} />}
-    >
+    <>
       {warning && (
         <Warning
           open={warning}
@@ -113,7 +100,7 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
         className={classname(
           style.setup,
           style.viewInvitedCandidate,
-          style.viewAssignedQuestion
+          style.viewAssignedQuestion,
         )}
       >
         {loadFull && loading ? (
@@ -171,7 +158,7 @@ export const ViewInvitedCandidate = ({ open, handleClose }: SetupProps) => {
           <></>
         )}
       </div>
-    </Modal>
+    </>
   );
 };
 export default ViewInvitedCandidate;

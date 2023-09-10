@@ -1,6 +1,9 @@
 import React from 'react';
-import { SetupStep } from '@/generated/Enum';
-import { Test } from '@/generated/graphql';
+import type { Test } from '@/generated/graphql';
+import type {
+  QuestionContextValue,
+  AddMcqContextValue,
+} from '@/generated/Quiz';
 
 export const SetupContext = React.createContext<{
   step: number;
@@ -10,4 +13,11 @@ export const SetupContext = React.createContext<{
   loading?: boolean;
 }>({
   step: 0,
+});
+
+export const QuestionContext = React.createContext<QuestionContextValue>({});
+
+export const AddMcqContext = React.createContext<AddMcqContextValue>({
+  step: 0,
+  setStep: () => '',
 });
