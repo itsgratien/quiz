@@ -12,7 +12,7 @@ import { QuizDetailPageProps } from '@/generated/Quiz';
 import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import QuestionAsked from '@/components/Quiz/QuizDetail/QuestionAsked';
 import InvitedCandidate from '@/components/Quiz/QuizDetail/InvitedCandidate';
-import Setup from '@/components/Quiz/Setup/Setup';
+import Setup from '@/components/Quiz/Setup';
 import SetupButtonContainer from '@/components/SetupButton/SetupButtonContainer';
 import { Icon } from '@iconify/react';
 import usePublishTest from '@/hooks/usePublishTest';

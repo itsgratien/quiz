@@ -62,3 +62,16 @@
     }
   }
 }
+
+.step {
+  position: relative;
+  :global(.ant-steps-item-title) {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  :global(.ant-steps-item-icon) {
+    span {
+      color: black !important;
+    }
+  }
+}

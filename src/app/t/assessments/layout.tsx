@@ -5,7 +5,7 @@ import Header from '@/components/Shared/Header/Header';
 import GoBack from '@/components/Shared/GoBack';
 import { useRouter } from 'next/navigation';
 import style from '@/components/Style.module.scss';
-import Setup from '@/components/Quiz/Setup/Setup';
+import Setup from '@/components/Quiz/Setup';
 import SetupButtonContainer from '@/components/SetupButton/SetupButtonContainer';
 
 export const Layout = ({ children, goBack, showSetupButton }: LayoutProps) => {

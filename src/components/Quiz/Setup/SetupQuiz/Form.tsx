@@ -1,97 +1,78 @@
 import React from 'react';
-import classname from 'classnames';
-import style from '../Setup.module.scss';
-import SectionTitle from '@/components/Quiz/SectionTitle';
-import DateInput from '../DateInput';
-import InputError from '../InputError';
 import { FormikProps, FormikErrors } from 'formik';
-import InputField from '../InputField';
-import useSetup from '@/hooks/useSetup';
+import { TextInput, DateRangeInput } from '../Form';
+import { Row, Col } from 'antd';
+import { gutter } from '@/utils/Common';
 
 interface Values {
-  startDate?: string;
-  endDate?: string;
-  subject?: string;
-  passMark?: number;
+  startDate: string;
+  endDate: string;
+  subject: string;
+  passMark: string;
+  title: string;
 }
 
 const Form = ({
   formik,
   errors,
+  values,
 }: {
   formik: FormikProps<any>;
   errors?: FormikErrors<Values>;
+  values: Values;
 }) => {
-  const { values } = formik;
+  const { setFieldValue } = formik;
+
+  const onChangeDate = (args: string[]) => {
+    setFieldValue('startDate', args[0]);
+    setFieldValue('endDate', args[1]);
+  };
 
   return (
-    <div>
-      <div className={classname('relative')}>
-        <SectionTitle
-          title="start date & end date"
-          iconName="clarity:date-outline-badged"
-          textSize={12}
-        />
-        <div
-          className={classname('flex items-center')}
-          style={{ marginTop: '12px' }}
-        >
-          <div className={classname(style.inputGroup)}>
-            <DateInput
-              onChange={(value) =>
-                formik.setFieldValue('startDate', value, false)
-              }
-              value={values.startDate}
-            />
-            <InputError error={errors?.startDate} />
-          </div>
-          <div style={{ margin: '0 20px' }}>-</div>
-          <div className={classname(style.inputGroup)}>
-            <DateInput
-              onChange={(value) =>
-                formik.setFieldValue('endDate', value, false)
-              }
-              value={values.endDate}
-            />
-            <InputError error={errors?.endDate} />
-          </div>
-        </div>
-      </div>
-      <div className={classname('mt-10 flex items-center')}>
-        <div className={classname('')}>
-          <SectionTitle
-            title="subject"
-            iconName="mdi:air-humidifier"
-            textSize={12}
+    <>
+      <Row gutter={gutter}>
+        <Col md={12}>
+          <TextInput
+            value={values.title}
+            placeholder="Title"
+            label={{ name: 'Title' }}
+            name="title"
+            onChange={formik.handleChange}
+            type="text"
           />
-          <div className={style.inputGroup} style={{ marginTop: '12px' }}>
-            <InputField
-              placeholder="subject"
-              value={values.subject}
-              onChange={formik.handleChange}
-              name="subject"
-              error={errors?.subject}
-            />
-          </div>
-        </div>
-        <div className={classname('ml-10')}>
-          <SectionTitle
-            title="pass mark (%100)"
-            iconName="ant-design:percentage-outlined"
-            textSize={12}
+        </Col>
+        <Col md={12}>
+          <DateRangeInput
+            label={{ name: 'Start date & End date', required: true }}
+            values={[values.startDate, values.endDate]}
+            onChange={onChangeDate}
           />
-          <div className={style.inputGroup} style={{ marginTop: '12px' }}>
-            <InputField
-              placeholder="pass mark"
-              value={values.passMark}
-              onChange={formik.handleChange}
-              name="passMark"
-              error={errors?.passMark}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+      <Row gutter={gutter}>
+        <Col md={12}>
+          <TextInput
+            value={values.subject}
+            placeholder="Subject"
+            label={{ name: 'Subject' }}
+            name="subject"
+            onChange={formik.handleChange}
+            type="text"
+          />
+        </Col>
+        <Col md={12}>
+          <TextInput
+            placeholder="pass mark"
+            value={values.passMark}
+            onChange={formik.handleChange}
+            name="passMark"
+            error={errors?.passMark}
+            label={{ name: 'Pass Mark' }}
+            type="text"
+          />
+        </Col>
+      </Row>
+    </>
   );
 };
 export default Form;

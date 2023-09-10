@@ -162,13 +162,13 @@ const CandidatePage: NextPage<{
 };
 export default CandidatePage;
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
-    const { id } = context.params as any;
+    const { id } = ctx.params as any;
 
-    const res = await apollo(context).query<
+    const cookie = { cookie: ctx.req.headers.cookie as string };
+
+    const res = await apollo(cookie).query<
       GetAttendantByIdQuery,
       GetAttendantByIdQueryVariables
     >({

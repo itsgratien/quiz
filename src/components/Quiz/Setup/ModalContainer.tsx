@@ -24,14 +24,14 @@ const ModalContainer = ({
     <Modal open={open}>
       <div
         className={classname(
-          'relative outline-none focus:outline bg-white w-full h-screen'
+          'relative outline-none focus:outline bg-white w-full h-screen',
         )}
-        style={{ overflowY: 'auto', paddingBottom: '100px' }}
+        style={{ overflowY: 'auto', paddingBottom: '100px', zIndex: '100' }}
       >
         <div
           className={classname(
             'fixed right-0 left-0 bg-white top-0 z-10',
-            style.modalHeader
+            style.modalHeader,
           )}
         >
           <div className={classname('flex justify-between')}>

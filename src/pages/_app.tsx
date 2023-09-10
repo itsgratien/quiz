@@ -1,13 +1,12 @@
 import React from 'react';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import '@/utils/Firebase';
 import { Toaster } from 'react-hot-toast';
-import ApolloGraphQLProvider from '@/lib/ApolloGraphQLProvider';
+import AppProvider from '@/lib/AppProvider';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <ApolloGraphQLProvider>
+    <AppProvider>
       <Component {...pageProps} />
       <Toaster
         toastOptions={{
@@ -16,7 +15,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           success: { style: { background: '#B3FF77', color: 'black' } },
         }}
       />
-    </ApolloGraphQLProvider>
+    </AppProvider>
   );
 };
 
