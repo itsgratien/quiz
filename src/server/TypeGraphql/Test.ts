@@ -115,3 +115,9 @@ export class VerifyTestUriResponse extends CustomResponse(Test) {
   @Field({ nullable: true })
   numberOfQuestions?: number;
 }
+
+@ObjectType()
+export class SendEmailResponse {
+  @Field({ nullable: true })
+  success?: boolean;
+}

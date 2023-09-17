@@ -26,6 +26,7 @@ import { format as formatDate, compareDesc } from 'date-fns';
 import { verifyTestUri } from '@/server/Middlewares/TestMiddleware';
 import { questionModel } from '../Models/QuestionModel';
 import mongoose from 'mongoose';
+import { sendEmail } from '../Helpers/MailHelper';
 
 @Resolver()
 export class TestResolver extends AttendantHelper {
@@ -117,18 +118,14 @@ export class TestResolver extends AttendantHelper {
         return errorResponse('You are not allowed to perform this actions');
       }
 
-      // if (checkTest.status === TestStatus.Published) {
-      //   return errorResponse('Already Published');
-      // }
+      if (checkTest.status === TestStatus.Published) {
+        return errorResponse('Already Published');
+      }
 
-      const updateR = await testModel.updateOne(
+      await testModel.updateOne(
         { _id: checkTest._id },
         { $set: { status: TestStatus.Published } },
       );
-
-      // if (updateR.modifiedCount <= 0) {
-      //   return errorResponse('Unable To Publish Test');
-      // }
 
       const getAttendants = await attendantModel
         .find({
@@ -150,6 +147,25 @@ export class TestResolver extends AttendantHelper {
               },
             },
           );
+        }
+
+        // send email
+        const findAttendant = await attendantModel.find({
+          testId: checkTest._id,
+        });
+
+        if (findAttendant.length > 0) {
+          const subject = 'Invitation for assessment';
+
+          for (const c of findAttendant) {
+            sendEmail({
+              receivers: [c.email],
+              subject,
+              html: `<p>Dear Student,</p><br/><p>You have been invited todo the assessment.</p>
+              <p>Click on the link below to start.</p>
+              <p><a href={${c.testUri}} target="__blank">${c.testUri}</a></p>`,
+            }).catch((e) => e);
+          }
         }
       }
       return {

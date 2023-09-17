@@ -16,7 +16,7 @@ const QuestionDetailPage: NextPage = () => {
 
   const slug = router.query.slug as string;
 
-  const { data, loading } = useGetQuestionQuery({ variables: { id: slug } });
+  const { data } = useGetQuestionQuery({ variables: { id: slug } });
 
   const q = data?.getQuestion.data ?? undefined;
 
