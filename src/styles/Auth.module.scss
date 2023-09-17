@@ -39,17 +39,10 @@
       font-weight: bold;
       display: flex;
       align-items: center;
+      background: $yellow;
       span {
         margin-left: 12px;
         text-transform: lowercase;
-      }
-      &:first-child {
-        background: $b3;
-        box-shadow: 0px 0px 20px rgba(0, 239, 139, 0.41);
-      }
-      &:last-child {
-        margin-left: 60px;
-        background: $f4;
       }
     }
   }
