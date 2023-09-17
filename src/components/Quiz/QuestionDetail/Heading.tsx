@@ -8,10 +8,12 @@ const Heading = ({
   width,
   title,
   status,
+  createdAt,
 }: {
   width?: string;
   title?: string;
   status?: string;
+  createdAt?: string;
 }) => {
   return (
     <div
@@ -22,9 +24,11 @@ const Heading = ({
         <QType name="Multiple Choice" />
       </div>
       <div className={classname('text-20')}>{title || ''}</div>
-      <div className={classname('text-12 mt-2')} style={{ color: '#505050' }}>
-        Created on 25 June 2020
-      </div>
+      {/* {createdAt && (
+        <div className={classname('text-12 mt-2')} style={{ color: '#505050' }}>
+          Created on {new Date(createdAt).toDateString()}
+        </div>
+      )} */}
       {status && (
         <div style={{ marginTop: '25px' }}>
           <Status status={status} />
