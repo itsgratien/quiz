@@ -9,20 +9,26 @@ const Heading = ({
   title,
   status,
   createdAt,
+  type,
 }: {
   width?: string;
   title?: string;
   status?: string;
   createdAt?: string;
+  type?: string;
 }) => {
   return (
     <div
       className={classname(style.heading, 'm-auto')}
       style={{ width: width || '30%' }}
     >
-      <div style={{ width: '150px', marginLeft: '30px', marginBottom: '20px' }}>
-        <QType name="Multiple Choice" />
-      </div>
+      {type && (
+        <div
+          style={{ width: '150px', marginLeft: '30px', marginBottom: '20px' }}
+        >
+          <QType name={type} />
+        </div>
+      )}
       <div className={classname('text-20')}>{title || ''}</div>
       {/* {createdAt && (
         <div className={classname('text-12 mt-2')} style={{ color: '#505050' }}>

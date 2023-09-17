@@ -31,6 +31,7 @@ const QuestionDetailPage: NextPage = () => {
             width="100%"
             status={q?.status ?? undefined}
             createdAt={q?.createdAt ?? undefined}
+            type={q?.type ?? undefined}
           />
         </div>
         <div
