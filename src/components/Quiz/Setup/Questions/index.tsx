@@ -13,12 +13,12 @@ import { QuestionContextValue } from '@/generated/Quiz';
 export const Questions = () => {
   const [openMcq, setOpenMcq] = React.useState<boolean>(false);
 
-  const { test } = useSetup();
+  const { test, setStep } = useSetup();
 
   const defaultTestId = '64fd9f67691dfdb245fea1a3';
 
-  const { items, handleLoadMore, loading, totalDoc, handleReload } =
-    useGetQuestionAssignedToTest({ testId: defaultTestId, limit: 100 });
+  const { items, handleLoadMore, loading, handleReload } =
+    useGetQuestionAssignedToTest({ testId: test?._id, limit: 100 });
 
   const questionContextValue: QuestionContextValue = React.useMemo(
     () => ({ openMcq, setOpenMcq }),
@@ -43,7 +43,10 @@ export const Questions = () => {
                 )}
               </div>
             )}
-            <Buttons />
+            <Buttons
+              submitButton={{ onClick: () => alert('aha') }}
+              backButton={{ onClick: () => setStep(0) }}
+            />
           </div>
         )}
       </QuestionContext.Consumer>

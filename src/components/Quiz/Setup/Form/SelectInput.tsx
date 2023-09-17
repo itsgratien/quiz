@@ -22,7 +22,6 @@ export const SelectInput = ({
   label,
   options,
 }: SelectInputProps) => {
-  console.log('options:', options);
   return (
     <div className={cn('relative my-2 w-full')}>
       {label && <Label {...label} />}

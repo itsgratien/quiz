@@ -117,18 +117,18 @@ export class TestResolver extends AttendantHelper {
         return errorResponse('You are not allowed to perform this actions');
       }
 
-      // if (checkTest.status === TestStatus.Published) {
-      //   return errorResponse('Already Published');
-      // }
+      if (checkTest.status === TestStatus.Published) {
+        return errorResponse('Already Published');
+      }
 
       const updateR = await testModel.updateOne(
         { _id: checkTest._id },
         { $set: { status: TestStatus.Published } },
       );
 
-      // if (updateR.modifiedCount <= 0) {
-      //   return errorResponse('Unable To Publish Test');
-      // }
+      if (updateR.modifiedCount <= 0) {
+        return errorResponse('Unable To Publish Test');
+      }
 
       const getAttendants = await attendantModel
         .find({

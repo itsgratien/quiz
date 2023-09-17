@@ -14,7 +14,7 @@ interface McqProps {
 }
 
 export const Mcq = ({ open, onClose }: McqProps) => {
-  const [step, setStep] = React.useState<number>(1);
+  const [step, setStep] = React.useState<number>(0);
 
   const formik = useFormik<AddMcqValues>({
     initialValues: {

@@ -12,6 +12,8 @@ interface TextAreaProps {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   error?: string;
   label?: LabelProps;
+  textAreaClassName?: string;
+  textAreaStyles?: React.CSSProperties;
 }
 
 export const TextArea = ({
@@ -21,9 +23,11 @@ export const TextArea = ({
   onChange,
   error,
   label,
+  textAreaClassName,
+  textAreaStyles,
 }: TextAreaProps) => {
   return (
-    <div className={cn('relative my-2')}>
+    <div className={cn('relative my-2 w-full')}>
       {label && <Label {...label} />}
       <Input.TextArea
         name={name}
@@ -32,7 +36,8 @@ export const TextArea = ({
         placeholder={placeholder}
         size="large"
         status={error && 'error'}
-        style={{ fontSize: '14px' }}
+        style={{ fontSize: '14px', ...textAreaStyles }}
+        className={textAreaClassName}
       />
       <InputError error={error} />
     </div>

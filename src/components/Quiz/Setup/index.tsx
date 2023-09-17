@@ -19,7 +19,7 @@ interface SetupProps {
 }
 
 const Setup = ({ open, slug, onClose }: SetupProps) => {
-  const [step, setStep] = React.useState<number>(1);
+  const [step, setStep] = React.useState<number>(0);
 
   const [test, setTest] = React.useState<Test>();
 
@@ -76,6 +76,7 @@ const Setup = ({ open, slug, onClose }: SetupProps) => {
             test,
             handleTest,
             loading,
+            setStep
           }}
         >
           <SetupContext.Consumer>

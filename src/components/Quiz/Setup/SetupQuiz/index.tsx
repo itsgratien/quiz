@@ -72,7 +72,12 @@ const SetupQuiz = () => {
   return (
     <div className={classname('relative')}>
       <Form formik={formik} errors={errors} values={formik.values} />
-      <Buttons />
+      <Buttons
+        submitButton={{
+          name: 'Continue',
+          onClick: formik.submitForm,
+        }}
+      />
     </div>
   );
 };

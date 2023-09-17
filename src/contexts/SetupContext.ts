@@ -7,12 +7,13 @@ import type {
 
 export const SetupContext = React.createContext<{
   step: number;
-  setStep?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
   test?: Test;
   handleTest?: (test: Test) => void;
   loading?: boolean;
 }>({
   step: 0,
+  setStep: () => '',
 });
 
 export const QuestionContext = React.createContext<QuestionContextValue>({});

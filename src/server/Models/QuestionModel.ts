@@ -14,6 +14,7 @@ export class LinkedTest {
   @prop({ ref: () => Test })
   test: typegoose.Ref<Test, string>;
 }
+
 @ObjectType()
 export class Question {
   @Field()

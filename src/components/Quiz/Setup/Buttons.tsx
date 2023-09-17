@@ -4,9 +4,18 @@ import { useSetup } from '@/hooks/useSetup';
 import cn from 'classnames';
 import styles from './Setup.module.scss';
 
-export const Buttons = () => {
-  const { step } = useSetup();
-
+interface ButtonsProps {
+  showBackButton?: boolean;
+  submitButton: {
+    name?: string;
+    onClick?: () => void;
+  };
+  backButton?: {
+    show?: boolean;
+    onClick?: () => void;
+  };
+}
+export const Buttons = ({ backButton, submitButton }: ButtonsProps) => {
   return (
     <div
       className={cn(
@@ -18,13 +27,15 @@ export const Buttons = () => {
         type="primary"
         className={cn('!text-black bg-primary !text-14 font-bold')}
         size="large"
+        onClick={() => submitButton.onClick && submitButton.onClick()}
       >
-        {step !== 2 ? 'Continue' : 'Submit'}
+        {submitButton.name || 'Continue'}
       </Button>
-      {step !== 0 && (
+      {backButton?.show && (
         <Button
           size="large"
           className={cn('!text-black !text-14 font-bold ml-5')}
+          onClick={backButton.onClick}
         >
           Back
         </Button>
