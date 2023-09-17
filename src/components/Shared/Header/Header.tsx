@@ -35,7 +35,7 @@ const Header = () => {
       setWarn(false);
       if (logoutResponse.logout.message) {
         toast.success(logoutResponse.logout.message);
-        router.push('/auth');
+        router.push('/');
       }
       if (logoutResponse.logout.error) {
         toast.error(logoutResponse.logout.error);
