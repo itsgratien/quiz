@@ -16,6 +16,7 @@ import {
 } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import Completed from '@/components/Quiz/TodoQuiz/Completed';
 
 const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
   numberOfQuestions,
@@ -33,8 +34,10 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
 
   const router = useRouter();
 
-  const [whoIsDoingQuizFunc, { data, loading: whoIsLoading, refetch }] =
-    useWhoIsDoingQuizLazyQuery();
+  const [
+    whoIsDoingQuizFunc,
+    { data, loading: whoIsLoading, refetch: refechWhoIsDoingQuiz },
+  ] = useWhoIsDoingQuizLazyQuery();
 
   const [
     changeStatusFunc,
@@ -110,6 +113,7 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
             attendant: String(router.query.attendant),
           },
           error: error ?? undefined,
+          refechWhoIsDoingQuiz,
         }}
       >
         <TodoContext.Consumer>
@@ -124,6 +128,9 @@ const TodoQuiz: NextPage<VerifyTestUriResponse> = ({
               switch (status) {
                 case AttendantStatus.InProgress:
                   return <Todo />;
+
+                case AttendantStatus.Completed:
+                  return <Completed />;
                 default:
                   return <StartQuiz />;
               }

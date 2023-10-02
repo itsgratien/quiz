@@ -24,6 +24,7 @@ import NotFound from '@/components/Quiz/Setup/View/NotFound';
 import useGetQuestion from '@/hooks/useGetQuestionAssignedToTest';
 import useGetOverralGrade from '@/hooks/useGetOverralGrade';
 import LoadingSpinner from '@/components/Shared/LoadingSpinner';
+import Image from 'next/image';
 
 const CandidatePage: NextPage<{
   data?: Attendant;
@@ -94,6 +95,17 @@ const CandidatePage: NextPage<{
                             Overall grade
                           </span>
                         </div>
+                        {data.image && (
+                          <div className="mt-3">
+                            <Image
+                              src={data.image}
+                              width={150}
+                              height={150}
+                              alt="image"
+                              style={{ borderRadius: '10px' }}
+                            />
+                          </div>
+                        )}
                       </>
                     )}
                     {getOverralGradeResponse.loading && (

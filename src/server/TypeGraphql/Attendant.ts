@@ -65,3 +65,12 @@ export class ChangeStatusArgs extends VerifyTestUriArgs {
   @Field()
   status?: string;
 }
+
+@ArgsType()
+export class UpdateAttendImageArgs {
+  @Field({ nullable: false })
+  attendantId: string;
+
+  @Field({ nullable: false })
+  image: string;
+}

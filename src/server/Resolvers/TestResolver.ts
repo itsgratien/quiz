@@ -163,7 +163,8 @@ export class TestResolver extends AttendantHelper {
               subject,
               html: `<p>Dear Student,</p><br/><p>You have been invited todo the assessment.</p>
               <p>Click on the link below to start.</p>
-              <p><a href={${c.testUri}} target="__blank">${c.testUri}</a></p>`,
+              <a href=${c.testUri} target="_blank"><button type="button">Get Assessment</button></a>`,
+              text: `Dear student. You have been invited todo the assessment. click on the link below to start. ${c.testUri}`,
             }).catch((e) => e);
           }
         }

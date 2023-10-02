@@ -5,109 +5,111 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type AddAttendantArgs = {
-  email: Scalars['String'];
-  names: Scalars['String'];
-  phoneNumber: Scalars['String'];
+  email: Scalars['String']['input'];
+  names: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
 };
 
 export type AddAttendantResponse = {
   __typename?: 'AddAttendantResponse';
   data?: Maybe<Attendant>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AddMoreAttendantResponse = {
   __typename?: 'AddMoreAttendantResponse';
   data?: Maybe<Attendant>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Attendant>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AddQuestionResponse = {
   __typename?: 'AddQuestionResponse';
   data?: Maybe<Question>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AddQuestionToTestResponse = {
   __typename?: 'AddQuestionToTestResponse';
   data?: Maybe<Question>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AddTestResponse = {
   __typename?: 'AddTestResponse';
   data?: Maybe<Test>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Answer = {
   __typename?: 'Answer';
-  _id: Scalars['String'];
-  answers: Array<Scalars['String']>;
+  _id: Scalars['String']['output'];
+  answers: Array<Scalars['String']['output']>;
   attendant: Attendant;
-  attendantId?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
-  grade: Scalars['String'];
+  attendantId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  grade: Scalars['String']['output'];
   question: Question;
-  questionId?: Maybe<Scalars['String']>;
+  questionId?: Maybe<Scalars['String']['output']>;
   test: Test;
-  testId?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  video?: Maybe<Scalars['String']>;
+  testId?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  video?: Maybe<Scalars['String']['output']>;
 };
 
 export type AnswerResponse = {
   __typename?: 'AnswerResponse';
   data?: Maybe<Answer>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AnsweredQuestions = {
@@ -117,151 +119,152 @@ export type AnsweredQuestions = {
 
 export type Attendant = {
   __typename?: 'Attendant';
-  _id: Scalars['String'];
-  createdAt?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  names: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  status?: Maybe<Scalars['String']>;
+  _id: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  names: Scalars['String']['output'];
+  phoneNumber: Scalars['String']['output'];
+  status?: Maybe<Scalars['String']['output']>;
   test?: Maybe<AttendantRefTest>;
-  testId?: Maybe<Scalars['String']>;
-  testUri?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
+  testId?: Maybe<Scalars['String']['output']>;
+  testUri?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type AttendantRefTest = {
   __typename?: 'AttendantRefTest';
-  _id: Scalars['String'];
-  status: Scalars['String'];
-  title: Scalars['String'];
+  _id: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type AuthenticateResponse = {
   __typename?: 'AuthenticateResponse';
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 export type ErrorsT = {
   __typename?: 'ErrorsT';
-  field: Scalars['String'];
-  message: Scalars['String'];
+  field: Scalars['String']['output'];
+  message: Scalars['String']['output'];
 };
 
 export type GetAnswerResponse = {
   __typename?: 'GetAnswerResponse';
   data?: Maybe<Answer>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetAttendantByTestResponse = {
   __typename?: 'GetAttendantByTestResponse';
-  completedDoc?: Maybe<Scalars['Float']>;
+  completedDoc?: Maybe<Scalars['Float']['output']>;
   data?: Maybe<Attendant>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  inProgressDoc?: Maybe<Scalars['Float']>;
+  inProgressDoc?: Maybe<Scalars['Float']['output']>;
   items: Array<Attendant>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  startedDoc?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  startedDoc?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetMyTestResponse = {
   __typename?: 'GetMyTestResponse';
   data?: Maybe<Test>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Test>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetOverralGradeResponse = {
   __typename?: 'GetOverralGradeResponse';
   data?: Maybe<Result>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  overralgrade?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  overralgrade?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetQuestionAssignedToTestResponse = {
   __typename?: 'GetQuestionAssignedToTestResponse';
   data?: Maybe<Question>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
   items: Array<Question>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  testId?: Maybe<Scalars['String']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  testId?: Maybe<Scalars['String']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetQuestionResponse = {
   __typename?: 'GetQuestionResponse';
   data?: Maybe<Question>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetQuestionsResponse = {
   __typename?: 'GetQuestionsResponse';
   data?: Maybe<Question>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
   items?: Maybe<Array<Question>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetSingleTestResponse = {
   __typename?: 'GetSingleTestResponse';
   data?: Maybe<Test>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type GetUserResponse = {
   __typename?: 'GetUserResponse';
   data?: Maybe<User>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type LinkedTest = {
@@ -283,95 +286,102 @@ export type Mutation = {
   logout: GetUserResponse;
   publishTest: AddTestResponse;
   setupMultipleChoiceQuestion: AddQuestionResponse;
+  updateAttendantImage: WhoIsDoingQuizResponse;
   verifyTestUri: VerifyTestUriResponse;
 };
 
 
 export type MutationAddAttendantArgs = {
   args: AddAttendantArgs;
-  testId: Scalars['String'];
+  testId: Scalars['String']['input'];
 };
 
 
 export type MutationAddMoreAttendantArgs = {
-  args: Array<AddAttendantArgs>;
-  testId: Scalars['String'];
+  candidates: Array<AddAttendantArgs>;
+  testId: Scalars['String']['input'];
 };
 
 
 export type MutationAddQuestionToTestArgs = {
-  question: Scalars['String'];
-  test: Scalars['String'];
+  question: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 
 export type MutationAddTestArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  endDate: Scalars['String'];
-  passMark: Scalars['Float'];
-  startDate: Scalars['String'];
-  subject: Scalars['String'];
-  title: Scalars['String'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDate: Scalars['String']['input'];
+  passMark: Scalars['Float']['input'];
+  startDate: Scalars['String']['input'];
+  subject: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 
 export type MutationAnswerMcQuestionArgs = {
-  answers: Array<Scalars['String']>;
-  attendant: Scalars['String'];
-  question: Scalars['String'];
-  test: Scalars['String'];
+  answers: Array<Scalars['String']['input']>;
+  attendant: Scalars['String']['input'];
+  question: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 
 export type MutationAuthenticateArgs = {
-  idToken: Scalars['String'];
+  idToken: Scalars['String']['input'];
 };
 
 
 export type MutationChangeQuestionStatusArgs = {
-  id: Scalars['String'];
-  status: Scalars['String'];
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
 };
 
 
 export type MutationChangeStatusArgs = {
-  attendant: Scalars['String'];
-  status: Scalars['String'];
-  test: Scalars['String'];
+  attendant: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 
 export type MutationEditMcQuestionArgs = {
-  assignToTest?: InputMaybe<Scalars['Boolean']>;
-  choices: Array<Scalars['String']>;
-  description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  points: Scalars['Float'];
-  solutions: Array<Scalars['String']>;
-  testId?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  assignToTest?: InputMaybe<Scalars['Boolean']['input']>;
+  choices: Array<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  points: Scalars['Float']['input'];
+  solutions: Array<Scalars['String']['input']>;
+  testId?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
 };
 
 
 export type MutationPublishTestArgs = {
-  testId: Scalars['String'];
+  testId: Scalars['String']['input'];
 };
 
 
 export type MutationSetupMultipleChoiceQuestionArgs = {
-  assignToTest?: InputMaybe<Scalars['Boolean']>;
-  choices: Array<Scalars['String']>;
-  description?: InputMaybe<Scalars['String']>;
-  points: Scalars['Float'];
-  solutions: Array<Scalars['String']>;
-  testId?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  assignToTest?: InputMaybe<Scalars['Boolean']['input']>;
+  choices: Array<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  points: Scalars['Float']['input'];
+  solutions: Array<Scalars['String']['input']>;
+  testId?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateAttendantImageArgs = {
+  attendantId: Scalars['String']['input'];
+  image: Scalars['String']['input'];
 };
 
 
 export type MutationVerifyTestUriArgs = {
-  attendant: Scalars['String'];
-  test: Scalars['String'];
+  attendant: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -391,92 +401,92 @@ export type Query = {
 
 
 export type QueryGetAnswerArgs = {
-  attendant: Scalars['String'];
-  question: Scalars['String'];
-  test: Scalars['String'];
+  attendant: Scalars['String']['input'];
+  question: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 
 export type QueryGetAttendantByIdArgs = {
-  attendantId: Scalars['String'];
+  attendantId: Scalars['String']['input'];
 };
 
 
 export type QueryGetAttendantByTestArgs = {
-  limit?: InputMaybe<Scalars['Float']>;
-  page: Scalars['Float'];
-  testId: Scalars['String'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page: Scalars['Float']['input'];
+  testId: Scalars['String']['input'];
 };
 
 
 export type QueryGetMyTestsArgs = {
-  limit?: InputMaybe<Scalars['Float']>;
-  page: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page: Scalars['Float']['input'];
 };
 
 
 export type QueryGetOverralGradeArgs = {
-  attendant: Scalars['String'];
-  test: Scalars['String'];
+  attendant: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 
 export type QueryGetQuestionArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryGetQuestionAssignedToTestArgs = {
-  limit?: InputMaybe<Scalars['Float']>;
-  page: Scalars['Float'];
-  testId: Scalars['String'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page: Scalars['Float']['input'];
+  testId: Scalars['String']['input'];
 };
 
 
 export type QueryGetQuestionsArgs = {
-  limit?: InputMaybe<Scalars['Float']>;
-  page: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page: Scalars['Float']['input'];
 };
 
 
 export type QueryGetSingleTestArgs = {
-  slug: Scalars['String'];
+  slug: Scalars['String']['input'];
 };
 
 
 export type QueryWhoIsDoingQuizArgs = {
-  attendant: Scalars['String'];
-  test: Scalars['String'];
+  attendant: Scalars['String']['input'];
+  test: Scalars['String']['input'];
 };
 
 export type Question = {
   __typename?: 'Question';
-  _id: Scalars['String'];
-  choices?: Maybe<Array<Scalars['String']>>;
-  createdAt?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
+  _id: Scalars['String']['output'];
+  choices?: Maybe<Array<Scalars['String']['output']>>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   owner?: Maybe<User>;
-  points: Scalars['Float'];
-  slug: Scalars['String'];
-  solutions?: Maybe<Array<Scalars['String']>>;
-  status?: Maybe<Scalars['String']>;
+  points: Scalars['Float']['output'];
+  slug: Scalars['String']['output'];
+  solutions?: Maybe<Array<Scalars['String']['output']>>;
+  status?: Maybe<Scalars['String']['output']>;
   tests: Array<LinkedTest>;
-  title: Scalars['String'];
-  type?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
+  title: Scalars['String']['output'];
+  type?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type Result = {
   __typename?: 'Result';
-  _id: Scalars['String'];
+  _id: Scalars['String']['output'];
   answers: Array<AnsweredQuestions>;
   attendant: Attendant;
-  createdAt?: Maybe<Scalars['String']>;
-  overralgrade: Scalars['String'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  overralgrade: Scalars['String']['output'];
   status?: Maybe<Status>;
   testId: Test;
-  updatedAt?: Maybe<Scalars['String']>;
-  video?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  video?: Maybe<Scalars['String']['output']>;
 };
 
 /** Status */
@@ -488,20 +498,20 @@ export enum Status {
 
 export type Test = {
   __typename?: 'Test';
-  _id: Scalars['String'];
+  _id: Scalars['String']['output'];
   attendants?: Maybe<Array<TestAttendant>>;
-  createdAt?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  endDate: Scalars['String'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  endDate: Scalars['String']['output'];
   managerId?: Maybe<User>;
-  passMark?: Maybe<Scalars['Float']>;
+  passMark?: Maybe<Scalars['Float']['output']>;
   questions?: Maybe<Array<TestQuestion>>;
-  slug: Scalars['String'];
-  startDate: Scalars['String'];
-  status?: Maybe<Scalars['String']>;
-  subject: Scalars['String'];
-  title: Scalars['String'];
-  updatedAt?: Maybe<Scalars['String']>;
+  slug: Scalars['String']['output'];
+  startDate: Scalars['String']['output'];
+  status?: Maybe<Scalars['String']['output']>;
+  subject: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type TestAttendant = {
@@ -516,209 +526,217 @@ export type TestQuestion = {
 
 export type User = {
   __typename?: 'User';
-  _id: Scalars['String'];
-  createdAt?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  names?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  profilePicture?: Maybe<Scalars['String']>;
-  role?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  _id: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  names?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type VerifyTestUriResponse = {
   __typename?: 'VerifyTestUriResponse';
   attendant?: Maybe<Attendant>;
   data?: Maybe<Test>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  numberOfQuestions?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  numberOfQuestions?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
   test?: Maybe<Test>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
-  verified?: Maybe<Scalars['Boolean']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
+  verified?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type WhoIsDoingQuizResponse = {
   __typename?: 'WhoIsDoingQuizResponse';
   attendant: Attendant;
   data?: Maybe<Attendant>;
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']['output']>;
   errors?: Maybe<Array<ErrorsT>>;
-  message?: Maybe<Scalars['String']>;
-  nextPage?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['Float']>;
-  totalDocs?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']['output']>;
+  nextPage?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['Float']['output']>;
+  totalDocs?: Maybe<Scalars['Float']['output']>;
+  totalPages?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AnswerFragment = { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', status?: string | null }, question: { __typename?: 'Question', status?: string | null }, attendant: { __typename?: 'Attendant', testUri?: string | null } };
 
 export type AnswerMcQuestionMutationVariables = Exact<{
-  test: Scalars['String'];
-  attendant: Scalars['String'];
-  question: Scalars['String'];
-  answers: Array<Scalars['String']> | Scalars['String'];
+  test: Scalars['String']['input'];
+  attendant: Scalars['String']['input'];
+  question: Scalars['String']['input'];
+  answers: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
 export type AnswerMcQuestionMutation = { __typename?: 'Mutation', answerMcQuestion: { __typename?: 'AnswerResponse', error?: string | null, message?: string | null } };
 
 export type GetAnswerQueryVariables = Exact<{
-  test: Scalars['String'];
-  attendant: Scalars['String'];
-  question: Scalars['String'];
+  test: Scalars['String']['input'];
+  attendant: Scalars['String']['input'];
+  question: Scalars['String']['input'];
 }>;
 
 
 export type GetAnswerQuery = { __typename?: 'Query', getAnswer: { __typename?: 'GetAnswerResponse', error?: string | null, data?: { __typename?: 'Answer', _id: string, answers: Array<string>, createdAt?: string | null, updatedAt?: string | null, grade: string, video?: string | null, questionId?: string | null, attendantId?: string | null, testId?: string | null, test: { __typename?: 'Test', status?: string | null }, question: { __typename?: 'Question', status?: string | null }, attendant: { __typename?: 'Attendant', testUri?: string | null } } | null } };
 
-export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
+export type AttendantFragment = { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null };
 
 export type GetAttendantByTestQueryVariables = Exact<{
-  testId: Scalars['String'];
-  page: Scalars['Float'];
-  limit?: InputMaybe<Scalars['Float']>;
+  testId: Scalars['String']['input'];
+  page: Scalars['Float']['input'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, inProgressDoc?: number | null, startedDoc?: number | null, completedDoc?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null }> } };
+export type GetAttendantByTestQuery = { __typename?: 'Query', getAttendantByTest: { __typename?: 'GetAttendantByTestResponse', totalDocs?: number | null, totalPages?: number | null, nextPage?: number | null, inProgressDoc?: number | null, startedDoc?: number | null, completedDoc?: number | null, error?: string | null, items: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null }> } };
 
 export type AddAttendantMutationVariables = Exact<{
-  testId: Scalars['String'];
+  testId: Scalars['String']['input'];
   args: AddAttendantArgs;
 }>;
 
 
-export type AddAttendantMutation = { __typename?: 'Mutation', addAttendant: { __typename?: 'AddAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null } };
+export type AddAttendantMutation = { __typename?: 'Mutation', addAttendant: { __typename?: 'AddAttendantResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null } };
 
 export type AddMoreAttendantMutationVariables = Exact<{
-  testId: Scalars['String'];
-  args: Array<AddAttendantArgs> | AddAttendantArgs;
+  testId: Scalars['String']['input'];
+  candidates: Array<AddAttendantArgs> | AddAttendantArgs;
 }>;
 
 
-export type AddMoreAttendantMutation = { __typename?: 'Mutation', addMoreAttendant: { __typename?: 'AddMoreAttendantResponse', error?: string | null, message?: string | null, items?: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null }> | null } };
+export type AddMoreAttendantMutation = { __typename?: 'Mutation', addMoreAttendant: { __typename?: 'AddMoreAttendantResponse', error?: string | null, message?: string | null, items?: Array<{ __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null }> | null } };
 
 export type GetAttendantByIdQueryVariables = Exact<{
-  attendantId: Scalars['String'];
+  attendantId: Scalars['String']['input'];
 }>;
 
 
-export type GetAttendantByIdQuery = { __typename?: 'Query', getAttendantById: { __typename?: 'GetAttendantByTestResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null } };
+export type GetAttendantByIdQuery = { __typename?: 'Query', getAttendantById: { __typename?: 'GetAttendantByTestResponse', error?: string | null, data?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null } };
 
 export type WhoIsDoingQuizQueryVariables = Exact<{
-  test: Scalars['String'];
-  attendant: Scalars['String'];
+  test: Scalars['String']['input'];
+  attendant: Scalars['String']['input'];
 }>;
 
 
-export type WhoIsDoingQuizQuery = { __typename?: 'Query', whoIsDoingQuiz: { __typename?: 'WhoIsDoingQuizResponse', error?: string | null, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } };
+export type WhoIsDoingQuizQuery = { __typename?: 'Query', whoIsDoingQuiz: { __typename?: 'WhoIsDoingQuizResponse', error?: string | null, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } };
 
 export type ChangeStatusMutationVariables = Exact<{
-  test: Scalars['String'];
-  attendant: Scalars['String'];
-  status: Scalars['String'];
+  test: Scalars['String']['input'];
+  attendant: Scalars['String']['input'];
+  status: Scalars['String']['input'];
 }>;
 
 
-export type ChangeStatusMutation = { __typename?: 'Mutation', changeStatus: { __typename?: 'WhoIsDoingQuizResponse', message?: string | null, error?: string | null, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } };
+export type ChangeStatusMutation = { __typename?: 'Mutation', changeStatus: { __typename?: 'WhoIsDoingQuizResponse', message?: string | null, error?: string | null, attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } } };
+
+export type UpdateAttendantImageMutationVariables = Exact<{
+  attendantId: Scalars['String']['input'];
+  image: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAttendantImageMutation = { __typename?: 'Mutation', updateAttendantImage: { __typename?: 'WhoIsDoingQuizResponse', message?: string | null, error?: string | null } };
 
 export type QuestionFragment = { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null };
 
 export type SetupMcQuestionMutationVariables = Exact<{
-  title: Scalars['String'];
-  choices: Array<Scalars['String']> | Scalars['String'];
-  solutions: Array<Scalars['String']> | Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  testId?: InputMaybe<Scalars['String']>;
-  assignToTest?: InputMaybe<Scalars['Boolean']>;
-  points: Scalars['Float'];
+  title: Scalars['String']['input'];
+  choices: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  solutions: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  testId?: InputMaybe<Scalars['String']['input']>;
+  assignToTest?: InputMaybe<Scalars['Boolean']['input']>;
+  points: Scalars['Float']['input'];
 }>;
 
 
 export type SetupMcQuestionMutation = { __typename?: 'Mutation', setupMultipleChoiceQuestion: { __typename?: 'AddQuestionResponse', message?: string | null, error?: string | null, data?: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } | null } };
 
 export type GetQuestionAssignedToTestQueryVariables = Exact<{
-  page: Scalars['Float'];
-  limit?: InputMaybe<Scalars['Float']>;
-  testId: Scalars['String'];
+  page: Scalars['Float']['input'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  testId: Scalars['String']['input'];
 }>;
 
 
 export type GetQuestionAssignedToTestQuery = { __typename?: 'Query', getQuestionAssignedToTest: { __typename?: 'GetQuestionAssignedToTestResponse', totalPages?: number | null, totalDocs?: number | null, error?: string | null, testId?: string | null, items: Array<{ __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null }> } };
 
 export type AddQuestionToTestMutationVariables = Exact<{
-  test: Scalars['String'];
-  question: Scalars['String'];
+  test: Scalars['String']['input'];
+  question: Scalars['String']['input'];
 }>;
 
 
 export type AddQuestionToTestMutation = { __typename?: 'Mutation', addQuestionToTest: { __typename?: 'AddQuestionToTestResponse', message?: string | null, error?: string | null } };
 
 export type GetQuestionQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 }>;
 
 
 export type GetQuestionQuery = { __typename?: 'Query', getQuestion: { __typename?: 'GetQuestionResponse', error?: string | null, data?: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } | null } };
 
 export type GetOverralGradeQueryVariables = Exact<{
-  test: Scalars['String'];
-  attendant: Scalars['String'];
+  test: Scalars['String']['input'];
+  attendant: Scalars['String']['input'];
 }>;
 
 
 export type GetOverralGradeQuery = { __typename?: 'Query', getOverralGrade: { __typename?: 'GetOverralGradeResponse', error?: string | null, overralgrade?: string | null } };
 
-export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null };
+export type TestFragment = { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null };
 
 export type SetupTestMutationVariables = Exact<{
-  title: Scalars['String'];
-  startDate: Scalars['String'];
-  endDate: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  subject: Scalars['String'];
-  passMark: Scalars['Float'];
+  title: Scalars['String']['input'];
+  startDate: Scalars['String']['input'];
+  endDate: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  subject: Scalars['String']['input'];
+  passMark: Scalars['Float']['input'];
 }>;
 
 
-export type SetupTestMutation = { __typename?: 'Mutation', addTest: { __typename?: 'AddTestResponse', message?: string | null, error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
+export type SetupTestMutation = { __typename?: 'Mutation', addTest: { __typename?: 'AddTestResponse', message?: string | null, error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
 
 export type GetMyTestsQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Float']>;
-  page: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page: Scalars['Float']['input'];
 }>;
 
 
-export type GetMyTestsQuery = { __typename?: 'Query', getMyTests: { __typename?: 'GetMyTestResponse', error?: string | null, totalDocs?: number | null, totalPages?: number | null, items?: Array<{ __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null }> | null } };
+export type GetMyTestsQuery = { __typename?: 'Query', getMyTests: { __typename?: 'GetMyTestResponse', error?: string | null, totalDocs?: number | null, totalPages?: number | null, items?: Array<{ __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null }> | null } };
 
 export type PublishTestMutationVariables = Exact<{
-  testId: Scalars['String'];
+  testId: Scalars['String']['input'];
 }>;
 
 
 export type PublishTestMutation = { __typename?: 'Mutation', publishTest: { __typename?: 'AddTestResponse', message?: string | null, error?: string | null } };
 
 export type GetSingleTestQueryVariables = Exact<{
-  slug: Scalars['String'];
+  slug: Scalars['String']['input'];
 }>;
 
 
-export type GetSingleTestQuery = { __typename?: 'Query', getSingleTest: { __typename?: 'GetSingleTestResponse', error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
+export type GetSingleTestQuery = { __typename?: 'Query', getSingleTest: { __typename?: 'GetSingleTestResponse', error?: string | null, data?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
 
 export type VerifyTestUriMutationVariables = Exact<{
-  test: Scalars['String'];
-  attendant: Scalars['String'];
+  test: Scalars['String']['input'];
+  attendant: Scalars['String']['input'];
 }>;
 
 
-export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null, verified?: boolean | null, numberOfQuestions?: number | null, attendant?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null, test?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
+export type VerifyTestUriMutation = { __typename?: 'Mutation', verifyTestUri: { __typename?: 'VerifyTestUriResponse', message?: string | null, error?: string | null, verified?: boolean | null, numberOfQuestions?: number | null, attendant?: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } | null, test?: { __typename?: 'Test', _id: string, title: string, subject: string, description?: string | null, startDate: string, endDate: string, createdAt?: string | null, updatedAt?: string | null, slug: string, status?: string | null, passMark?: number | null, questions?: Array<{ __typename?: 'TestQuestion', question: { __typename?: 'Question', _id: string, title: string, type?: string | null, slug: string, status?: string | null, description?: string | null, choices?: Array<string> | null, solutions?: Array<string> | null, points: number, createdAt?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } }> | null, attendants?: Array<{ __typename?: 'TestAttendant', attendant: { __typename?: 'Attendant', _id: string, names: string, email: string, phoneNumber: string, testUri?: string | null, status?: string | null, createdAt?: string | null, updatedAt?: string | null, testId?: string | null, image?: string | null, test?: { __typename?: 'AttendantRefTest', _id: string, title: string, status: string } | null } }> | null } | null } };
 
 export type UserFragment = { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null };
 
@@ -728,7 +746,7 @@ export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'GetUserResponse', error?: string | null, data?: { __typename?: 'User', _id: string, email: string, names?: string | null, createdAt?: string | null, updatedAt?: string | null, username?: string | null, role?: string | null, slug?: string | null, profilePicture?: string | null } | null } };
 
 export type AuthenticateMutationVariables = Exact<{
-  idToken: Scalars['String'];
+  idToken: Scalars['String']['input'];
 }>;
 
 
@@ -803,6 +821,7 @@ export const AttendantFragmentDoc = gql`
   createdAt
   updatedAt
   testId
+  image
   test {
     _id
     title
@@ -1002,8 +1021,8 @@ export type AddAttendantMutationHookResult = ReturnType<typeof useAddAttendantMu
 export type AddAttendantMutationResult = Apollo.MutationResult<AddAttendantMutation>;
 export type AddAttendantMutationOptions = Apollo.BaseMutationOptions<AddAttendantMutation, AddAttendantMutationVariables>;
 export const AddMoreAttendantDocument = gql`
-    mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
-  addMoreAttendant(testId: $testId, args: $args) {
+    mutation AddMoreAttendant($testId: String!, $candidates: [AddAttendantArgs!]!) {
+  addMoreAttendant(testId: $testId, candidates: $candidates) {
     items {
       ...Attendant
     }
@@ -1028,7 +1047,7 @@ export type AddMoreAttendantMutationFn = Apollo.MutationFunction<AddMoreAttendan
  * const [addMoreAttendantMutation, { data, loading, error }] = useAddMoreAttendantMutation({
  *   variables: {
  *      testId: // value for 'testId'
- *      args: // value for 'args'
+ *      candidates: // value for 'candidates'
  *   },
  * });
  */
@@ -1155,6 +1174,41 @@ export function useChangeStatusMutation(baseOptions?: Apollo.MutationHookOptions
 export type ChangeStatusMutationHookResult = ReturnType<typeof useChangeStatusMutation>;
 export type ChangeStatusMutationResult = Apollo.MutationResult<ChangeStatusMutation>;
 export type ChangeStatusMutationOptions = Apollo.BaseMutationOptions<ChangeStatusMutation, ChangeStatusMutationVariables>;
+export const UpdateAttendantImageDocument = gql`
+    mutation UpdateAttendantImage($attendantId: String!, $image: String!) {
+  updateAttendantImage(attendantId: $attendantId, image: $image) {
+    message
+    error
+  }
+}
+    `;
+export type UpdateAttendantImageMutationFn = Apollo.MutationFunction<UpdateAttendantImageMutation, UpdateAttendantImageMutationVariables>;
+
+/**
+ * __useUpdateAttendantImageMutation__
+ *
+ * To run a mutation, you first call `useUpdateAttendantImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAttendantImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAttendantImageMutation, { data, loading, error }] = useUpdateAttendantImageMutation({
+ *   variables: {
+ *      attendantId: // value for 'attendantId'
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUpdateAttendantImageMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAttendantImageMutation, UpdateAttendantImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAttendantImageMutation, UpdateAttendantImageMutationVariables>(UpdateAttendantImageDocument, options);
+      }
+export type UpdateAttendantImageMutationHookResult = ReturnType<typeof useUpdateAttendantImageMutation>;
+export type UpdateAttendantImageMutationResult = Apollo.MutationResult<UpdateAttendantImageMutation>;
+export type UpdateAttendantImageMutationOptions = Apollo.BaseMutationOptions<UpdateAttendantImageMutation, UpdateAttendantImageMutationVariables>;
 export const SetupMcQuestionDocument = gql`
     mutation SetupMcQuestion($title: String!, $choices: [String!]!, $solutions: [String!]!, $description: String, $testId: String, $assignToTest: Boolean, $points: Float!) {
   setupMultipleChoiceQuestion(

@@ -10,13 +10,13 @@ const useRegisterCandidate = () => {
 
   const handleSubmit = async ({
     testId,
-    args,
+    candidates,
   }: {
     testId?: string;
-    args: AddAttendantArgs[];
+    candidates: AddAttendantArgs[];
   }) => {
-    if (testId && args) {
-      await registerAttendant({ variables: { testId, args } });
+    if (testId && candidates) {
+      await registerAttendant({ variables: { testId, candidates } });
     }
   };
 

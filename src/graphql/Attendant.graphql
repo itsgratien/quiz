@@ -8,6 +8,7 @@ fragment Attendant on Attendant {
   createdAt
   updatedAt
   testId
+  image
   test {
     _id
     title
@@ -39,8 +40,8 @@ mutation AddAttendant($testId: String!, $args: AddAttendantArgs!) {
   }
 }
 
-mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
-  addMoreAttendant(testId: $testId, args: $args) {
+mutation AddMoreAttendant($testId: String!, $candidates: [AddAttendantArgs!]!) {
+  addMoreAttendant(testId: $testId, candidates: $candidates) {
     items {
       ...Attendant
     }
@@ -74,5 +75,12 @@ mutation ChangeStatus($test: String!, $attendant: String!, $status: String!) {
     attendant {
       ...Attendant
     }
+  }
+}
+
+mutation UpdateAttendantImage($attendantId: String!, $image: String!) {
+  updateAttendantImage(attendantId: $attendantId, image: $image) {
+    message
+    error
   }
 }

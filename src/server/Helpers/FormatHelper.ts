@@ -71,6 +71,7 @@ export class FormatHelper {
         title: refTest.title,
         status: refTest.status,
       },
+      image: value.image,
     };
   }
 

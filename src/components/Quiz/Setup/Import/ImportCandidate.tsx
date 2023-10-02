@@ -82,7 +82,7 @@ const ImportCandidate = ({
     if (test && items) {
       await registerCandidate({
         testId: test._id,
-        args: items.map((item) => ({
+        candidates: items.map((item) => ({
           ...item,
           phoneNumber: String(item.phoneNumber),
         })),

@@ -31,7 +31,7 @@ const NewCandidate = ({
       if (test) {
         await registerAttendant({
           testId: test._id,
-          args: [{ ...value, phoneNumber: String(value.phoneNumber) }],
+          candidates: [{ ...value, phoneNumber: String(value.phoneNumber) }],
         });
       }
     },
@@ -63,7 +63,7 @@ const NewCandidate = ({
         className={classname(
           style.setup,
           style.setupQuiz,
-          'flex flex-col justify-center'
+          'flex flex-col justify-center',
         )}
         style={{ width: '32%' }}
       >
