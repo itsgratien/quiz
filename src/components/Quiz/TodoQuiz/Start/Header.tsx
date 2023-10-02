@@ -7,9 +7,11 @@ import useTodo from '@/hooks/useTodo';
 
 interface HeaderProps {
   showStartBtn?: boolean;
+  onStart?: () => void;
 }
-const Header = ({ showStartBtn = true }: HeaderProps) => {
+const Header = ({ showStartBtn = true, onStart }: HeaderProps) => {
   const todo = useTodo();
+
   const { changeStatus } = todo;
 
   return (
@@ -27,9 +29,7 @@ const Header = ({ showStartBtn = true }: HeaderProps) => {
             style.startButton,
             'flex items-center justify-center',
           )}
-          onClick={() =>
-            changeStatus && changeStatus(AttendantStatus.InProgress)
-          }
+          onClick={onStart}
         >
           <Icon
             icon="bi:play-circle-fill"

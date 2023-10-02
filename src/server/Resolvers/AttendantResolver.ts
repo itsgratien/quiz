@@ -262,4 +262,28 @@ export class AttendantResolver extends AttendantHelper {
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
+
+  @Mutation(() => attendantTg.WhoIsDoingQuizResponse)
+  async updateAttendantImage(
+    @Args() args: attendantTg.UpdateAttendImageArgs,
+  ): Promise<attendantTg.WhoIsDoingQuizResponse> {
+    try {
+      const attendantId = args.attendantId;
+
+      const find = await attendantModel.findById(attendantId);
+
+      if (!find) {
+        return errorResponse('Candidate not found');
+      }
+
+      await attendantModel.updateOne(
+        { _id: find._id },
+        { $set: { image: args.image } },
+      );
+
+      return { message: 'updated successful' };
+    } catch (error) {
+      return errorResponse(undefined, HttpCode.ServerError);
+    }
+  }
 }

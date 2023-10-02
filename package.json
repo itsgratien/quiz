@@ -57,6 +57,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@iconify/react": "^4.1.1",
     "@types/connect-redis": "^0.0.18",
+    "@types/cors": "^2.8.14",
     "@types/cryptr": "^4.0.1",
     "@types/node": "^20.5.7",
     "@types/nodemailer": "^6.4.10",
