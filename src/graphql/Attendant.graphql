@@ -39,8 +39,8 @@ mutation AddAttendant($testId: String!, $args: AddAttendantArgs!) {
   }
 }
 
-mutation AddMoreAttendant($testId: String!, $args: [AddAttendantArgs!]!) {
-  addMoreAttendant(testId: $testId, args: $args) {
+mutation AddMoreAttendant($testId: String!, $candidates: [AddAttendantArgs!]!) {
+  addMoreAttendant(testId: $testId, candidates: $candidates) {
     items {
       ...Attendant
     }

@@ -37,7 +37,7 @@ export class Attendant {
   phoneNumber: string;
 
   @Field({ nullable: true })
-  @prop({ type: String, unique: true, required: false })
+  @prop({ type: String, required: false })
   testUri?: string;
 
   @Field(() => String || Test, { nullable: true })

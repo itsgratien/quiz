@@ -66,8 +66,8 @@ export class AttendantResolver extends AttendantHelper {
   @Authorized()
   @Mutation(() => attendantTg.AddMoreAttendantResponse)
   async addMoreAttendant(
-    @Arg('args', (type) => [attendantTg.AddAttendantArgs])
-    args: attendantTg.AddAttendantArgs[],
+    @Arg('candidates', (type) => [attendantTg.AddAttendantArgs])
+    candidates: attendantTg.AddAttendantArgs[],
     @Arg('testId') testId: string,
     @Ctx() ctx: ContextT,
   ): Promise<attendantTg.AddMoreAttendantResponse> {
@@ -82,7 +82,7 @@ export class AttendantResolver extends AttendantHelper {
         return errorResponse('You are not allowed to perform this action');
       }
 
-      const checkDuplicateEmail = this.findDuplicateEmail(args);
+      const checkDuplicateEmail = this.findDuplicateEmail(candidates);
 
       if (checkDuplicateEmail) {
         return errorResponse(
@@ -91,7 +91,10 @@ export class AttendantResolver extends AttendantHelper {
       }
 
       const checkDuplicateEmailFromDb = await attendantModel.findOne({
-        $and: [{ testId }, { email: { $in: args.map((item) => item.email) } }],
+        $and: [
+          { testId },
+          { email: { $in: candidates.map((item) => item.email) } },
+        ],
       });
 
       if (checkDuplicateEmailFromDb) {
@@ -100,7 +103,7 @@ export class AttendantResolver extends AttendantHelper {
         );
       }
 
-      const values = args.map((item) => ({ ...item, testId }));
+      const values = candidates.map((item) => ({ ...item, testId }));
 
       const add = await attendantModel.insertMany(values);
 
@@ -116,6 +119,7 @@ export class AttendantResolver extends AttendantHelper {
         items,
       };
     } catch (error) {
+      console.log('error:', error);
       return errorResponse(undefined, HttpCode.ServerError);
     }
   }
