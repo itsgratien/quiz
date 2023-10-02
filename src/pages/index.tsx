@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import style from '../styles/Auth.module.scss';
 import classname from 'classnames';
@@ -9,6 +9,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { useAuthenticateMutation } from '@/generated/graphql';
+import { withUnAuth } from '@/utils/WithAuth';
 
 const Auth: NextPage = () => {
   const auth = getAuth();
@@ -68,3 +69,11 @@ const Auth: NextPage = () => {
   );
 };
 export default Auth;
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  return withUnAuth(ctx, (isAuthorized) => {
+    return {
+      props: {},
+    };
+  });
+};

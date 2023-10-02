@@ -44,6 +44,10 @@ export class Attendant {
   @prop({ ref: () => 'Test', required: false })
   testId?: typegoose.Ref<Test, string>;
 
+  @Field(() => String, { nullable: true })
+  @prop({ required: false })
+  image?: string;
+
   @Field(() => String, {
     nullable: true,
     defaultValue: AttendantStatus.Started,

@@ -17,6 +17,7 @@ export const TodoContext = React.createContext<{
     test: string;
     attendant: string;
   };
+  refechWhoIsDoingQuiz?: () => void;
 }>({});
 
 export default TodoContext;

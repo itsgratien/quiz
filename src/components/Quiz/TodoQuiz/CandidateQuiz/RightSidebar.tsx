@@ -18,7 +18,13 @@ const RightSidebar = () => {
 
   const [warn, setWarn] = React.useState<boolean>(false);
 
-  const { attendant: candidate, questionId, query, test } = useTodo();
+  const {
+    attendant: candidate,
+    questionId,
+    query,
+    test,
+    refechWhoIsDoingQuiz,
+  } = useTodo();
 
   const getAnswerResponse = useGetAnswer({
     test: test?._id,
@@ -93,16 +99,17 @@ const RightSidebar = () => {
       if (answerResponse.answerMcQuestion.message) {
         toast.success(answerResponse.answerMcQuestion.message);
         refetch();
+        if (refechWhoIsDoingQuiz) {
+          refechWhoIsDoingQuiz();
+        }
         setAnswers([]);
       }
     }
-  }, [answerResponse, refetch]);
+  }, [answerResponse, refetch, refechWhoIsDoingQuiz]);
 
   if (!candidate) {
     return null;
   }
-
-  console.log('get', getAnswerResponse);
 
   return (
     <div className={classname(style.rightSidebar)}>
